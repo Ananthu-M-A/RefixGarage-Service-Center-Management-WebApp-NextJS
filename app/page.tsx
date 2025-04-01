@@ -1,16 +1,22 @@
+import About from "@/components/About";
+import CheckStatus from "@/components/CheckStatus";
+import Contact from "@/components/Contact";
+import Services from "@/components/Services";
 import SubHeader from "@/components/SubHeader";
 
 export default function Home() {
   return (
     <>
-      <SubHeader />
-      <div className="flex flex-col items-center justify-center min-h-screen h-14 bg-gradient-to-b from-black to-gray-900 text-white">
-        <h1 className="text-3xl font-bold underline">REFIX GARAGE</h1>
-        <p className="text-lg">A Garage For Expert Fixes</p>
-        <p className="text-lg">
-          Refix Garage is a smartphone service center. We provide the best
-          services for your smartphones.
-        </p>
+      <div className="flex flex-col items-center justify-center min-h-screen h-16 bg-gradient-to-b from-black to-gray-900 text-white">
+        <SubHeader />
+        <div className="w-full h-full overflow-x-hidden">
+          <div className="flex space-x-5">
+            <CheckStatus />
+            <Services />
+            <About />
+            <Contact />
+          </div>
+        </div>
       </div>
     </>
   );

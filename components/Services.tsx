@@ -5,7 +5,7 @@ function Services() {
     <>
       <section
         id="services"
-        className="min-h-screen bg-gray-800 text-white p-10"
+        className="h-14 min-w-screen bg-transparent text-white p-10"
       >
         <h2 className="text-2xl font-bold mb-5">Our Services</h2>
         <p>

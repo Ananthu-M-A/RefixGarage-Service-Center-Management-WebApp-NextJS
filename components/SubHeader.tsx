@@ -1,23 +1,32 @@
+import Link from "next/link";
 import React from "react";
 
 function SubHeader() {
   return (
-    <nav className="bg-black p-1">
+    <nav className="bg-gray-700 opacity-80 px-4 py-1 rounded-full mt-1 mb-1 border-b-1">
       <ul className="flex justify-center space-x-5 text-lg font-semibold">
         <li>
-          <a href="#services" className="text-gray-400 hover:text-gray-700">
+          <Link href="#services" className="text-white hover:underline">
             Services
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#about" className="text-gray-400 hover:text-gray-700">
+          <Link href="#about" className="text-white hover:underline">
             About Us
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#contact" className="text-gray-400 hover:text-gray-700">
+          <Link href="#contact" className="text-white hover:underline">
             Contact
-          </a>
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="#check-status"
+            className="text-white hover:underline"
+          >
+            Know Status
+          </Link>
         </li>
       </ul>
     </nav>

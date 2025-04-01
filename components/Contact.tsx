@@ -4,8 +4,8 @@ function Contact() {
   return (
     <>
       <section
-        id="contact"
-        className="min-h-screen bg-gray-600 text-white p-10"
+        id="contact" 
+        className="h-14 min-w-screen bg-transparent text-white p-10"
       >
         <h2 className="text-2xl font-bold mb-5">Contact Us</h2>
         <p>
