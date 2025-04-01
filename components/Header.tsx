@@ -30,6 +30,7 @@ function Header() {
         />
         <h1 className="text-4xl font-bold">REFIX GARAGE</h1>
       </div>
+
       <div className="flex flex-col text-center p-4 text-white">
         <div
           className="flex space-x-4 mb-2 hover:cursor-pointer"

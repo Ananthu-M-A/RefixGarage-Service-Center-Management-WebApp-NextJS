@@ -10,7 +10,7 @@ function Contact() {
         <h2 className="text-2xl font-bold mb-5">Contact Us</h2>
         <p>
           Have questions or need assistance? Reach out to us at
-          contact@refixgarage.com or visit our service center.
+          refixgarage@gmail.com or visit our service center.
         </p>
       </section>
     </>
