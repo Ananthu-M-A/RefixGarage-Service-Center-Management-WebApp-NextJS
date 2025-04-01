@@ -15,12 +15,13 @@ function Header() {
           width={75}
           height={75}
           className="shadow-lg"
+          loading="lazy"
         />
         <h1 className="text-4xl font-bold">REFIX GARAGE</h1>
       </div>
       <div className="flex flex-col text-center p-4 text-white">
         <h2 className="text-sm text-white">refixgarage@gmail.com</h2>
-        <h3 className="text-sm text-white">+91 9999 494 494</h3>
+        <h3 className="text-sm text-white">+91 623 889 9623</h3>
       </div>
       {/* <div className="flex space-x-4 mx-4">
         <Button className="bg-transparent hover:bg-gray-700">Services</Button>
