@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Refix Garage | A Garage For Expert Fixes",
@@ -18,7 +17,6 @@ export default function RootLayout({
     <html lang="en">
       <Header />
       <body>{children}</body>
-      <Footer />
     </html>
   );
 }

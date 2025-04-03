@@ -1,6 +1,7 @@
 import About from "@/components/About";
 import CheckStatus from "@/components/CheckStatus";
 import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 import Services from "@/components/Services";
 import SubHeader from "@/components/SubHeader";
 
@@ -18,6 +19,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

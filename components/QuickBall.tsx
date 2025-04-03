@@ -27,6 +27,12 @@ function QuickBall() {
           >
             <DropdownMenuRadioItem
               className="text-white text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition duration-200 ease-in-out cursor-pointer mx-auto"
+              value="new-job"
+            >
+              New Job
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem
+              className="text-white text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition duration-200 ease-in-out cursor-pointer mx-auto"
               value="jobs"
             >
               Jobs
