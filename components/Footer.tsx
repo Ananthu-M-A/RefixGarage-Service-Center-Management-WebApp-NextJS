@@ -6,38 +6,24 @@ import { MdCall } from "react-icons/md";
 
 function Footer() {
   return (
-    <footer id="contact" className="bg-gray-900 text-white p-4 mt-auto border-t-2 border-gray-700">
-      <p className="text-center">© 2025 REFIX GARAGE. All rights reserved.</p>
-      <p className="text-center">Follow us on social media!</p>
-      <div className="flex justify-center space-x-4 mt-2">
-        <Link
-          href="https://wa.me/+916238899623"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaWhatsapp className="text-white hover:text-gray-400 text-4xl" />
-        </Link>
-        <Link
-          href="https://www.instagram.com/refixgarage/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaInstagram className="text-white hover:text-gray-400 text-4xl" />
-        </Link>
-        <Link
-          href={`mailto:refixgarage@gmail.com`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FiMail className="text-white hover:text-gray-400 text-4xl" />
-        </Link>
-        <Link
-          href={`mailto:refixgarage@gmail.com`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <MdCall className="text-white hover:text-gray-400 text-4xl" />
-        </Link>
+    <footer className="bg-gray-900 text-white px-4 py-6 mt-auto border-t-2 border-gray-700">
+      <div className="max-w-7xl mx-auto text-center space-y-2">
+        <p className="text-sm">© 2025 REFIX GARAGE. All rights reserved.</p>
+        <p className="text-sm">Follow us on social media!</p>
+        <div className="flex justify-center items-center space-x-5 mt-2">
+          <Link href="https://wa.me/+916238899623" target="_blank" rel="noopener noreferrer">
+            <FaWhatsapp className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
+          </Link>
+          <Link href="https://www.instagram.com/refixgarage/" target="_blank" rel="noopener noreferrer">
+            <FaInstagram className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
+          </Link>
+          <Link href="mailto:refixgarage@gmail.com" target="_blank" rel="noopener noreferrer">
+            <FiMail className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
+          </Link>
+          <Link href="tel:+916238899623" target="_blank" rel="noopener noreferrer">
+            <MdCall className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
+          </Link>
+        </div>
       </div>
     </footer>
   );

@@ -10,34 +10,69 @@ import {
 } from "@/components/ui/table";
 import { JobDetail } from "./JobDetail";
 
+type Job = {
+  jobNo: string;
+  deviceModel: string;
+  issue: string;
+  status: string;
+  advancePaid: number;
+};
+
+const mockJobs: Job[] = [
+  {
+    jobNo: "JOB000001",
+    deviceModel: "Apple iPhone 13",
+    issue: "Display damage",
+    status: "Job Started",
+    advancePaid: 250.0,
+  },
+];
+
 function JobsTable() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-black to-gray-900 text-white">
-      <div className="w-full max-w-3xl bg-gray-800 rounded-lg shadow-lg p-8">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-black to-gray-900 text-white px-4">
+      <div className="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-700">
         <h1 className="text-2xl font-bold text-center mb-6">Jobs</h1>
         <Table>
-          <TableCaption>A list of your recent jobs.</TableCaption>
+          <TableCaption>
+            {mockJobs.length > 0
+              ? "A list of your recent jobs."
+              : "No jobs available at the moment."}
+          </TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Job No</TableHead>
+              <TableHead className="w-[120px]">Job No</TableHead>
               <TableHead>Device Model</TableHead>
               <TableHead>Issue</TableHead>
-              <TableHead>Job Status</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead className="text-right">Advance Paid</TableHead>
-              <TableHead className="text-right">Edit Job</TableHead>
+              <TableHead className="text-right">Edit</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">JOB000001</TableCell>
-              <TableCell>Apple Iphone 13</TableCell>
-              <TableCell>Display damage</TableCell>
-              <TableCell>Job Started</TableCell>
-              <TableCell className="text-right">₹250.00</TableCell>
-              <TableCell className="text-right">
-                <JobDetail />
-              </TableCell>
-            </TableRow>
+            {mockJobs.map((job, index) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{job.jobNo}</TableCell>
+                <TableCell>{job.deviceModel}</TableCell>
+                <TableCell>{job.issue}</TableCell>
+                <TableCell>{job.status}</TableCell>
+                <TableCell className="text-right">
+                  ₹{job.advancePaid.toFixed(2)}
+                </TableCell>
+                <TableCell className="text-right">
+                  <JobDetail
+                    job={{
+                      jobNo: "JOB000001",
+                      customerName: "Jane Smith",
+                      mobileNumber: "9876543210",
+                      deviceModel: "iPhone 13",
+                      issueDescription: "Display damage",
+                      estimatedCost: 250,
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>

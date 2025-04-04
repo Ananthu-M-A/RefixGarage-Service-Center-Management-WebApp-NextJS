@@ -1,29 +1,28 @@
-import Link from "next/link";
 import React from "react";
 
-function SubHeader() {
+function SubHeader({ onSectionChange }: { onSectionChange: (section: string) => void }) {
   return (
     <nav className="bg-gray-700 opacity-80 px-4 py-1 rounded-full mt-1 mb-1 border-b-1 sticky top-0 z-50">
       <ul className="flex justify-center space-x-5 text-lg font-semibold">
         <li>
-          <Link href="#services" className="text-white hover:underline">
+          <button onClick={() => onSectionChange("services")} className="text-white hover:underline">
             Services
-          </Link>
+          </button>
         </li>
         <li>
-          <Link href="#about" className="text-white hover:underline">
+          <button onClick={() => onSectionChange("about")} className="text-white hover:underline">
             About Us
-          </Link>
+          </button>
         </li>
         <li>
-          <Link href="#contact" className="text-white hover:underline">
+          <button onClick={() => onSectionChange("contact")} className="text-white hover:underline">
             Contact
-          </Link>
+          </button>
         </li>
         <li>
-          <Link href="#check-status" className="text-white hover:underline">
+          <button onClick={() => onSectionChange("check-status")} className="text-white hover:underline">
             Know Status
-          </Link>
+          </button>
         </li>
       </ul>
     </nav>

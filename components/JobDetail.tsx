@@ -13,27 +13,39 @@ import {
 import { CiEdit } from "react-icons/ci";
 import JobEntry from "./JobEntry";
 
-export function JobDetail() {
+// Define job type
+type Job = {
+  jobNo: string;
+  customerName: string;
+  mobileNumber: string;
+  deviceModel: string;
+  issueDescription: string;
+  estimatedCost: number;
+};
+
+type JobDetailProps = {
+  job: Job;
+};
+
+export function JobDetail({ job }: JobDetailProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button className="text-white">
-            <CiEdit />
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your job here. Click save when you are done.
-            </DialogDescription>
-          </DialogHeader>
-          <JobEntry />
-        </DialogContent>
-      </Dialog>
-    </>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="ghost" className="text-white p-0">
+          <CiEdit size={20} />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Edit Job - {job.jobNo}</DialogTitle>
+          <DialogDescription>
+            Modify job details below and save changes.
+          </DialogDescription>
+        </DialogHeader>
+        <JobEntry job={job} />
+      </DialogContent>
+    </Dialog>
   );
 }

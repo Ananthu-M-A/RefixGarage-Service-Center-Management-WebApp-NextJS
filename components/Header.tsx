@@ -2,52 +2,54 @@
 
 import React from "react";
 import Image from "next/image";
-// import { MdCall, MdViewWeek } from "react-icons/md";
-// import { FiMail } from "react-icons/fi";
-// import { TiTime } from "react-icons/ti";
+import { MdCall, MdViewWeek } from "react-icons/md";
+import { FiMail } from "react-icons/fi";
+import { TiTime } from "react-icons/ti";
 import { Button } from "./ui/button";
 
 function Header() {
   return (
-    <nav className="flex items-center justify-between flex-wrap bg-black border-b-1 border-gray-700">
-      {/* <div className="flex flex-col text-center p-4 text-white">
-        <div className="flex space-x-4 mb-2">
-          <MdViewWeek className="text-xl text-white" />
-          <h2 className="text-sm text-white">SUN - SAT</h2>
+    <nav className="bg-black border-b border-gray-700 text-white px-4 py-3">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+        <div className="flex flex-col text-center md:text-left space-y-2">
+          <div className="flex items-center space-x-2">
+            <MdViewWeek className="text-xl" />
+            <span className="text-sm">SUN - SAT</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <TiTime className="text-xl" />
+            <span className="text-sm">9:30AM - 9:30PM</span>
+          </div>
         </div>
-        <div className="flex space-x-4 mb-2">
-          <TiTime className="text-xl text-white" />
-          <h3 className="text-sm text-white">9:30AM - 9:30PM</h3>
+        <div className="flex items-center space-x-4">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={60}
+            height={60}
+            className="shadow-md rounded-full"
+          />
+          <h1 className="text-2xl md:text-3xl font-bold text-center md:text-left">REFIX GARAGE</h1>
         </div>
-      </div> */}
-      <div className="flex items-center flex-shrink-0 text-white">
-        <Image
-          src="/logo.png"
-          alt="Logo"
-          width={75}
-          height={75}
-          className="shadow-lg"
-          loading="lazy"
-        />
-        <h1 className="text-4xl font-bold">REFIX GARAGE</h1>
-      </div>
-
-      <div className="flex flex-col text-center p-4 text-white">
-        {/* <div
-          className="flex space-x-4 mb-2 hover:cursor-pointer"
-          onClick={() => navigator.clipboard.writeText("refixgarage@gmail.com")}
-        >
-          <FiMail className="text-xl text-white" />
-          <h2 className="text-sm text-white">refixgarage@gmail.com</h2>
+        <div className="flex flex-col items-center md:items-end text-center space-y-2">
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => navigator.clipboard.writeText("refixgarage@gmail.com")}
+            title="Click to copy"
+          >
+            <FiMail className="text-xl" />
+            <span className="text-sm">refixgarage@gmail.com</span>
+          </div>
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => navigator.clipboard.writeText("+91 623 889 9623")}
+            title="Click to copy"
+          >
+            <MdCall className="text-xl" />
+            <span className="text-sm">+91 623 889 9623</span>
+          </div>
+          <Button className="mt-1">Logout</Button>
         </div>
-        <div
-          className="flex space-x-4 mb-2 hover:cursor-pointer"
-          onClick={() => navigator.clipboard.writeText("+91 623 889 9623")}
-        >
-          <MdCall className="text-xl text-white" />
-          <h3 className="text-sm text-white">+91 623 889 9623</h3>
-        </div> */}
-        <Button>Logout</Button>
       </div>
     </nav>
   );
