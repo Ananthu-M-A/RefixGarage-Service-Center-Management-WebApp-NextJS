@@ -16,13 +16,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-// Schema
 const formSchema = z.object({
-  customerName: z.string().min(2, { message: "Customer name must be at least 2 characters." }),
-  mobileNumber: z.string().regex(/^\d{10}$/, { message: "Mobile number must be 10 digits." }),
-  deviceModel: z.string().min(2, { message: "Device model must be at least 2 characters." }),
-  issueDescription: z.string().min(5, { message: "Issue description must be at least 5 characters." }),
-  estimatedCost: z.number().min(0, { message: "Estimated cost must be a positive number." }),
+  customerName: z
+    .string()
+    .min(2, { message: "Customer name must be at least 2 characters." }),
+  mobileNumber: z
+    .string()
+    .regex(/^\d{10}$/, { message: "Mobile number must be 10 digits." }),
+  deviceModel: z
+    .string()
+    .min(2, { message: "Device model must be at least 2 characters." }),
+  issueDescription: z
+    .string()
+    .min(5, { message: "Issue description must be at least 5 characters." }),
+  remarks: z
+    .string()
+    .min(5, { message: "Remarks must be at least 5 characters." }),
+  estimatedCost: z
+    .number()
+    .min(0, { message: "Estimated cost must be a positive number." }),
+  reminder: z
+    .number()
+    .min(0, { message: "Reminder must be a positive number." }),
 });
 
 type JobFormData = z.infer<typeof formSchema>;
@@ -38,7 +53,9 @@ function JobEntry({ job }: JobEntryProps) {
       mobileNumber: "",
       deviceModel: "",
       issueDescription: "",
+      remarks: "",
       estimatedCost: 0,
+      reminder: 0,
     },
   });
 
@@ -53,7 +70,10 @@ function JobEntry({ job }: JobEntryProps) {
   };
 
   return (
-    <div className="w-full text-white">
+    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-4">
+        {job ? "Edit Job" : "New Job Entry"}
+      </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -64,7 +84,7 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormItem>
                   <FormLabel>Customer Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input placeholder="Irfan Shas" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,7 +97,7 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormItem>
                   <FormLabel>Mobile Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="1234567890" {...field} />
+                    <Input placeholder="6238899623" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -103,7 +123,28 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormItem>
                   <FormLabel>Estimated Cost</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="Enter estimated cost" {...field} />
+                    <Input
+                      type="number"
+                      placeholder="Enter estimated cost"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="reminder"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Remind me</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Enter reminder time in days"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,7 +158,26 @@ function JobEntry({ job }: JobEntryProps) {
               <FormItem>
                 <FormLabel>Issue Description</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Describe the issue with the device" {...field} />
+                  <Textarea
+                    placeholder="Describe the issue with the device"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="remarks"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Remarks</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Additional remarks or comments"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

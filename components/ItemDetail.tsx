@@ -11,23 +11,22 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { CiEdit } from "react-icons/ci";
-import JobEntry from "./JobEntry";
+import ItemEntry from "./ItemEntry";
 
-// Define job type
-type Job = {
-  jobNo: string;
-  customerName: string;
-  mobileNumber: string;
-  deviceModel: string;
-  issueDescription: string;
-  estimatedCost: number;
+// Define item type
+type Item = {
+  iNo: string;
+  iName: string;
+  iCategory: string;
+  iCost: number;
+  iCount: number;
 };
 
-type JobDetailProps = {
-  job: Job;
+type ItemDetailProps = {
+  item: Item;
 };
 
-export function JobDetail({ job }: JobDetailProps) {
+export function ItemDetail({ item }: ItemDetailProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -39,12 +38,12 @@ export function JobDetail({ job }: JobDetailProps) {
       </DialogTrigger>
       <DialogContent className="max-w-2xl bg-gray-800">
         <DialogHeader>
-          <DialogTitle>Edit Job - {job.jobNo}</DialogTitle>
+          <DialogTitle>Edit Item - {item.iNo}</DialogTitle>
           <DialogDescription>
-            Modify job details below and save changes.
+            Modify item details below and save changes.
           </DialogDescription>
         </DialogHeader>
-        <JobEntry job ={job} />
+        <ItemEntry item={item} />
       </DialogContent>
     </Dialog>
   );
