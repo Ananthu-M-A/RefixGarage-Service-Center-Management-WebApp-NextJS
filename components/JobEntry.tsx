@@ -32,10 +32,10 @@ const formSchema = z.object({
   remarks: z
     .string()
     .min(5, { message: "Remarks must be at least 5 characters." }),
-  estimatedCost: z
+  estimatedCost: z.coerce
     .number()
     .min(0, { message: "Estimated cost must be a positive number." }),
-  reminder: z
+  reminder: z.coerce
     .number()
     .min(0, { message: "Reminder must be a positive number." }),
 });
@@ -61,11 +61,37 @@ function JobEntry({ job }: JobEntryProps) {
 
   const onSubmit = (data: JobFormData) => {
     if (job) {
-      console.log("Editing Job:", data);
-      // Send PATCH to /api/jobs/:id
+      const updateJob = async () => {
+        const response = await fetch(`/api/jobs/${job.mobileNumber}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        if (response.ok) {
+          console.log("Job updated successfully!");
+        } else {
+          console.error("Failed to update job.");
+        }
+      };
+      updateJob();
     } else {
-      console.log("Creating Job:", data);
-      // Send POST to /api/jobs
+      const createJob = async () => {
+        const response = await fetch("/api/jobs", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        if (response.ok) {
+          console.log("Job created successfully!");
+        } else {
+          console.error("Failed to create job.");
+        }
+      };
+      createJob();
     }
   };
 

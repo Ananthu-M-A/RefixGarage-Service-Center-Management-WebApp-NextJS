@@ -13,7 +13,6 @@ import {
 import { CiEdit } from "react-icons/ci";
 import JobEntry from "./JobEntry";
 
-// Define job type
 type Job = {
   jobNo: string;
   customerName: string;

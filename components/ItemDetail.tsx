@@ -13,7 +13,6 @@ import {
 import { CiEdit } from "react-icons/ci";
 import ItemEntry from "./ItemEntry";
 
-// Define item type
 type Item = {
   iNo: string;
   iName: string;
