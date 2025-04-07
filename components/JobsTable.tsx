@@ -68,6 +68,8 @@ function JobsTable() {
                       deviceModel: "iPhone 13",
                       issueDescription: "Display damage",
                       estimatedCost: 250,
+                      reminder: 5,  
+                      remarks: "Customer is in a hurry",
                     }}
                   />
                 </TableCell>
