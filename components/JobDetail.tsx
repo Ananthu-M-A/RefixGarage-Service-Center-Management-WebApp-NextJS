@@ -20,6 +20,8 @@ type Job = {
   deviceModel: string;
   issueDescription: string;
   estimatedCost: number;
+  reminder: number;
+  remarks: string;
 };
 
 type JobDetailProps = {
