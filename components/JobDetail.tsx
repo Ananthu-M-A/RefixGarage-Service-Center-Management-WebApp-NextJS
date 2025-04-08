@@ -14,12 +14,12 @@ import { CiEdit } from "react-icons/ci";
 import JobEntry from "./JobEntry";
 
 type Job = {
-  jobNo: string;
-  customerName: string;
-  mobileNumber: string;
-  deviceModel: string;
-  issueDescription: string;
-  estimatedCost: number;
+  jobId: string;
+  name: string;
+  mobile: string;
+  device: string;
+  issue: string;
+  cost: number;
   reminder: number;
   remarks: string;
 };
@@ -40,7 +40,7 @@ export function JobDetail({ job }: JobDetailProps) {
       </DialogTrigger>
       <DialogContent className="max-w-2xl bg-gray-800">
         <DialogHeader>
-          <DialogTitle>Edit Job - {job.jobNo}</DialogTitle>
+          <DialogTitle>Edit Job - {job.jobId}</DialogTitle>
           <DialogDescription>
             Modify job details below and save changes.
           </DialogDescription>

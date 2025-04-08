@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -11,31 +13,44 @@ import {
 import { JobDetail } from "./JobDetail";
 
 type Job = {
-  jobNo: string;
-  deviceModel: string;
+  jobId: string;
+  device: string;
   issue: string;
   status: string;
-  advancePaid: number;
+  cost: number;
 };
 
-const mockJobs: Job[] = [
-  {
-    jobNo: "JOB000001",
-    deviceModel: "Apple iPhone 13",
-    issue: "Display damage",
-    status: "Job Started",
-    advancePaid: 250.0,
-  },
-];
-
 function JobsTable() {
+  const [jobs, setJobs] = React.useState<Job[]>([]);
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch("/api/jobs", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch jobs");
+        }
+        const jobs = await response.json();
+        setJobs(jobs);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
   return (
     <>
       <div className="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-700">
-      <h2 className="text-2xl font-bold mb-4">Jobs</h2>
+        <h2 className="text-2xl font-bold mb-4">Jobs</h2>
         <Table>
           <TableCaption>
-            {mockJobs.length > 0
+            {jobs.length > 0
               ? "A list of your recent jobs."
               : "No jobs available at the moment."}
           </TableCaption>
@@ -50,26 +65,26 @@ function JobsTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {mockJobs.map((job, index) => (
+            {jobs.map((job, index) => (
               <TableRow key={index}>
-                <TableCell className="font-medium">{job.jobNo}</TableCell>
-                <TableCell>{job.deviceModel}</TableCell>
+                <TableCell className="font-medium">{job.jobId}</TableCell>
+                <TableCell>{job.device}</TableCell>
                 <TableCell>{job.issue}</TableCell>
                 <TableCell>{job.status}</TableCell>
                 <TableCell className="text-right">
-                  ₹{job.advancePaid.toFixed(2)}
+                  ₹{job.cost.toFixed(2)}
                 </TableCell>
                 <TableCell className="text-right">
                   <JobDetail
                     job={{
-                      jobNo: "JOB000001",
-                      customerName: "Jane Smith",
-                      mobileNumber: "9876543210",
-                      deviceModel: "iPhone 13",
-                      issueDescription: "Display damage",
-                      estimatedCost: 250,
-                      reminder: 5,  
-                      remarks: "Customer is in a hurry",
+                      jobId: job.jobId,
+                      name: job.customerId.name,
+                      mobile: job.customerId.mobile,
+                      device: job.device,
+                      issue: job.issue,
+                      reminder: job.reminder,
+                      remarks: job.remarks,
+                      cost: job.cost,
                     }}
                   />
                 </TableCell>
