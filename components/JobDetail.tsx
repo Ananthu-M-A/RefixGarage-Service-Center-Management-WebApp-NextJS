@@ -14,7 +14,7 @@ import { CiEdit } from "react-icons/ci";
 import JobEntry from "./JobEntry";
 
 type Job = {
-  jobId: string;
+  slno: number;
   name: string;
   mobile: string;
   device: string;
@@ -40,7 +40,7 @@ export function JobDetail({ job }: JobDetailProps) {
       </DialogTrigger>
       <DialogContent className="max-w-2xl bg-gray-800">
         <DialogHeader>
-          <DialogTitle>Edit Job - {job.jobId}</DialogTitle>
+          <DialogTitle>Edit Job - {job.slno}</DialogTitle>
           <DialogDescription>
             Modify job details below and save changes.
           </DialogDescription>

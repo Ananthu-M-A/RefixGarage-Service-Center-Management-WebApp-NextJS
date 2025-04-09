@@ -1,20 +1,16 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface ICustomer extends Document {
-    customerId: string;
     name: string;
     mobile: string;
-    jobs: string[];
-    createdAt: Date;
+    jobs: Schema.Types.ObjectId[];
 }
 
 const CustomerSchema: Schema<ICustomer> = new Schema(
     {
-        customerId: { type: String, required: true },
         name: { type: String, required: true },
-        mobile: { type: String, required: false },
-        jobs: [{ type: String, required: false }],
-        createdAt: { type: Date, default: Date.now },
+        mobile: { type: String, required: false, unique: true },
+        jobs: [{ type: Schema.Types.ObjectId, required: false, ref: 'Job' }],
     },
     { timestamps: true }
 );

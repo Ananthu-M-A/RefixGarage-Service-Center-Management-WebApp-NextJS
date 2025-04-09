@@ -13,10 +13,12 @@ import {
 import { JobDetail } from "./JobDetail";
 
 type Job = {
-  customerId: any;
+  customerId: {
+    name: string;
+    mobile: string;
+  };
   reminder: number;
   remarks: string;
-  jobId: string;
   device: string;
   issue: string;
   status: string;
@@ -28,7 +30,7 @@ function JobsTable() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch("/api/jobs", {
+        const response = await fetch("/api/reception", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -70,7 +72,7 @@ function JobsTable() {
           <TableBody>
             {jobs.map((job, index) => (
               <TableRow key={index}>
-                <TableCell className="font-medium">{job.jobId}</TableCell>
+                <TableCell className="font-medium">{index + 1}</TableCell>
                 <TableCell>{job.device}</TableCell>
                 <TableCell>{job.issue}</TableCell>
                 <TableCell>{job.status}</TableCell>
@@ -80,7 +82,7 @@ function JobsTable() {
                 <TableCell className="text-right">
                   <JobDetail
                     job={{
-                      jobId: job.jobId,
+                      slno: index + 1,
                       name: job.customerId.name,
                       mobile: job.customerId.mobile,
                       device: job.device,

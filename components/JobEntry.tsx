@@ -62,7 +62,7 @@ function JobEntry({ job }: JobEntryProps) {
   const onSubmit = (data: JobFormData) => {
     if (job) {
       const updateJob = async () => {
-        const response = await fetch(`/api/jobs/${job.mobile}`, {
+        const response = await fetch(`/api/reception`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -78,7 +78,7 @@ function JobEntry({ job }: JobEntryProps) {
       updateJob();
     } else {
       const createJob = async () => {
-        const response = await fetch("/api/jobs", {
+        const response = await fetch("/api/reception", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
