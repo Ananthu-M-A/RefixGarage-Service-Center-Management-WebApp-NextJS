@@ -17,22 +17,22 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
-  customerName: z
+  name: z
     .string()
     .min(2, { message: "Customer name must be at least 2 characters." }),
-  mobileNumber: z
+  mobile: z
     .string()
     .regex(/^\d{10}$/, { message: "Mobile number must be 10 digits." }),
-  deviceModel: z
+  device: z
     .string()
     .min(2, { message: "Device model must be at least 2 characters." }),
-  issueDescription: z
+  issue: z
     .string()
     .min(5, { message: "Issue description must be at least 5 characters." }),
   remarks: z
     .string()
     .min(5, { message: "Remarks must be at least 5 characters." }),
-  estimatedCost: z.coerce
+  cost: z.coerce
     .number()
     .min(0, { message: "Estimated cost must be a positive number." }),
   reminder: z.coerce
@@ -49,12 +49,12 @@ function JobEntry({ job }: JobEntryProps) {
   const form = useForm<JobFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: job ?? {
-      customerName: "",
-      mobileNumber: "",
-      deviceModel: "",
-      issueDescription: "",
+      name: "",
+      mobile: "",
+      device: "",
+      issue: "",
       remarks: "",
-      estimatedCost: 0,
+      cost: 0,
       reminder: 0,
     },
   });
@@ -62,7 +62,7 @@ function JobEntry({ job }: JobEntryProps) {
   const onSubmit = (data: JobFormData) => {
     if (job) {
       const updateJob = async () => {
-        const response = await fetch(`/api/jobs/${job.mobileNumber}`, {
+        const response = await fetch(`/api/jobs/${job.mobile}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -105,7 +105,7 @@ function JobEntry({ job }: JobEntryProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
-              name="customerName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Customer Name</FormLabel>
@@ -118,7 +118,7 @@ function JobEntry({ job }: JobEntryProps) {
             />
             <FormField
               control={form.control}
-              name="mobileNumber"
+              name="mobile"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Mobile Number</FormLabel>
@@ -131,7 +131,7 @@ function JobEntry({ job }: JobEntryProps) {
             />
             <FormField
               control={form.control}
-              name="deviceModel"
+              name="device"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Device Model</FormLabel>
@@ -144,7 +144,7 @@ function JobEntry({ job }: JobEntryProps) {
             />
             <FormField
               control={form.control}
-              name="estimatedCost"
+              name="cost"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Estimated Cost</FormLabel>
@@ -179,7 +179,7 @@ function JobEntry({ job }: JobEntryProps) {
           </div>
           <FormField
             control={form.control}
-            name="issueDescription"
+            name="issue"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Issue Description</FormLabel>
