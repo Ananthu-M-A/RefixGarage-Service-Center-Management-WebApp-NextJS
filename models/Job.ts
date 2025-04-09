@@ -18,7 +18,6 @@ const JobSchema: Schema<IJob> = new Schema(
   {
     jobId: { type: String, required: true, unique: true },
     customerId: { type: String, required: true },
-    engineerId: { type: String, required: false },
     device: { type: String, required: true },
     cost: { type: Number, required: true },
     reminder: { type: Number, required: true },

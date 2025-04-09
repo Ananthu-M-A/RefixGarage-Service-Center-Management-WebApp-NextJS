@@ -13,6 +13,9 @@ import {
 import { JobDetail } from "./JobDetail";
 
 type Job = {
+  customerId: any;
+  reminder: number;
+  remarks: string;
   jobId: string;
   device: string;
   issue: string;

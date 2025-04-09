@@ -4,6 +4,7 @@ export interface ICustomer extends Document {
     customerId: string;
     name: string;
     mobile: string;
+    jobs: string[];
     createdAt: Date;
 }
 
@@ -12,6 +13,7 @@ const CustomerSchema: Schema<ICustomer> = new Schema(
         customerId: { type: String, required: true },
         name: { type: String, required: true },
         mobile: { type: String, required: false },
+        jobs: [{ type: String, required: false }],
         createdAt: { type: Date, default: Date.now },
     },
     { timestamps: true }
