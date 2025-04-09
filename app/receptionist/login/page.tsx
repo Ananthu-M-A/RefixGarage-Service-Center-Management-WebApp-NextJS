@@ -1,8 +1,8 @@
 import LoginForm from "@/components/LoginForm";
 import React from "react";
 
-function EngineerLogin() {
-  return <LoginForm user={"engineer"} />;
+function ReceptionLogin() {
+  return <LoginForm user={"receptionist"} />;
 }
 
-export default EngineerLogin;
+export default ReceptionLogin;
