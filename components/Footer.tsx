@@ -11,16 +11,16 @@ function Footer() {
         <p className="text-sm">© 2025 REFIX GARAGE. All rights reserved.</p>
         <p className="text-sm">Follow us on social media!</p>
         <div className="flex justify-center items-center space-x-5 mt-2">
-          <Link href="https://wa.me/+916238899623" target="_blank" rel="noopener noreferrer">
+          <Link href="https://wa.me/+916238855623" target="_blank" rel="noopener noreferrer">
             <FaWhatsapp className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
           </Link>
-          <Link href="https://www.instagram.com/refixgarage/" target="_blank" rel="noopener noreferrer">
+          <Link href="https://www.instagram.com/refix_garage/" target="_blank" rel="noopener noreferrer">
             <FaInstagram className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
           </Link>
           <Link href="mailto:refixgarage@gmail.com" target="_blank" rel="noopener noreferrer">
             <FiMail className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
           </Link>
-          <Link href="tel:+916238899623" target="_blank" rel="noopener noreferrer">
+          <Link href="tel:+916238855623" target="_blank" rel="noopener noreferrer">
             <MdCall className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
           </Link>
         </div>
