@@ -14,6 +14,7 @@ import { CiEdit } from "react-icons/ci";
 import JobEntry from "./JobEntry";
 
 type Job = {
+  _id: string;
   slno: number;
   name: string;
   mobile: string;

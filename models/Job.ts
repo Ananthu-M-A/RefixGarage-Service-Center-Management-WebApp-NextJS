@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IJob extends Document {
-  jobId: Schema.Types.ObjectId;
   customerId: Schema.Types.ObjectId;
   device: string;
   cost: number;

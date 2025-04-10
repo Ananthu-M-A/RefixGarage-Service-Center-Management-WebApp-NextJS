@@ -17,6 +17,7 @@ type Job = {
     name: string;
     mobile: string;
   };
+  _id: string;
   reminder: number;
   remarks: string;
   device: string;
@@ -83,6 +84,7 @@ function JobsTable() {
                   <JobDetail
                     job={{
                       slno: index + 1,
+                      _id: job._id,
                       name: job.customerId.name,
                       mobile: job.customerId.mobile,
                       device: job.device,

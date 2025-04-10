@@ -40,7 +40,9 @@ const formSchema = z.object({
     .min(0, { message: "Reminder must be a positive number." }),
 });
 
-type JobFormData = z.infer<typeof formSchema>;
+type JobFormData = z.infer<typeof formSchema> & {
+  _id?: string;
+};
 type JobEntryProps = {
   job?: JobFormData;
 };
@@ -62,7 +64,7 @@ function JobEntry({ job }: JobEntryProps) {
   const onSubmit = (data: JobFormData) => {
     if (job) {
       const updateJob = async () => {
-        const response = await fetch(`/api/reception`, {
+        const response = await fetch(`/api/reception/${job._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -110,7 +112,11 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormItem>
                   <FormLabel>Customer Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Irfan Shas" {...field} />
+                    <Input
+                      placeholder="Irfan Shas"
+                      {...field}
+                      disabled={!!job}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -123,7 +129,11 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormItem>
                   <FormLabel>Mobile Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="6238899623" {...field} />
+                    <Input
+                      placeholder="6238899623"
+                      {...field}
+                      disabled={!!job}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -136,7 +146,11 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormItem>
                   <FormLabel>Device Model</FormLabel>
                   <FormControl>
-                    <Input placeholder="iPhone 13 Pro" {...field} />
+                    <Input
+                      placeholder="iPhone 13 Pro"
+                      {...field}
+                      disabled={!!job}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -187,6 +201,7 @@ function JobEntry({ job }: JobEntryProps) {
                   <Textarea
                     placeholder="Describe the issue with the device"
                     {...field}
+                    disabled={!!job}
                   />
                 </FormControl>
                 <FormMessage />
