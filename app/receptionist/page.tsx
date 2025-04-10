@@ -6,6 +6,7 @@ import JobsTable from "@/components/JobsTable";
 import QuickBall from "@/components/QuickBall";
 import Inventory from "@/components/Inventory";
 import Header from "@/components/Header";
+import AddItem from "@/components/AddItem";
 
 function ReceptionHome() {
   const [activeSection, setActiveSection] = useState("new-job");
@@ -17,6 +18,7 @@ function ReceptionHome() {
         {activeSection === "new-job" && <JobEntry />}
         {activeSection === "jobs" && <JobsTable />}
         {activeSection === "inventory" && <Inventory />}
+        {activeSection === "add-to-inventory" && <AddItem />}
         <QuickBall onSectionChange={setActiveSection} />
       </main>
     </>

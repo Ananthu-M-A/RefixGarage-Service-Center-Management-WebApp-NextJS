@@ -14,11 +14,13 @@ import { CiEdit } from "react-icons/ci";
 import ItemEntry from "./ItemEntry";
 
 type Item = {
-  iNo: string;
-  iName: string;
-  iCategory: string;
-  iCost: number;
-  iCount: number;
+  _id: string;
+  slNo: number;
+  name: string;
+  category: string;
+  cost: number;
+  count: number;
+  description: string;
 };
 
 type ItemDetailProps = {
@@ -37,7 +39,7 @@ export function ItemDetail({ item }: ItemDetailProps) {
       </DialogTrigger>
       <DialogContent className="max-w-2xl bg-gray-800">
         <DialogHeader>
-          <DialogTitle>Edit Item - {item.iNo}</DialogTitle>
+          <DialogTitle>Edit Item - {item.slNo}</DialogTitle>
           <DialogDescription>
             Modify item details below and save changes.
           </DialogDescription>

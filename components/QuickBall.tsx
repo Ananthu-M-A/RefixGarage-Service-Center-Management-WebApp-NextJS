@@ -32,6 +32,12 @@ function QuickBall({ onSectionChange }: { onSectionChange: (section: string) => 
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
+            value="add-to-inventory"
+          >
+            Add to Inventory
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem
+            className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
             value="inventory"
           >
             Inventory

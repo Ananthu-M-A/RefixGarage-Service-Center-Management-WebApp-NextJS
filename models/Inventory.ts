@@ -3,18 +3,18 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 export interface IInventory extends Document {
     name: string;
     description?: string;
-    quantity: number;
+    count: number;
     category: string;
-    price: number;
+    cost: number;
   }
 
 const InventorySchema: Schema<IInventory> = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: false },
-    quantity: { type: Number, required: true },
+    count: { type: Number, required: true },
     category: { type: String, required: true },
-    price: { type: Number, required: true },
+    cost: { type: Number, required: true },
   },
   { timestamps: true }
 );

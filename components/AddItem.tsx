@@ -14,57 +14,47 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
   name: z
     .string()
-    .min(2, { message: "Customer name must be at least 2 characters." }),
-  mobile: z
+    .min(2, { message: "Item name must be at least 2 characters." }),
+  category: z
     .string()
-    .regex(/^\d{10}$/, { message: "Mobile number must be 10 digits." }),
-  device: z
-    .string()
-    .min(2, { message: "Device model must be at least 2 characters." }),
-  issue: z
-    .string()
-    .min(5, { message: "Issue description must be at least 5 characters." }),
-  remarks: z
-    .string()
-    .min(5, { message: "Remarks must be at least 5 characters." }),
+    .min(2, { message: "Item category must be at least 2 characters." }),
   cost: z.coerce
     .number()
-    .min(0, { message: "Estimated cost must be a positive number." }),
-  reminder: z.coerce
+    .min(0, { message: "Unit cost must be a positive number." }),
+  count: z.coerce
     .number()
-    .min(0, { message: "Reminder must be a positive number." }),
+    .min(0, { message: "Item count must be a positive number." }),
+  description: z.string(),
 });
 
-type JobFormData = z.infer<typeof formSchema> & {
+type InventoryFormData = z.infer<typeof formSchema> & {
   _id?: string;
 };
-type JobEntryProps = {
-  job?: JobFormData;
+type InventoryEntryProps = {
+  item?: InventoryFormData;
 };
 
-function JobEntry({ job }: JobEntryProps) {
-  const form = useForm<JobFormData>({
+function AddItem({ item }: InventoryEntryProps) {
+  const form = useForm<InventoryFormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: job ?? {
+    defaultValues: item ?? {
       name: "",
-      mobile: "",
-      device: "",
-      issue: "",
-      remarks: "",
+      category: "",
       cost: 0,
-      reminder: 0,
+      count: 0,
+      description: "",
     },
   });
 
-  const onSubmit = (data: JobFormData) => {
-    if (job) {
-      const updateJob = async () => {
-        const response = await fetch(`/api/reception/jobs/${job._id}`, {
+  const onSubmit = (data: InventoryFormData) => {
+    if (item) {
+      const updateInventory = async () => {
+        const response = await fetch(`/api/reception/inventory/${item._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -72,15 +62,15 @@ function JobEntry({ job }: JobEntryProps) {
           body: JSON.stringify(data),
         });
         if (response.ok) {
-          console.log("Job updated successfully!");
+          console.log("Inventory updated successfully!");
         } else {
-          console.error("Failed to update job.");
+          console.error("Failed to update inventory.");
         }
       };
-      updateJob();
+      updateInventory();
     } else {
-      const createJob = async () => {
-        const response = await fetch("/api/reception/jobs", {
+      const addItem = async () => {
+        const response = await fetch("/api/reception/inventory", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -88,19 +78,19 @@ function JobEntry({ job }: JobEntryProps) {
           body: JSON.stringify(data),
         });
         if (response.ok) {
-          console.log("Job created successfully!");
+          console.log("Added item successfully!");
         } else {
-          console.error("Failed to create job.");
+          console.error("Failed to add item.");
         }
       };
-      createJob();
+      addItem();
     }
   };
 
   return (
     <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">
-        {job ? "Edit Job" : "New Job Entry"}
+        {item ? "Edit Item" : "Add Item"}
       </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -110,12 +100,12 @@ function JobEntry({ job }: JobEntryProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Customer Name</FormLabel>
+                  <FormLabel>Item Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Irfan Shas"
+                      placeholder="Digital Mic"
                       {...field}
-                      disabled={!!job}
+                      disabled={!!item}
                     />
                   </FormControl>
                   <FormMessage />
@@ -124,32 +114,15 @@ function JobEntry({ job }: JobEntryProps) {
             />
             <FormField
               control={form.control}
-              name="mobile"
+              name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mobile Number</FormLabel>
+                  <FormLabel>Category</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="6238899623"
+                      placeholder="Spare Parts"
                       {...field}
-                      disabled={!!job}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="device"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Device Model</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="iPhone 13 Pro"
-                      {...field}
-                      disabled={!!job}
+                      disabled={!!item}
                     />
                   </FormControl>
                   <FormMessage />
@@ -161,11 +134,11 @@ function JobEntry({ job }: JobEntryProps) {
               name="cost"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Estimated Cost</FormLabel>
+                  <FormLabel>Unit Cost</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Enter estimated cost"
+                      placeholder="250"
                       {...field}
                     />
                   </FormControl>
@@ -175,14 +148,14 @@ function JobEntry({ job }: JobEntryProps) {
             />
             <FormField
               control={form.control}
-              name="reminder"
+              name="count"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Remind me</FormLabel>
+                  <FormLabel>Item Count</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Enter reminder time in days"
+                      placeholder="Enter item count"
                       {...field}
                     />
                   </FormControl>
@@ -193,32 +166,12 @@ function JobEntry({ job }: JobEntryProps) {
           </div>
           <FormField
             control={form.control}
-            name="issue"
+            name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Issue Description</FormLabel>
+                <FormLabel>Item Description</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Describe the issue with the device"
-                    {...field}
-                    disabled={!!job}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="remarks"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Remarks</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Additional remarks or comments"
-                    {...field}
-                  />
+                  <Textarea placeholder="Enter description" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -228,7 +181,7 @@ function JobEntry({ job }: JobEntryProps) {
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {job ? "Update Job" : "Submit Job"}
+            {item ? "Update Item" : "Add Item"}
           </Button>
         </form>
       </Form>
@@ -236,4 +189,6 @@ function JobEntry({ job }: JobEntryProps) {
   );
 }
 
-export default JobEntry;
+export default AddItem;
+
+// correct cost and count input type error

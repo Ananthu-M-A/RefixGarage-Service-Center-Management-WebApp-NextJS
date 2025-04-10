@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -11,31 +11,46 @@ import {
 import { ItemDetail } from "./ItemDetail";
 
 type Item = {
-  iNo: string;
-  iName: string;
-  iCategory: string;
-  iCost: number;
-  iCount: number;
+  _id: string;
+  name: string;
+  category: string;
+  cost: number;
+  count: number;
+  description: string;
 };
 
-const mockItems: Item[] = [
-  {
-    iNo: "II000001",
-    iName: "Digital Microphone",
-    iCategory: "Spare Parts",
-    iCost: 150.0,
-    iCount: 100,
-  },
-];
-
 function Inventory() {
+  const [items, setItems] = React.useState<Item[]>([]);
+  useEffect(() => {
+    const fetchInventory = async () => {
+      try {
+        const response = await fetch("/api/reception/inventory", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch inventory");
+        }
+        const inventory = await response.json();
+        console.log(inventory);
+        setItems(inventory);
+      } catch (error) {
+        console.error("Error fetching inventory:", error);
+      }
+    };
+
+    fetchInventory();
+  }, []);
+
   return (
     <>
       <div className="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-700">
-      <h2 className="text-2xl font-bold mb-4">Inventory</h2>
+        <h2 className="text-2xl font-bold mb-4">Inventory</h2>
         <Table>
           <TableCaption>
-            {mockItems.length > 0
+            {items.length > 0
               ? "A list of your inventory items."
               : "No items available at the moment."}
           </TableCaption>
@@ -50,21 +65,23 @@ function Inventory() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {mockItems.map((item, index) => (
+            {items.map((item, index) => (
               <TableRow key={index}>
-                <TableCell className="font-medium">{item.iNo}</TableCell>
-                <TableCell>{item.iName}</TableCell>
-                <TableCell>{item.iCategory}</TableCell>
-                <TableCell>₹{item.iCost.toFixed(2)}</TableCell>
-                <TableCell className="text-right">{item.iCount}</TableCell>
+                <TableCell className="font-medium">{index + 1}</TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.category}</TableCell>
+                <TableCell>₹{item.cost}</TableCell>
+                <TableCell className="text-right">{item.count}</TableCell>
                 <TableCell className="text-right">
                   <ItemDetail
                     item={{
-                      iNo: "II000001",
-                      iName: "Digital Microphone",
-                      iCategory: "Spare Parts",
-                      iCost: 150.0,
-                      iCount: 100,
+                      slNo: index+1,
+                      _id: item._id,
+                      name: item.name,
+                      category: item.category,
+                      cost: item.cost,
+                      count: item.count,
+                      description: "",
                     }}
                   />
                 </TableCell>

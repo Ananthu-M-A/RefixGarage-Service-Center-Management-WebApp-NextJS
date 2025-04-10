@@ -16,12 +16,12 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  iName: z.string().min(2, { message: "Item must be at least 2 characters." }),
-  iCategory: z
+  name: z.string().min(2, { message: "Item must be at least 2 characters." }),
+  category: z
     .string()
     .min(2, { message: "Category must be at least 2 characters." }),
-  iCost: z.number().min(0, { message: "Cost must be a positive number." }),
-  iCount: z.number().min(1, { message: "Count must be at least 1." }),
+  cost: z.number().min(0, { message: "Cost must be a positive number." }),
+  count: z.number().min(1, { message: "Count must be at least 1." }),
 });
 
 type ItemFormData = z.infer<typeof formSchema>;
@@ -33,10 +33,10 @@ function ItemEntry({ item }: ItemEntryProps) {
   const form = useForm<ItemFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: item ?? {
-        iName: "",
-        iCategory: "",
-        iCost: 0,
-        iCount: 0,
+        name: "",
+        category: "",
+        cost: 0,
+        count: 0,
     },
   });
 
@@ -60,7 +60,7 @@ function ItemEntry({ item }: ItemEntryProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
-              name="iName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Item Name</FormLabel>
@@ -73,7 +73,7 @@ function ItemEntry({ item }: ItemEntryProps) {
             />
             <FormField
               control={form.control}
-              name="iCategory"
+              name="category"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category</FormLabel>
@@ -86,7 +86,7 @@ function ItemEntry({ item }: ItemEntryProps) {
             />
             <FormField
               control={form.control}
-              name="iCost"
+              name="cost"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Item Cost</FormLabel>
@@ -103,7 +103,7 @@ function ItemEntry({ item }: ItemEntryProps) {
             />
             <FormField
               control={form.control}
-              name="iCount"
+              name="count"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Estimated Cost</FormLabel>

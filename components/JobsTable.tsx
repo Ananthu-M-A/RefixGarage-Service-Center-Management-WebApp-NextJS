@@ -31,7 +31,7 @@ function JobsTable() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch("/api/reception", {
+        const response = await fetch("/api/reception/jobs", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
