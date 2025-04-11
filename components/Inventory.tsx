@@ -46,7 +46,7 @@ function Inventory() {
 
   return (
     <>
-      <div className="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-700">
+      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">Inventory</h2>
         <Table>
           <TableCaption>
@@ -75,7 +75,7 @@ function Inventory() {
                 <TableCell className="text-right">
                   <ItemDetail
                     item={{
-                      slNo: index+1,
+                      slNo: index + 1,
                       _id: item._id,
                       name: item.name,
                       category: item.category,

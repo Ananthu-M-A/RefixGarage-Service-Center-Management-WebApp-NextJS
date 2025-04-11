@@ -38,6 +38,9 @@ const formSchema = z.object({
   reminder: z.coerce
     .number()
     .min(0, { message: "Reminder must be a positive number." }),
+  engineer: z
+    .string()
+    .min(2, { message: "Engineer name must be at least 2 characters." }),
 });
 
 type JobFormData = z.infer<typeof formSchema> & {
@@ -58,6 +61,7 @@ function JobEntry({ job }: JobEntryProps) {
       remarks: "",
       cost: 0,
       reminder: 0,
+      engineer: "",
     },
   });
 
@@ -168,6 +172,19 @@ function JobEntry({ job }: JobEntryProps) {
                       placeholder="Enter estimated cost"
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="engineer"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Engineer</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter engineer name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

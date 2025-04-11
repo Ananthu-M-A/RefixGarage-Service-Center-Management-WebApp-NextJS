@@ -7,14 +7,16 @@ import QuickBall from "@/components/QuickBall";
 import Inventory from "@/components/Inventory";
 import Header from "@/components/Header";
 import AddItem from "@/components/AddItem";
+import Diagram from "@/components/Diagram";
 
 function ReceptionHome() {
-  const [activeSection, setActiveSection] = useState("new-job");
+  const [activeSection, setActiveSection] = useState("reception");
 
   return (
     <>
       <Header user={"receptionist"} />
       <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
+        {activeSection === "reception" && <Diagram />}
         {activeSection === "new-job" && <JobEntry />}
         {activeSection === "jobs" && <JobsTable />}
         {activeSection === "inventory" && <Inventory />}

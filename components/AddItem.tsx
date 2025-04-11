@@ -190,5 +190,3 @@ function AddItem({ item }: InventoryEntryProps) {
 }
 
 export default AddItem;
-
-// correct cost and count input type error

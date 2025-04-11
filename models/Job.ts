@@ -10,6 +10,8 @@ export interface IJob extends Document {
   dateOfJobEntry: Date;
   dateOfJobCompletion?: Date;
   solution?: string;
+  engineer: string;
+  status: string;
 }
 
 const JobSchema: Schema<IJob> = new Schema(
@@ -23,6 +25,8 @@ const JobSchema: Schema<IJob> = new Schema(
     dateOfJobEntry: { type: Date, default: Date.now },
     dateOfJobCompletion: { type: Date, required: false },
     solution: { type: String, required: false },
+    engineer: { type: String, required: true },
+    status: { type: String, required: true }
   },
   { timestamps: true }
 );

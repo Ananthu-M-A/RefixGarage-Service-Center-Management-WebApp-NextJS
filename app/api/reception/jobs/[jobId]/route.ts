@@ -11,6 +11,8 @@ const jobSchema = z.object({
     remarks: z.string().min(5),
     cost: z.number().min(0),
     reminder: z.number().min(0),
+    engineer: z.string().min(2),
+    status: z.string().min(2),
 });
 
 export async function PUT(request: Request) {
@@ -20,13 +22,13 @@ export async function PUT(request: Request) {
         const body = await request.json();
         const parsedBody = jobSchema.parse(body);
 
-        const { remarks, cost, reminder } = parsedBody;
+        const { remarks, cost, reminder, engineer, status } = parsedBody;
 
         await dbConnect();
 
         const updatedJob = await Job.findByIdAndUpdate(
             jobId,
-            { remarks, cost, reminder },
+            { remarks, cost, reminder, engineer, status },
             { new: true }
         );
 

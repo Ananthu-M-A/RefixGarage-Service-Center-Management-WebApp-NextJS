@@ -23,6 +23,7 @@ type Job = {
   cost: number;
   reminder: number;
   remarks: string;
+  engineer: string;
 };
 
 type JobDetailProps = {

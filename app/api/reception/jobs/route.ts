@@ -13,6 +13,7 @@ const jobSchema = z.object({
     remarks: z.string().min(5),
     cost: z.number().min(0),
     reminder: z.number().min(0),
+    engineer: z.string().min(2)
 });
 
 export async function GET() {
@@ -37,7 +38,7 @@ export async function POST(request: Request) {
         const body = await request.json();
         const parsedBody = jobSchema.parse(body);
 
-        const { name, mobile, device, issue, remarks, cost, reminder } = parsedBody;
+        const { name, mobile, device, issue, remarks, cost, reminder, engineer } = parsedBody;
 
         await dbConnect();
 
@@ -66,6 +67,8 @@ export async function POST(request: Request) {
             remarks,
             cost,
             reminder,
+            engineer,
+            status: "Job Entered and Assigned"
         });
 
         const newJob = await job.save();

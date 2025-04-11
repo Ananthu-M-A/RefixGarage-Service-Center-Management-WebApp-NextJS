@@ -24,6 +24,7 @@ type Job = {
   issue: string;
   status: string;
   cost: number;
+  engineer: string;
 };
 
 function JobsTable() {
@@ -52,7 +53,7 @@ function JobsTable() {
 
   return (
     <>
-      <div className="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-700">
+    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">Jobs</h2>
         <Table>
           <TableCaption>
@@ -92,6 +93,7 @@ function JobsTable() {
                       reminder: job.reminder,
                       remarks: job.remarks,
                       cost: job.cost,
+                      engineer: job.engineer
                     }}
                   />
                 </TableCell>

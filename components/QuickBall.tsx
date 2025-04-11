@@ -10,7 +10,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-function QuickBall({ onSectionChange }: { onSectionChange: (section: string) => void }) {
+function QuickBall({
+  onSectionChange,
+}: {
+  onSectionChange: (section: string) => void;
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -18,6 +22,12 @@ function QuickBall({ onSectionChange }: { onSectionChange: (section: string) => 
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-gray-800 text-white rounded-lg shadow-lg p-2">
         <DropdownMenuRadioGroup onValueChange={onSectionChange}>
+          <DropdownMenuRadioItem
+            className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
+            value="reception"
+          >
+            Reception
+          </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
             value="new-job"
