@@ -65,6 +65,12 @@ function QuickBall({
             >
               Dashboard
             </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem
+              className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
+              value="new-receptionist"
+            >
+              Add New Receptionist
+            </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         )}
       </DropdownMenuContent>

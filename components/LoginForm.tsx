@@ -3,9 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -28,6 +30,8 @@ function LoginForm({ user }: LoginFormProps) {
     },
   });
 
+  const router = useRouter();
+
   const heading =
     user === "admin"
       ? "Admin Login"
@@ -35,30 +39,22 @@ function LoginForm({ user }: LoginFormProps) {
       ? "Receptionist Login"
       : "Login";
 
-  const onSubmit = (data: LoginFormData) => {
-    let url = "/api/login";
-    if (user === "admin") {
-      url = "/api/admin/login";
-    } else if (user === "receptionist") {
-      url = "/api/receptionist/login";
-    }
-    const loginUser = async () => {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+  const onSubmit = async (data: LoginFormData) => {
+    const callbackUrl =
+      user === "admin" ? "/admin" : "/receptionist";
 
-      if (res.ok) {
-        const response = await res.json();
-        console.log("Login successful:", response);
-      } else {
-        console.error("Login failed:", res.statusText);
-      }
-    };
-    loginUser();
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+      callbackUrl,
+    });
+
+    if (result?.ok) {
+      router.push(callbackUrl);
+    } else {
+      form.setError("email", { message: "Invalid email or password" });
+    }
   };
 
   return (
@@ -82,9 +78,13 @@ function LoginForm({ user }: LoginFormProps) {
               placeholder="Enter your email"
               autoComplete="email"
               className="border border-gray-600 rounded w-full py-2 px-3 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
               {...form.register("email")}
             />
+            {form.formState.errors.email && (
+              <p className="text-red-400 text-sm mt-1">
+                {form.formState.errors.email.message}
+              </p>
+            )}
           </div>
 
           <div className="mb-6">
@@ -100,9 +100,13 @@ function LoginForm({ user }: LoginFormProps) {
               placeholder="Enter your password"
               autoComplete="current-password"
               className="border border-gray-600 rounded w-full py-2 px-3 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
               {...form.register("password")}
             />
+            {form.formState.errors.password && (
+              <p className="text-red-400 text-sm mt-1">
+                {form.formState.errors.password.message}
+              </p>
+            )}
           </div>
 
           <Button
