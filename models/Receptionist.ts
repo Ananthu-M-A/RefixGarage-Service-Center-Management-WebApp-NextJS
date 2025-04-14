@@ -4,7 +4,6 @@ export interface IReceptionist extends Document {
     name: string;
     email: string;
     password: string;
-    createdAt: Date;
 }
 
 const ReceptionistSchema: Schema<IReceptionist> = new Schema(
