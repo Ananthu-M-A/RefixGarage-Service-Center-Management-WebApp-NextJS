@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/mongoose";
+import { dbConnect } from "@/lib/mongoose";
 import Job from "@/models/Job";
 import { z } from "zod";
 
