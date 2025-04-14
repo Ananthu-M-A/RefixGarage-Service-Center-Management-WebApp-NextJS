@@ -13,7 +13,7 @@ function AdminDashboard() {
       <Header user={"admin"} />
       <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
         {activeSection === "dashboard" && <JobReportDiagram />}
-        <QuickBall onSectionChange={setActiveSection} />
+        <QuickBall user={"admin"} onSectionChange={setActiveSection} />
       </main>
     </>
   );

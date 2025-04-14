@@ -21,7 +21,7 @@ function ReceptionHome() {
         {activeSection === "jobs" && <JobsTable />}
         {activeSection === "inventory" && <Inventory />}
         {activeSection === "add-to-inventory" && <AddItem />}
-        <QuickBall onSectionChange={setActiveSection} />
+        <QuickBall user={"receptionist"} onSectionChange={setActiveSection} />
       </main>
     </>
   );
