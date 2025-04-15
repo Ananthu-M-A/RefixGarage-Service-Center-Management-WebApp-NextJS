@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import PieChart from "./PieChart";
+import { Button } from "./ui/button";
 
 export default function JobReportDiagram() {
   const [statusChart, setStatusChart] = useState({
@@ -39,11 +40,40 @@ export default function JobReportDiagram() {
   }, []);
 
   return (
-    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Job Report At a glance</h2>
+    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold mb-4">Job Report At a glance</h2>
+        <Button className="text-lg pb-3 font-semibold mb-4">
+          Download Report
+        </Button>
+      </div>
       <div className="flex justify-between">
         <PieChart data={statusChart} />
         <PieChart data={reportChart} />
+      </div>
+      <h3 className="text-xl font-semibold my-2">Chart Data</h3>
+      <div className="flex gap-6 mt-4">
+        <ul className="list-disc pl-5">
+          {statusChart.labels.map((label, index) => (
+            <li key={index} className="text-gray-300">
+              {label}: {statusChart.values[index]}
+            </li>
+          ))}
+        </ul>
+        <ul className="list-disc pl-5">
+          {reportChart.labels.map((label, index) => (
+            <li key={index} className="text-gray-300">
+              {label}: {reportChart.values[index]}
+            </li>
+          ))}
+        </ul>
+        <ul className="list-disc pl-5">
+          <li className="text-gray-300">
+            Total Jobs: {statusChart.values.reduce((a, b) => a + b, 0)}
+          </li>
+          <li className="text-gray-300">Receptionists: 1</li>
+          <li className="text-gray-300">Engineers: 1</li>
+        </ul>
       </div>
     </div>
   );

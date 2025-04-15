@@ -24,9 +24,24 @@ export default function JobStatusDiagram() {
   }, []);
 
   return (
-    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
+    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
       <h2 className="text-2xl font-bold mb-4">Job Status At a glance</h2>
-        <PieChart data={chartData} />
+      <PieChart data={chartData} />
+      <div className="flex gap-6 mt-4">
+        <ul className="list-disc pl-5">
+          {chartData.labels.map((label, index) => (
+            <li key={index} className="text-gray-300">
+              {label}: {chartData.values[index]}
+            </li>
+          ))}
+        </ul>
+        <ul className="list-disc pl-5">
+          <li className="text-gray-300">
+            Total Jobs: {chartData.values.reduce((a, b) => a + b, 0)}
+          </li>
+          <li className="text-gray-300">Engineers: 1</li>
+        </ul>
+      </div>
     </div>
   );
 }
