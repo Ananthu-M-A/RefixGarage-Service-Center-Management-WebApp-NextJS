@@ -67,9 +67,15 @@ function QuickBall({
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem
               className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
-              value="new-receptionist"
+              value="new-staff"
             >
-              Add New Receptionist
+              Add New Staff
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem
+              className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
+              value="staff-list"
+            >
+              Staff List
             </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         )}

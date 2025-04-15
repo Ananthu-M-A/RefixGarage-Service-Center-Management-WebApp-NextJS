@@ -6,34 +6,32 @@ import { hash } from "bcrypt";
 export async function POST(req: Request) {
     try {
         await dbConnect();
-        const { name, email } = await req.json();
-        const receptionist = await User.findOne({ email, role: "receptionist" });
-        if (receptionist) {
-            return new Response(JSON.stringify({ message: "Receptionist already exists" }), {
+        const { name, email, role } = await req.json();
+        const existingStaff = await User.findOne({ email, role });
+        if (existingStaff) {
+            return new Response(JSON.stringify({ message: `${role.charAt(0).toUpperCase() + role.slice(1)} already exists` }), {
                 status: 409,
                 headers: { "Content-Type": "application/json" },
             });
         }
         const password = Math.random().toString(36).slice(-8);
-        console.log(password);
-        
         const hashedPassword = await hash(password, 10);
-        const newReceptionist = new User({
+        const newStaff = new User({
             name,
             email,
             password: hashedPassword,
-            role: "receptionist"
+            role
         });
-        await newReceptionist.save();
-        // await sendWelcomeEmail(email, name, password);
-        return new Response(JSON.stringify({ message: "Receptionist added successfully" }), {
-            status: 200,
+        await newStaff.save();
+        // await sendWelcomeEmail(email, name, password, role);
+        return new Response(JSON.stringify({ message: "Staff added successfully" }), {
+            status: 201,
             headers: { "Content-Type": "application/json" },
         });
     } catch (error) {
-        console.error("Error adding receptionist:", error);
+        console.error("Error adding staff:", error);
         return new Response(
-            JSON.stringify({ error: "Failed to add receptionist." }),
+            JSON.stringify({ error: "Failed to add staff." }),
             { status: 500, headers: { "Content-Type": "application/json" } }
         );
     }

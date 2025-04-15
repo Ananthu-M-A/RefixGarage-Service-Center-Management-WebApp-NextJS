@@ -17,6 +17,11 @@ export default function JobReportDiagram() {
     colors: [],
   });
 
+  const [count, setCount] = useState({
+    receptionists: 0,
+    engineers: 0,
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("/api/admin");
@@ -34,6 +39,10 @@ export default function JobReportDiagram() {
           data.waitingResults,
         ],
         colors: data.colors || ["#F59E0B", "#10B981", "#3B82F6"],
+      });
+      setCount({
+        receptionists: data.receptionists,
+        engineers: data.engineers,
       });
     };
     fetchData();
@@ -71,8 +80,12 @@ export default function JobReportDiagram() {
           <li className="font-semibold text-gray-300">
             Total Jobs: {statusChart.values.reduce((a, b) => a + b, 0)}
           </li>
-          <li className="font-semibold text-gray-300">Receptionists: 1</li>
-          <li className="font-semibold text-gray-300">Engineers: 1</li>
+          <li className="font-semibold text-gray-300">
+            Receptionists: {count.receptionists}
+          </li>
+          <li className="font-semibold text-gray-300">
+            Engineers: {count.engineers}
+          </li>
         </ul>
       </div>
     </div>
