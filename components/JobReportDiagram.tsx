@@ -51,28 +51,28 @@ export default function JobReportDiagram() {
         <PieChart data={statusChart} />
         <PieChart data={reportChart} />
       </div>
-      <h3 className="text-xl font-semibold my-2">Chart Data</h3>
+      <h3 className="text-xl font-semibold my-2">Job Report Data</h3>
       <div className="flex gap-6 mt-4">
         <ul className="list-disc pl-5">
           {statusChart.labels.map((label, index) => (
-            <li key={index} className="text-gray-300">
+            <li key={index} className="font-semibold text-gray-300">
               {label}: {statusChart.values[index]}
             </li>
           ))}
         </ul>
         <ul className="list-disc pl-5">
           {reportChart.labels.map((label, index) => (
-            <li key={index} className="text-gray-300">
+            <li key={index} className="font-semibold text-gray-300">
               {label}: {reportChart.values[index]}
             </li>
           ))}
         </ul>
         <ul className="list-disc pl-5">
-          <li className="text-gray-300">
+          <li className="font-semibold text-gray-300">
             Total Jobs: {statusChart.values.reduce((a, b) => a + b, 0)}
           </li>
-          <li className="text-gray-300">Receptionists: 1</li>
-          <li className="text-gray-300">Engineers: 1</li>
+          <li className="font-semibold text-gray-300">Receptionists: 1</li>
+          <li className="font-semibold text-gray-300">Engineers: 1</li>
         </ul>
       </div>
     </div>
