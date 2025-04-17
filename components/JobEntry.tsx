@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,6 +15,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const formSchema = z.object({
   name: z
@@ -41,6 +48,9 @@ const formSchema = z.object({
   engineer: z
     .string()
     .min(2, { message: "Engineer name must be at least 2 characters." }),
+  status: z
+    .string()
+    .min(2, { message: "Status must be at least 2 characters." }),
 });
 
 type JobFormData = z.infer<typeof formSchema> & {
@@ -51,6 +61,7 @@ type JobEntryProps = {
 };
 
 function JobEntry({ job }: JobEntryProps) {
+  const [engineers, setEngineers] = React.useState<{ name: string }[]>([]);
   const form = useForm<JobFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: job ?? {
@@ -62,6 +73,7 @@ function JobEntry({ job }: JobEntryProps) {
       cost: 0,
       reminder: 0,
       engineer: "",
+      status: "Pending",
     },
   });
 
@@ -101,8 +113,21 @@ function JobEntry({ job }: JobEntryProps) {
     }
   };
 
+  useEffect(() => {
+    async function fetchEngineers() {
+      const response = await fetch("/api/reception/jobs/new");
+      if (response.ok) {
+        const engineers = await response.json();
+        setEngineers(engineers);
+      } else {
+        console.error("Failed to fetch engineers.");
+      }
+    }
+    fetchEngineers();
+  }, []);
+
   return (
-    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
+    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
       <h2 className="text-2xl font-bold mb-4">
         {job ? "Edit Job" : "New Job Entry"}
       </h2>
@@ -117,7 +142,7 @@ function JobEntry({ job }: JobEntryProps) {
                   <FormLabel>Customer Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Irfan Shas"
+                      placeholder="Eg:- Ananthu M A"
                       {...field}
                       disabled={!!job}
                     />
@@ -134,7 +159,7 @@ function JobEntry({ job }: JobEntryProps) {
                   <FormLabel>Mobile Number</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="6238899623"
+                      placeholder="Eg:- 6238899623"
                       {...field}
                       disabled={!!job}
                     />
@@ -151,7 +176,7 @@ function JobEntry({ job }: JobEntryProps) {
                   <FormLabel>Device Model</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="iPhone 13 Pro"
+                      placeholder="Eg:- iPhone 13 Pro"
                       {...field}
                       disabled={!!job}
                     />
@@ -167,11 +192,7 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormItem>
                   <FormLabel>Estimated Cost</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Enter estimated cost"
-                      {...field}
-                    />
+                    <Input type="number" placeholder="Eg:- 5000" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -184,7 +205,18 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormItem>
                   <FormLabel>Engineer</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter engineer name" {...field} />
+                    <Select onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Engineer" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-800 text-white">
+                        {engineers.map((engineer, index) => (
+                          <SelectItem key={index} value={engineer.name}>
+                            {engineer.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -197,11 +229,7 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormItem>
                   <FormLabel>Remind me</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Enter reminder time in days"
-                      {...field}
-                    />
+                    <Input type="number" placeholder="Eg:- 2" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -216,7 +244,7 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormLabel>Issue Description</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Describe the issue with the device"
+                    placeholder="Eg:- Display not working, battery issue, etc."
                     {...field}
                     disabled={!!job}
                   />
@@ -233,9 +261,50 @@ function JobEntry({ job }: JobEntryProps) {
                 <FormLabel>Remarks</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Additional remarks or comments"
+                    placeholder="Eg:- Customer requested for a quick fix."
                     {...field}
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={"pending"}
+                    disabled={!job}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Change Status" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 text-white">
+                      <SelectItem
+                        className="hover:bg-white hover:text-black"
+                        value={"pending"}
+                      >
+                        Pending
+                      </SelectItem>
+                      <SelectItem
+                        className="hover:bg-white hover:text-black"
+                        value={"ok"}
+                      >
+                        OK
+                      </SelectItem>
+                      <SelectItem
+                        className="hover:bg-white hover:text-black"
+                        value={"notok"}
+                      >
+                        Not OK
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>

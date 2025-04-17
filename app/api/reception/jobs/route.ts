@@ -19,7 +19,13 @@ const jobSchema = z.object({
 export async function GET() {
     try {
         await dbConnect();
-        const jobs = await Job.find().populate("customerId", "name mobile");
+        const jobs = await Job.find().populate("customerId", "name mobile").sort({ createdAt: -1 });
+        if (!jobs || jobs.length === 0) {
+            return new Response(
+                JSON.stringify({ error: "No jobs found" }),
+                { status: 404, headers: jsonHeaders }
+            );
+        }
         return new Response(JSON.stringify(jobs), {
             status: 200,
             headers: jsonHeaders,
@@ -68,7 +74,7 @@ export async function POST(request: Request) {
             cost,
             reminder,
             engineer,
-            status: "Job Entered and Assigned"
+            status: "pending"
         });
 
         const newJob = await job.save();

@@ -24,6 +24,7 @@ type Job = {
   reminder: number;
   remarks: string;
   engineer: string;
+  status: string;
 };
 
 type JobDetailProps = {

@@ -88,7 +88,7 @@ function JobsTable() {
   };
 
   const handleFilterChange = (value: string) => {
-    if (value === "all-jobs") {
+    if (value === "all") {
       fetchJobs();
     } else {
       const filteredJobs = jobs.filter((job) => job.status === value);
@@ -101,17 +101,17 @@ function JobsTable() {
       <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">Jobs</h2>
         <div className="flex items-center justify-between mb-4">
-          <Select defaultValue="all-jobs" onValueChange={handleFilterChange}>
+          <Select defaultValue="all" onValueChange={handleFilterChange}>
             <SelectTrigger className="w-[120px] bg-gray-800 font-semibold text-white">
               <SelectValue placeholder="Filtered by" />
             </SelectTrigger>
             <SelectContent className="bg-gray-800 text-white">
               <SelectGroup>
                 <SelectLabel>Jobs</SelectLabel>
-                <SelectItem value="all-jobs">All</SelectItem>
-                <SelectItem value="ok-jobs">OK</SelectItem>
-                <SelectItem value="not-ok-jobs">Not OK</SelectItem>
-                <SelectItem value="pending-jobs">Pending</SelectItem>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="ok">OK</SelectItem>
+                <SelectItem value="notok">Not OK</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -161,7 +161,7 @@ function JobsTable() {
                 <TableCell className="font-medium">{index + 1}</TableCell>
                 <TableCell>{job.device}</TableCell>
                 <TableCell>{job.issue}</TableCell>
-                <TableCell>{job.status}</TableCell>
+                <TableCell>{job.status.toLocaleUpperCase()}</TableCell>
                 <TableCell className="text-right">
                   ₹{job.cost.toFixed(2)}
                 </TableCell>
@@ -178,6 +178,7 @@ function JobsTable() {
                       remarks: job.remarks,
                       cost: job.cost,
                       engineer: job.engineer,
+                      status: job.status,
                     }}
                   />
                 </TableCell>
