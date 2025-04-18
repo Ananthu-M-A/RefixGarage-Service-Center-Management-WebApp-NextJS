@@ -322,4 +322,4 @@ function AddJob({ job }: JobEntryProps) {
   );
 }
 
-export default AddJob;  
+export default AddJob;

@@ -15,7 +15,9 @@ export async function GET() {
         const waitingResults = await Job.find({}).countDocuments({ status: "pending" });
         const receptionists = await User.find({ role: "receptionist" }).countDocuments();
         const engineers = await User.find({ role: "engineer" }).countDocuments();
-        return new Response(JSON.stringify({ successfullJobs, failedJobs, waitingResults, okJobs, notOkJobs, pendingJobs, receptionists, engineers }), {
+        const revenue = 500;
+        const expense = 250;
+        return new Response(JSON.stringify({ successfullJobs, failedJobs, waitingResults, okJobs, notOkJobs, pendingJobs, receptionists, engineers, revenue, expense }), {
             status: 200,
             headers: jsonHeaders,
         });

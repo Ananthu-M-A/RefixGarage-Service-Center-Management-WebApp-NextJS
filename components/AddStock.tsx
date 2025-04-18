@@ -90,7 +90,7 @@ function AddStock({ item }: InventoryEntryProps) {
   return (
     <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">
-        {item ? "Edit Item" : "Add Item"}
+        {item ? "Edit Stock" : "Add Stock"}
       </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -181,7 +181,7 @@ function AddStock({ item }: InventoryEntryProps) {
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {item ? "Update Item" : "Add Item"}
+            {item ? "Update Stock" : "Add Item"}
           </Button>
         </form>
       </Form>

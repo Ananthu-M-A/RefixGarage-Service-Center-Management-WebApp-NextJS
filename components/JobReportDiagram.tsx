@@ -17,10 +17,17 @@ export default function JobReportDiagram() {
     colors: [],
   });
 
+  const [expenditureChart, setExpenditureChart] = useState({
+    labels: [],
+    values: [],
+    colors: [],
+  });
+
   const [count, setCount] = useState({
     receptionists: 0,
     engineers: 0,
   });
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +47,13 @@ export default function JobReportDiagram() {
         ],
         colors: data.colors || ["#F59E0B", "#10B981", "#3B82F6"],
       });
+
+      setExpenditureChart({
+        labels: data.labels || ["Revenue", "Expense"],
+        values: data.values || [data.revenue, data.expense],
+        colors: data.colors || ["#4ADE80", "#F87171"],
+      });
+      
       setCount({
         receptionists: data.receptionists,
         engineers: data.engineers,
@@ -59,6 +73,7 @@ export default function JobReportDiagram() {
       <div className="flex justify-between">
         <PieChart data={statusChart} />
         <PieChart data={reportChart} />
+        <PieChart data={expenditureChart} />
       </div>
       <h3 className="text-xl font-semibold my-2">Job Report Data</h3>
       <div className="flex gap-6 mt-4">

@@ -54,7 +54,6 @@ export async function POST(request: Request) {
                 name,
                 mobile,
                 jobs: [],
-                createdAt: new Date(),
             });
 
             existingCustomer = await customer.save();

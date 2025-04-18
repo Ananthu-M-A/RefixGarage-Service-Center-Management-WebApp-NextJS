@@ -35,7 +35,7 @@ function QuickBall({
               className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
               value="add-job"
             >
-              New Job
+              Add Job
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem
               className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
@@ -45,9 +45,9 @@ function QuickBall({
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem
               className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
-              value="add-inventory"
+              value="add-stock"
             >
-              Add to Inventory
+              Add Stock
             </DropdownMenuRadioItem>
             <DropdownMenuRadioItem
               className="text-lg px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"

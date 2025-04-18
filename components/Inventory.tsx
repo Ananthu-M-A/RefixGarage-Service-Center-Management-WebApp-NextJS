@@ -56,12 +56,12 @@ function Inventory() {
           </TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[120px]">Item No</TableHead>
-              <TableHead>Item</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead className="text-right">Cost</TableHead>
-              <TableHead className="text-right">Count</TableHead>
-              <TableHead className="text-right">Edit</TableHead>
+              <TableHead className="w-[120px] text-gray-400">Item No</TableHead>
+              <TableHead className="text-gray-400">Item</TableHead>
+              <TableHead className="text-gray-400">Category</TableHead>
+              <TableHead className="text-gray-400">Cost</TableHead>
+              <TableHead className="text-right text-gray-400">Count</TableHead>
+              <TableHead className="text-right text-gray-400">Edit</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
