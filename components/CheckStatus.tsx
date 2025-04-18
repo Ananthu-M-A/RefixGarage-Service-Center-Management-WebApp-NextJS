@@ -49,6 +49,7 @@ function CheckStatus() {
       );
       const result = await response.json();
       setStatus(result);
+      console.log(status);
     };
     checkStatus();
   };
