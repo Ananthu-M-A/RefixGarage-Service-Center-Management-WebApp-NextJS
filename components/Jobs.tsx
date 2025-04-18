@@ -41,7 +41,7 @@ type Job = {
   engineer: string;
 };
 
-function JobsTable() {
+function Jobs() {
   const [jobs, setJobs] = React.useState<Job[]>([]);
   useEffect(() => {
     fetchJobs();
@@ -191,4 +191,4 @@ function JobsTable() {
   );
 }
 
-export default JobsTable;
+export default Jobs;

@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { CiEdit } from "react-icons/ci";
-import JobEntry from "./JobEntry";
+import AddJob from "./AddJob";
 
 type Job = {
   _id: string;
@@ -48,7 +48,7 @@ export function JobDetail({ job }: JobDetailProps) {
             Modify job details below and save changes.
           </DialogDescription>
         </DialogHeader>
-        <JobEntry job ={job} />
+        <AddJob job={job} />
       </DialogContent>
     </Dialog>
   );

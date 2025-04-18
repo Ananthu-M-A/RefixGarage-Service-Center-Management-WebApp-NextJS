@@ -60,7 +60,7 @@ type JobEntryProps = {
   job?: JobFormData;
 };
 
-function JobEntry({ job }: JobEntryProps) {
+function AddJob({ job }: JobEntryProps) {
   const [engineers, setEngineers] = React.useState<{ name: string }[]>([]);
   const form = useForm<JobFormData>({
     resolver: zodResolver(formSchema),
@@ -322,4 +322,4 @@ function JobEntry({ job }: JobEntryProps) {
   );
 }
 
-export default JobEntry;
+export default AddJob;  

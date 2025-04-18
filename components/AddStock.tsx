@@ -39,7 +39,7 @@ type InventoryEntryProps = {
   item?: InventoryFormData;
 };
 
-function AddItem({ item }: InventoryEntryProps) {
+function AddStock({ item }: InventoryEntryProps) {
   const form = useForm<InventoryFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: item ?? {
@@ -189,4 +189,4 @@ function AddItem({ item }: InventoryEntryProps) {
   );
 }
 
-export default AddItem;
+export default AddStock;

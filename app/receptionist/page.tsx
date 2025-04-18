@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import JobEntry from "@/components/JobEntry";
-import JobsTable from "@/components/JobsTable";
+import Jobs from "@/components/Jobs";
 import QuickBall from "@/components/QuickBall";
 import Inventory from "@/components/Inventory";
 import Header from "@/components/Header";
-import AddItem from "@/components/AddItem";
+import AddStock from "@/components/AddStock";
 import JobStatusDiagram from "@/components/JobStatusDiagram";
+import AddJob from "@/components/AddJob";
+import AddExpense from "@/components/AddExpense";
+import Expenses from "@/components/Expenses";
 
 function ReceptionHome() {
   const [activeSection, setActiveSection] = useState("reception");
@@ -17,10 +19,12 @@ function ReceptionHome() {
       <Header user={"receptionist"} />
       <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
         {activeSection === "reception" && <JobStatusDiagram />}
-        {activeSection === "new-job" && <JobEntry />}
-        {activeSection === "jobs" && <JobsTable />}
+        {activeSection === "add-job" && <AddJob />}
+        {activeSection === "jobs" && <Jobs />}
         {activeSection === "inventory" && <Inventory />}
-        {activeSection === "add-to-inventory" && <AddItem />}
+        {activeSection === "add-stock" && <AddStock />}
+        {activeSection === "add-expense" && <AddExpense />}
+        {activeSection === "expenses" && <Expenses />}
         <QuickBall user={"receptionist"} onSectionChange={setActiveSection} />
       </main>
     </>
