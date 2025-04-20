@@ -52,8 +52,6 @@ function LoginForm() {
 
     if (result?.ok) {
       router.push(callbackUrl);
-    } else {
-      form.setError("email", { message: "Invalid email or password" });
     }
   };
 
