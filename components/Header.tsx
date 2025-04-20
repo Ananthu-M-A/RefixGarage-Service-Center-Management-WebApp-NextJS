@@ -5,7 +5,7 @@ import Image from "next/image";
 import { MdCall, MdViewWeek } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
 import { TiTime } from "react-icons/ti";
-import { Button } from "./ui/button";
+import SignOutButton from "./SignOutButton";
 
 function Header({ user }: { user: string }) {
   return (
@@ -62,7 +62,7 @@ function Header({ user }: { user: string }) {
               </div>
             </>
           )}
-          {user !== "guest" && <Button className="mt-1">Logout</Button>}
+          {user !== "guest" && <SignOutButton />}
         </div>
       </div>
     </nav>

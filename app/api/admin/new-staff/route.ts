@@ -1,5 +1,5 @@
 import { dbConnect } from "@/lib/mongoose";
-// import sendWelcomeEmail from "@/lib/sendWelcomeEmail";
+import sendEmail from "@/lib/sendEmail";
 import User from "@/models/User";
 import { hash } from "bcrypt";
 
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
             role
         });
         await newStaff.save();
-        // await sendWelcomeEmail(email, name, password, role);
+        await sendEmail(email, name, password, role, "new-staff");
         return new Response(JSON.stringify({ message: "Staff added successfully" }), {
             status: 201,
             headers: { "Content-Type": "application/json" },

@@ -1,61 +1,67 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import clientPromise from "@/lib/mongodb";
-import { dbConnect } from "@/lib/mongoose";
+import bcrypt from "bcrypt";
 import User from "@/models/User";
-import { compare } from "bcrypt";
 
-const handler = NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
-  session: {
-    strategy: "jwt",
-  },
+
+
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        await dbConnect();
-        const user = await User.findOne({ email: credentials?.email });
-        if (!user) throw new Error("No user found");
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
-        const isValid = await compare(
-          credentials!.password,
-          user.password
-        );
-        if (!isValid) throw new Error("Invalid password");
+        const user = await User.findOne({
+          email: credentials.email,
+        });
 
-        return {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        };
+        if (!user) {
+          return null;
+        }
+
+        const isValid = await bcrypt.compare(credentials.password, user.password);
+
+        if (!isValid) {
+          return null;
+        }
+
+        return { id: user.id, name: user.name, email: user.email, role: user.role };
       },
     }),
   ],
+
+  session: {
+    strategy: "jwt",
+  },
+
   callbacks: {
     async jwt({ token, user }) {
-      if (user && "role" in user) {
+      if (user) {
+        token.id = user.id;
         token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
+      if (token && session.user) {
+        session.user.id = token.id as string;
         session.user.role = token.role as string;
       }
       return session;
     },
   },
   pages: {
-    signIn: "/login",
+    signIn: "/login/admin",
   },
-  secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

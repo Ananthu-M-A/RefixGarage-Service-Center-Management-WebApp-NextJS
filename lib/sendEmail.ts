@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-async function sendWelcomeEmail(email: string, name: string, password: string, role: string) {
+async function sendEmail(email: string, name: string, password: string, role: string, purpose: string) {
 
     const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST as string,
@@ -16,7 +16,7 @@ async function sendWelcomeEmail(email: string, name: string, password: string, r
         from: process.env.SMTP_FROM,
         to: email,
         subject: "Welcome to Refix Garage Family",
-        text: `Hello ${name},\n\nWelcome to Refix Garage! Your account has been created successfully.\n\nHere are your login details:\n\nEmail: ${email}\n${(role === "receptionist") && `Password: ${password}`}\nRole: ${role}\n\nPlease remember the importance of keeping your password secure.\n\nBest regards,\nRefix Garage Team`,
+        text: `Hello ${name},\n\nWelcome to Refix Garage! Your ${purpose === "new-staff" ? "account" : "password"} has been ${purpose === "new-staff" ? "created" : "reset"} successfully.\n\nHere are your login details:\n\nEmail: ${email}\n${(role === "receptionist") && `Password: ${password}`}\nRole: ${role}\n\nPlease remember the importance of keeping your password secure.\n\nBest regards,\nRefix Garage Team`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -28,4 +28,4 @@ async function sendWelcomeEmail(email: string, name: string, password: string, r
     });
 }
 
-export default sendWelcomeEmail;    
+export default sendEmail;    

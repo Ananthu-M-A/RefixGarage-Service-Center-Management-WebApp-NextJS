@@ -9,8 +9,8 @@ function Footer() {
     <footer className="bg-gray-900 text-white px-4 py-6 mt-auto border-t-2 border-gray-700">
       <div className="max-w-7xl mx-auto text-center space-y-2">
         <p className="text-sm">
-          © 2025 <Link href="/receptionist">R</Link>EFIX GAR
-          <Link href="/admin">A</Link>GE. All rights reserved.
+          © 2025 <Link href="/login">R</Link>EFIX GAR
+          <Link href="/login">A</Link>GE. All rights reserved.
         </p>
         <p className="text-sm">Follow us on social media!</p>
         <div className="flex justify-center items-center space-x-5 mt-2">

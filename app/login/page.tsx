@@ -2,7 +2,7 @@ import LoginForm from "@/components/LoginForm";
 import React from "react";
 
 function ReceptionLogin() {
-  return <LoginForm user={"receptionist"} />;
+  return <LoginForm />;
 }
 
 export default ReceptionLogin;

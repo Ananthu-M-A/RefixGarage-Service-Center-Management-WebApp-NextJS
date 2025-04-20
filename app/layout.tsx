@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SessionProviderWrapper from "@/components/SessionProviderWrapper";
 
 export const metadata: Metadata = {
   title: "Refix Garage | A Garage For Expert Fixes",
@@ -14,9 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-black text-white">
-        {children}
-      </body>
+      <SessionProviderWrapper>
+        <body className="bg-black text-white">{children}</body>
+      </SessionProviderWrapper>
     </html>
   );
 }

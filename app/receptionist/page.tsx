@@ -10,9 +10,21 @@ import JobStatusDiagram from "@/components/JobStatusDiagram";
 import AddJob from "@/components/AddJob";
 import AddExpense from "@/components/AddExpense";
 import Expenses from "@/components/Expenses";
+import { useSession } from "next-auth/react";
+import Loading from "../loading";
+import { redirect } from "next/navigation";
 
 function ReceptionHome() {
   const [activeSection, setActiveSection] = useState("reception");
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <Loading />;
+  }
+
+  if (!session) {
+    redirect("/login");
+  }
 
   return (
     <>
