@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ItemDetail } from "./ItemDetail";
+import { showErrorToast } from "@/lib/toast";
 
 type Item = {
   _id: string;
@@ -31,10 +32,10 @@ function Inventory() {
           },
         });
         if (!response.ok) {
+          showErrorToast("Failed to fetch inventory");
           throw new Error("Failed to fetch inventory");
         }
         const inventory = await response.json();
-        console.log(inventory);
         setItems(inventory);
       } catch (error) {
         console.error("Error fetching inventory:", error);

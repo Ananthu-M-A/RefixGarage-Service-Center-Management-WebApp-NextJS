@@ -13,6 +13,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { showErrorToast, showSuccessToast } from "@/lib/toast";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -38,9 +39,9 @@ function ForgotPasswordForm() {
     });
 
     if (!response.ok) {
-      console.error("Failed to send reset link");
+      showErrorToast("Failed to send reset link");
     } else {
-      console.log("Reset link sent successfully");
+      showSuccessToast("Reset link sent successfully");
     }
   };
 

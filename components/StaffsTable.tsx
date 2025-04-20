@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { showErrorToast } from "@/lib/toast";
 
 type Staff = {
   _id: string;
@@ -51,6 +52,7 @@ function StaffsTable() {
         },
       });
       if (!response.ok) {
+        showErrorToast("Failed to fetch staffs.");
         throw new Error("Failed to fetch staffs");
       }
       const data = await response.json();

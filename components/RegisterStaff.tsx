@@ -23,6 +23,7 @@ import {
   SelectGroup,
   SelectLabel,
 } from "@/components/ui/select";
+import { showErrorToast, showSuccessToast } from "@/lib/toast";
 
 const formSchema = z.object({
   name: z
@@ -58,9 +59,9 @@ function RegisterStaff() {
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        console.log("Staff added successfully!");
+        showSuccessToast("Staff added successfully!");
       } else {
-        console.error("Failed to add staff.");
+        showErrorToast("Failed to add staff.");
       }
     };
     addStaff();

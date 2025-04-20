@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { showErrorToast, showSuccessToast } from "@/lib/toast";
 
 const formSchema = z.object({
   type: z.string().min(1, { message: "Expense type is required." }),
@@ -56,9 +57,9 @@ function AddExpense({ item }: ExpenseEntryProps) {
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        console.log("Added expense successfully!");
+        showSuccessToast("Added expense successfully!");
       } else {
-        console.error("Failed to add expense.");
+        showErrorToast("Failed to add expense.");
       }
     };
     AddExpense();

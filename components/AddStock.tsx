@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "./ui/textarea";
+import { showErrorToast, showSuccessToast } from "@/lib/toast";
 
 const formSchema = z.object({
   name: z
@@ -62,9 +63,9 @@ function AddStock({ item }: InventoryEntryProps) {
           body: JSON.stringify(data),
         });
         if (response.ok) {
-          console.log("Inventory updated successfully!");
+          showSuccessToast("Inventory updated successfully!");
         } else {
-          console.error("Failed to update inventory.");
+          showErrorToast("Failed to update inventory.");
         }
       };
       updateInventory();
@@ -78,9 +79,9 @@ function AddStock({ item }: InventoryEntryProps) {
           body: JSON.stringify(data),
         });
         if (response.ok) {
-          console.log("Added item successfully!");
+          showSuccessToast("Added item successfully!");
         } else {
-          console.error("Failed to add item.");
+          showErrorToast("Failed to add item.");
         }
       };
       addItem();

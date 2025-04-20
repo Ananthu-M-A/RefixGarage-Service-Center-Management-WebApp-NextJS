@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { JobDetail } from "./JobDetail";
 import { Input } from "./ui/input";
+import { showErrorToast } from "@/lib/toast";
 
 type Job = {
   customerId: {
@@ -56,6 +57,7 @@ function Jobs() {
         },
       });
       if (!response.ok) {
+        showErrorToast("Failed to fetch jobs.");
         throw new Error("Failed to fetch jobs");
       }
       const jobs = await response.json();

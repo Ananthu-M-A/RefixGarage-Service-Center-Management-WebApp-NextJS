@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { showErrorToast } from "@/lib/toast";
 
 type Expense = {
   type: string;
@@ -27,6 +28,7 @@ function Expenses() {
           },
         });
         if (!response.ok) {
+          showErrorToast("Failed to fetch expenses.");
           throw new Error("Failed to fetch expenses");
         }
         const expenses = await response.json();

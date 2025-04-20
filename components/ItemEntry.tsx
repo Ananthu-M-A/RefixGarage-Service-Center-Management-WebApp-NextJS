@@ -43,10 +43,8 @@ function ItemEntry({ item }: ItemEntryProps) {
   const onSubmit = (data: ItemFormData) => {
     if (item) {
       console.log("Editing Item:", data);
-      // Send PATCH to /api/items/:id
     } else {
       console.log("Creating Item:", data);
-      // Send POST to /api/items
     }
   };
 

@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { showErrorToast, showSuccessToast } from "@/lib/toast";
 
 const formSchema = z.object({
   name: z
@@ -88,9 +89,9 @@ function AddJob({ job }: JobEntryProps) {
           body: JSON.stringify(data),
         });
         if (response.ok) {
-          console.log("Job updated successfully!");
+          showSuccessToast("Job updated successfully!");
         } else {
-          console.error("Failed to update job.");
+          showErrorToast("Failed to update job.");
         }
       };
       updateJob();
@@ -104,9 +105,9 @@ function AddJob({ job }: JobEntryProps) {
           body: JSON.stringify(data),
         });
         if (response.ok) {
-          console.log("Job created successfully!");
+          showSuccessToast("Job created successfully!");
         } else {
-          console.error("Failed to create job.");
+          showErrorToast("Failed to create job.");
         }
       };
       createJob();
@@ -120,7 +121,7 @@ function AddJob({ job }: JobEntryProps) {
         const engineers = await response.json();
         setEngineers(engineers);
       } else {
-        console.error("Failed to fetch engineers.");
+        showErrorToast("Failed to fetch engineers.");
       }
     }
     fetchEngineers();
