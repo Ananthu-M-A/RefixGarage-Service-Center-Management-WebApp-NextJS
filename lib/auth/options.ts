@@ -2,6 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import User from "@/models/User";
 import { NextAuthOptions } from "next-auth";
+import { dbConnect } from "../mongoose";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -13,21 +14,21 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
-                    return null;
+                    throw new Error("Please provide both email and password.");
                 }
-
+                await dbConnect();
                 const user = await User.findOne({
                     email: credentials.email,
                 });
 
                 if (!user) {
-                    return null;
+                    throw new Error("No user found with the given email.");
                 }
 
                 const isValid = await bcrypt.compare(credentials.password, user.password);
 
                 if (!isValid) {
-                    return null;
+                    throw new Error("Invalid password.");
                 }
 
                 return { id: user.id, name: user.name, email: user.email, role: user.role };
