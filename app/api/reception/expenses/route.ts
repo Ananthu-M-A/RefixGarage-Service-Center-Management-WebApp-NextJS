@@ -31,29 +31,24 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         const parsedBody = expenseSchema.parse(body);
-        console.log("Parsed Body:", parsedBody);
         const { type, amount } = parsedBody;
 
         await dbConnect();
+        const newExpense = new Expense({
+            type,
+            amount
+        });
 
-        const existingExpense = await Expense.findOne({ type });
-        if (!existingExpense) {
-            const newExpense = new Expense({
-                type,
-                amount
+        const addedExpense = await newExpense.save();
+        if (addedExpense) {
+            return new Response(JSON.stringify(addedExpense), {
+                status: 201,
+                headers: jsonHeaders,
             });
-
-            const addedExpense = await newExpense.save();
-            if (addedExpense) {
-                return new Response(JSON.stringify(addedExpense), {
-                    status: 201,
-                    headers: jsonHeaders,
-                });
-            }
         } else {
             return new Response(
-                JSON.stringify({ error: "Duplicate Expense" }),
-                { status: 409, headers: jsonHeaders }
+                JSON.stringify({ error: "Failed to add expense" }),
+                { status: 500, headers: jsonHeaders }
             );
         }
 

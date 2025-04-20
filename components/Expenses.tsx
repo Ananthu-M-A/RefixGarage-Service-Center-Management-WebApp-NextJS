@@ -41,7 +41,7 @@ function Expenses() {
   return (
     <>
       <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Inventory</h2>
+        <h2 className="text-2xl font-bold mb-4">Expenses</h2>
         <Table>
           <TableCaption>
             {expenses.length > 0
@@ -60,9 +60,11 @@ function Expenses() {
             {expenses.map((expense, index) => (
               <TableRow key={index}>
                 <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell>{expense.type}</TableCell>
+                <TableCell>{expense.type.toLocaleUpperCase()}</TableCell>
                 <TableCell>₹{expense.amount}</TableCell>
-                <TableCell className="text-right">{expense.createdAt}</TableCell>
+                <TableCell className="text-right">
+                  {new Date(expense.createdAt).toLocaleDateString()}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
