@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SessionProviderWrapper>
-        <body className="bg-black text-white">
+        <body>
           <ToasterProvider />
           {children}
         </body>

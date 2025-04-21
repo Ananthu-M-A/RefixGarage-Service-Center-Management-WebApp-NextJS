@@ -15,11 +15,10 @@ export default function Home() {
   );
 
   return (
-    <>
-    <Header user={"guest"} />
+    <div className="bg-black text-white">
+      <Header user={"guest"} />
       <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white">
         <SubHeader onSectionChange={setActiveSection} />
-
         <div className="p-4">
           {activeSection === "services" && <Services />}
           {activeSection === "about" && <About />}
@@ -28,6 +27,6 @@ export default function Home() {
         </div>
         <Footer />
       </main>
-    </>
+    </div>
   );
 }

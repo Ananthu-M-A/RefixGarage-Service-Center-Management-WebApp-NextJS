@@ -57,7 +57,7 @@ function CheckStatus() {
   return (
     <section
       id="check-status"
-      className="w-full px-4 py-10 flex justify-center items-center bg-transparent text-white"
+      className="w-full px-4 min-h-screen flex justify-center items-center bg-transparent text-white"
     >
       <div className="bg-gray-800 w-full max-w-md border border-gray-700 rounded-lg shadow-lg p-6">
         <div className="mb-6">

@@ -4,7 +4,7 @@ function Services() {
   return (
     <section
       id="services"
-      className="w-full px-4 py-12 bg-transparent text-white flex justify-center items-center"
+      className="w-full px-4 min-h-screen bg-transparent text-white flex justify-center items-center"
     >
       <div className="max-w-3xl text-left">
         <h2 className="text-3xl font-bold mb-4">Our Services</h2>

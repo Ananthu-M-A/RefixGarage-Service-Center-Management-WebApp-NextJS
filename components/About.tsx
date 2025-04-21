@@ -4,7 +4,7 @@ function About() {
   return (
     <section
       id="about"
-      className="w-full px-4 py-12 bg-transparent text-white flex justify-center items-center"
+      className="w-full px-4 min-h-screen bg-transparent text-white flex justify-center items-center"
     >
       <div className="max-w-3xl text-center">
         <h2 className="text-3xl font-bold mb-4">About Us</h2>
