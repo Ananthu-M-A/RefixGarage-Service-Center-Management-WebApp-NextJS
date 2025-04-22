@@ -47,7 +47,7 @@ function ForgotPasswordForm() {
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-black to-gray-900 flex items-center justify-center px-4">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm border border-gray-700">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm border border-gray-700 text-white">
         <h1 className="text-2xl font-bold text-white mb-6">Forgot Password</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
