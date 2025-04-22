@@ -14,7 +14,8 @@ function Footer() {
         </p>
         <p className="text-sm">Follow us on social media!</p>
         <div className="flex justify-center items-center space-x-5 mt-2">
-          <Link
+          <Link 
+            aria-label="Whatsapp"
             href="https://wa.me/+916238855623"
             target="_blank"
             rel="noopener noreferrer"
@@ -22,6 +23,7 @@ function Footer() {
             <FaWhatsapp className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
           </Link>
           <Link
+            aria-label="Instagram"
             href="https://www.instagram.com/refix_garage/"
             target="_blank"
             rel="noopener noreferrer"
@@ -29,6 +31,7 @@ function Footer() {
             <FaInstagram className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
           </Link>
           <Link
+            aria-label="Email"
             href="mailto:refixgarage@gmail.com"
             target="_blank"
             rel="noopener noreferrer"
@@ -36,6 +39,7 @@ function Footer() {
             <FiMail className="text-white hover:text-gray-400 text-2xl md:text-3xl" />
           </Link>
           <Link
+            aria-label="Phone"
             href="tel:+916238855623"
             target="_blank"
             rel="noopener noreferrer"

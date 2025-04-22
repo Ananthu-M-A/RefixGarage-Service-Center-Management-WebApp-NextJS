@@ -11,7 +11,8 @@ function Header({ user }: { user: string }) {
   return (
     <nav className="bg-black border-b border-gray-700 text-white px-4 py-3">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-        <div className="flex flex-col text-center md:text-left space-y-2">
+
+        <div className="flex flex-col text-center md:text-left space-y-2 pr-5">
           {user === "guest" && (
             <>
               <div className="flex items-center space-x-2">
@@ -25,6 +26,7 @@ function Header({ user }: { user: string }) {
             </>
           )}
         </div>
+
         <div className="flex items-center space-x-4">
           <Image
             src="/logo.png"
@@ -33,10 +35,11 @@ function Header({ user }: { user: string }) {
             height={60}
             className="shadow-md rounded-full"
           />
-          <h1 className="text-2xl md:text-3xl font-bold text-center md:text-left">
+          <h1 className="text-3xl md:text-5xl font-bold text-center md:text-left">
             REFIX GARAGE
           </h1>
         </div>
+
         <div className="flex flex-col items-center md:items-end text-center space-y-2">
           {user === "guest" && (
             <>
@@ -66,7 +69,7 @@ function Header({ user }: { user: string }) {
         </div>
       </div>
     </nav>
-  );  
+  );
 }
 
 export default Header;
