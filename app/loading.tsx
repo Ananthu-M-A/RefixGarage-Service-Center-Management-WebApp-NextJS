@@ -11,7 +11,7 @@ function Loading() {
         width={200}
         height={200}
         className="animate-pulse"
-        loading="lazy"
+        priority={true}
       />
       <p className="text-gray-500 text-sm animate-pulse">
         Loading, please wait...
