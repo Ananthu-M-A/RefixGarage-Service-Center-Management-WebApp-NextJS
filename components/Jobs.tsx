@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
@@ -43,7 +43,12 @@ type Job = {
 };
 
 function Jobs() {
-  const [jobs, setJobs] = React.useState<Job[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 10;
+
   useEffect(() => {
     fetchJobs();
   }, []);
@@ -60,48 +65,63 @@ function Jobs() {
         showErrorToast("Failed to fetch jobs.");
         throw new Error("Failed to fetch jobs");
       }
-      const jobs = await response.json();
-      setJobs(jobs);
+      const data = await response.json();
+      setJobs(data);
+      setFilteredJobs(data);
     } catch (error) {
       console.error("Error fetching jobs:", error);
+      setError("Failed to load job data. Please try again later.");
     }
   };
 
   const handleSort = (order: string) => {
-    const sortedJobs = [...jobs].sort((a, b) => {
+    const sortedJobs = [...filteredJobs].sort((a, b) => {
       if (order === "asc") {
         return a.device.localeCompare(b.device);
       } else {
         return b.device.localeCompare(a.device);
       }
     });
-    setJobs(sortedJobs);
+    setFilteredJobs(sortedJobs);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value.toLowerCase();
-    const filteredJobs = jobs.filter(
+    const filtered = jobs.filter(
       (job) =>
         job.device.toLowerCase().includes(searchTerm) ||
         job.issue.toLowerCase().includes(searchTerm) ||
         job.customerId.name.toLowerCase().includes(searchTerm)
     );
-    setJobs(filteredJobs);
+    setFilteredJobs(filtered);
+    setCurrentPage(1);
   };
 
   const handleFilterChange = (value: string) => {
     if (value === "all") {
-      fetchJobs();
+      setFilteredJobs(jobs);
     } else {
-      const filteredJobs = jobs.filter((job) => job.status === value);
-      setJobs(filteredJobs);
+      const filtered = jobs.filter((job) => job.status === value);
+      setFilteredJobs(filtered);
     }
+    setCurrentPage(1);
+  };
+
+  const indexOfLastJob = currentPage * jobsPerPage;
+  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+  const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
+
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (
     <>
-      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
+      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
         <h2 className="text-2xl font-bold mb-4">Jobs</h2>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <div className="flex items-center justify-between mb-4">
           <Select defaultValue="all" onValueChange={handleFilterChange}>
             <SelectTrigger className="w-[120px] bg-gray-800 font-semibold text-white">
@@ -141,9 +161,7 @@ function Jobs() {
         </div>
         <Table>
           <TableCaption>
-            {jobs.length > 0
-              ? "A list of your recent jobs."
-              : "No jobs available at the moment."}
+            {jobs.length === 0 && "No jobs available at the moment."}
           </TableCaption>
           <TableHeader>
             <TableRow>
@@ -158,9 +176,11 @@ function Jobs() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {jobs.map((job, index) => (
+            {currentJobs.map((job, index) => (
               <TableRow key={index}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
+                <TableCell className="font-medium">
+                  {indexOfFirstJob + index + 1}
+                </TableCell>
                 <TableCell>{job.device}</TableCell>
                 <TableCell>{job.issue}</TableCell>
                 <TableCell>{job.status.toLocaleUpperCase()}</TableCell>
@@ -170,7 +190,7 @@ function Jobs() {
                 <TableCell className="text-right">
                   <JobDetail
                     job={{
-                      slno: index + 1,
+                      slno: indexOfFirstJob + index + 1,
                       _id: job._id,
                       name: job.customerId.name,
                       mobile: job.customerId.mobile,
@@ -188,6 +208,21 @@ function Jobs() {
             ))}
           </TableBody>
         </Table>
+        <div className="flex justify-center mt-4 space-x-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`px-4 py-2 rounded ${
+                currentPage === page
+                  ? "bg-white text-black"
+                  : "bg-gray-700 text-gray-300"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
       </div>
     </>
   );
