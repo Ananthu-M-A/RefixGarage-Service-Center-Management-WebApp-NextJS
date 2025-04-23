@@ -37,9 +37,9 @@ export function ItemDetail({ item }: ItemDetailProps) {
           <CiEdit size={20} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl bg-gray-800">
+      <DialogContent className="max-w-2xl bg-gray-800 text-white">
         <DialogHeader>
-          <DialogTitle>Edit Item - {item.slNo}</DialogTitle>
+          <DialogTitle>Edit Item Detail - {item.slNo}</DialogTitle>
           <DialogDescription>
             Modify item details below and save changes.
           </DialogDescription>

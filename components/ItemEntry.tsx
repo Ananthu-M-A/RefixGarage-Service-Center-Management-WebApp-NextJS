@@ -14,18 +14,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { showErrorToast, showSuccessToast } from "@/lib/toast";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Item must be at least 2 characters." }),
   category: z
     .string()
     .min(2, { message: "Category must be at least 2 characters." }),
-  cost: z.number().min(0, { message: "Cost must be a positive number." }),
-  count: z.number().min(1, { message: "Count must be at least 1." }),
+  cost: z.coerce
+    .number()
+    .min(0, { message: "Cost must be a positive number." }),
+  count: z.coerce.number().min(1, { message: "Count must be at least 1." }),
 });
 
 type ItemFormData = z.infer<typeof formSchema>;
 type ItemEntryProps = {
+  _id?: string;
   item?: ItemFormData;
 };
 
@@ -33,18 +37,50 @@ function ItemEntry({ item }: ItemEntryProps) {
   const form = useForm<ItemFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: item ?? {
-        name: "",
-        category: "",
-        cost: 0,
-        count: 0,
+      name: "",
+      category: "",
+      cost: 0,
+      count: 0,
     },
   });
 
   const onSubmit = (data: ItemFormData) => {
     if (item) {
-      console.log("Editing Item:", data);
+      const updatedItem = async () => {
+        const response = await fetch(`/api/reception/inventory/${item._id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        if (response.ok) {
+          showSuccessToast("Item updated successfully!");
+          window.location.reload();
+        } else {
+          const error = await response.json();
+          showErrorToast(error.message);
+        }
+      };
+      updatedItem();
     } else {
-      console.log("Creating Item:", data);
+      const newItem = async () => {
+        const response = await fetch("/api/reception/inventory", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        if (response.ok) {
+          showSuccessToast("Item added successfully!");
+          window.location.reload();
+        } else {
+          const error = await response.json();
+          showErrorToast(error.message);
+        }
+      };
+      newItem();
     }
   };
 
