@@ -17,6 +17,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Loading from "@/app/loading";
+import { showSuccessToast } from "@/lib/toast";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -51,8 +52,9 @@ function LoginForm() {
     });
 
     if (result?.ok) {
+      showSuccessToast("Login successful!");
       router.push(callbackUrl);
-    }else{
+    } else {
       form.setError("email", { message: "Invalid email or password" });
       form.resetField("password");
     }
@@ -118,7 +120,10 @@ function LoginForm() {
           </form>
         </Form>
         <p className="text-white mt-4 text-center text-sm">
-          <Link href="/forgot-password" className="text-blue-400 hover:underline">
+          <Link
+            href="/forgot-password"
+            className="text-blue-400 hover:underline"
+          >
             Forgot your password?
           </Link>
         </p>

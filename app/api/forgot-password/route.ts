@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
         if (!existingUser) {
             return new Response(
-                JSON.stringify({ error: "User not found" }),
+                JSON.stringify({ message: "Enter a registered email address" }),
                 { status: 404, headers: { "Content-Type": "application/json" } }
             );
         }
@@ -26,13 +26,13 @@ export async function POST(request: Request) {
         await sendEmail(email, existingUser.name, password, existingUser.role, "forgot-password");
 
         return new Response(
-            JSON.stringify({ message: "Password reset link sent" }),
+            JSON.stringify({ message: "Reset link sent successfully, Visit your email for further instructions." }),
             { status: 200, headers: { "Content-Type": "application/json" } }
         );
     } catch (error) {
         console.error("Error in forgot password route:", error);
         return new Response(
-            JSON.stringify({ error: "Internal server error" }),
+            JSON.stringify({ message: "Internal server error" }),
             { status: 500, headers: { "Content-Type": "application/json" } }
         );
     }

@@ -36,10 +36,10 @@ const formSchema = z.object({
     .min(2, { message: "Device model must be at least 2 characters." }),
   issue: z
     .string()
-    .min(5, { message: "Issue description must be at least 5 characters." }),
+    .min(2, { message: "Issue description must be at least 2 characters." }),
   remarks: z
     .string()
-    .min(5, { message: "Remarks must be at least 5 characters." }),
+    .min(2, { message: "Remarks must be at least 2 characters." }),
   cost: z.coerce
     .number()
     .min(0, { message: "Estimated cost must be a positive number." }),
@@ -90,8 +90,10 @@ function AddJob({ job }: JobEntryProps) {
         });
         if (response.ok) {
           showSuccessToast("Job updated successfully!");
+          window.location.reload();
         } else {
-          showErrorToast("Failed to update job.");
+          const error = await response.json();
+          showErrorToast(error.message);
         }
       };
       updateJob();
@@ -106,8 +108,10 @@ function AddJob({ job }: JobEntryProps) {
         });
         if (response.ok) {
           showSuccessToast("Job created successfully!");
+          window.location.reload();
         } else {
-          showErrorToast("Failed to create job.");
+          const error = await response.json();
+          showErrorToast(error.message);
         }
       };
       createJob();

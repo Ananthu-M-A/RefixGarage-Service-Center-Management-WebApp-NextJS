@@ -14,6 +14,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { showErrorToast, showSuccessToast } from "@/lib/toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -22,6 +23,7 @@ const formSchema = z.object({
 type ForgotPasswordFormData = z.infer<typeof formSchema>;
 
 function ForgotPasswordForm() {
+  const router = useRouter();
   const form = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,9 +41,12 @@ function ForgotPasswordForm() {
     });
 
     if (!response.ok) {
-      showErrorToast("Failed to send reset link");
+      const errorData = await response.json();
+      showErrorToast(errorData.message);
     } else {
-      showSuccessToast("Reset link sent successfully");
+      const successData = await response.json();
+      showSuccessToast(successData.message);
+      router.push("/login");
     }
   };
 
