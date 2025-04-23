@@ -64,8 +64,10 @@ function AddStock({ item }: InventoryEntryProps) {
         });
         if (response.ok) {
           showSuccessToast("Inventory updated successfully!");
+          window.location.reload();
         } else {
-          showErrorToast("Failed to update inventory.");
+          const error = await response.json();
+          showErrorToast(error.message);
         }
       };
       updateInventory();
@@ -80,8 +82,10 @@ function AddStock({ item }: InventoryEntryProps) {
         });
         if (response.ok) {
           showSuccessToast("Added item successfully!");
+          window.location.reload();
         } else {
-          showErrorToast("Failed to add item.");
+          const error = await response.json();
+          showErrorToast(error.message);
         }
       };
       addItem();

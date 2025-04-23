@@ -55,7 +55,7 @@ export async function POST(request: Request) {
             }
         } else {
             return new Response(
-                JSON.stringify({ error: "Duplicate item" }),
+                JSON.stringify({ message: `${name} is already in the stock!` }),
                 { status: 409, headers: jsonHeaders }
             );
         }
