@@ -27,9 +27,11 @@ const formSchema = z.object({
   count: z.coerce.number().min(1, { message: "Count must be at least 1." }),
 });
 
-type ItemFormData = z.infer<typeof formSchema>;
-type ItemEntryProps = {
+type ItemFormData = z.infer<typeof formSchema> & {
   _id?: string;
+};
+
+type ItemEntryProps = {
   item?: ItemFormData;
 };
 
