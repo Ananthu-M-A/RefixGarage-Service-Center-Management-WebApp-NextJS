@@ -215,8 +215,8 @@ function Jobs() {
               onClick={() => handlePageChange(page)}
               className={`px-4 py-2 rounded ${
                 currentPage === page
-                  ? "bg-white text-black"
-                  : "bg-gray-700 text-gray-300"
+                  ? "bg-gray-700 text-white"
+                  : "bg-gray-900 text-white"
               }`}
             >
               {page}

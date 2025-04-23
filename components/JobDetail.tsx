@@ -41,9 +41,9 @@ export function JobDetail({ job }: JobDetailProps) {
           <CiEdit size={20} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl bg-gray-800">
+      <DialogContent className="min-w-2xl bg-gray-800 text-white my-2">
         <DialogHeader>
-          <DialogTitle>Edit Job - {job.slno}</DialogTitle>
+          <DialogTitle>Edit Job Details - {job.slno}</DialogTitle>
           <DialogDescription>
             Modify job details below and save changes.
           </DialogDescription>

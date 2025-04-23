@@ -134,7 +134,7 @@ function AddJob({ job }: JobEntryProps) {
   return (
     <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
       <h2 className="text-2xl font-bold mb-4">
-        {job ? "Edit Job" : "New Job Entry"}
+        {job ? "Edit Job Details" : "New Job Entry"}
       </h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
