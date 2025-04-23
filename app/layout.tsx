@@ -5,8 +5,11 @@ import ToasterProvider from "@/components/ToasterProvider";
 
 export const metadata: Metadata = {
   title: "Refix Garage | A Garage For Expert Fixes",
-  description:
-    "Refix Garage is a smartphone service center. We provide the best services for your smartphones.",
+  description: "Get your smartphones repaired by experts at Refix Garage.",
+  keywords: "smartphone repair, expert fixes, Refix Garage",
+  authors: [{ name: "Ananthu M A", url: "https://ananthuma.com" }],
+  creator: "Ananthu M A",
+  publisher: "Vercel",
 };
 
 export default function RootLayout({
