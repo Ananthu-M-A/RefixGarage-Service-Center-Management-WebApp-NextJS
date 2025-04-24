@@ -60,8 +60,10 @@ function RegisterStaff() {
       });
       if (response.ok) {
         showSuccessToast("Staff added successfully!");
+        window.location.reload();
       } else {
-        showErrorToast("Failed to add staff.");
+        const errorData = await response.json();
+        showErrorToast(errorData.message);
       }
     };
     addStaff();

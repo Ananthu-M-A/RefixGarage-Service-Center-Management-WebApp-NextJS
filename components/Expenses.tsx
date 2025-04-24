@@ -87,7 +87,7 @@ function Expenses() {
         </div>
         <Table>
           <TableCaption>
-            {expenses.length === 0 && "No expense available at the moment."}
+            {filteredExpenses.length === 0 && "No expenses available at the moment."}
           </TableCaption>
           <TableHeader>
             <TableRow>

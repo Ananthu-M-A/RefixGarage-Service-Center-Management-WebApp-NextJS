@@ -161,7 +161,7 @@ function Jobs() {
         </div>
         <Table>
           <TableCaption>
-            {jobs.length === 0 && "No jobs available at the moment."}
+            {filteredJobs.length === 0 && "No jobs available at the moment."}
           </TableCaption>
           <TableHeader>
             <TableRow>

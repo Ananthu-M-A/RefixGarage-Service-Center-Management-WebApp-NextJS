@@ -38,6 +38,8 @@ function StaffsTable() {
   const [staffs, setStaffs] = useState<Staff[]>([]);
   const [filteredStaffs, setFilteredStaffs] = useState<Staff[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const staffsPerPage = 10;
 
   useEffect(() => {
     fetchStaffs();
@@ -84,6 +86,7 @@ function StaffsTable() {
         staff.status.toLowerCase().includes(searchTerm)
     );
     setFilteredStaffs(filtered);
+    setCurrentPage(1);
   };
 
   const handleFilterChange = (value: string) => {
@@ -93,6 +96,17 @@ function StaffsTable() {
       const filtered = staffs.filter((staff) => staff.role === value);
       setFilteredStaffs(filtered);
     }
+    setCurrentPage(1);
+  };
+
+  const indexOfLastStaff = currentPage * staffsPerPage;
+  const indexOfFirstStaff = indexOfLastStaff - staffsPerPage;
+  const currentStaffs = filteredStaffs.slice(indexOfFirstStaff, indexOfLastStaff);
+
+  const totalPages = Math.ceil(filteredStaffs.length / staffsPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -150,7 +164,7 @@ function StaffsTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredStaffs.map((staff, index) => (
+          {currentStaffs.map((staff, index) => (
             <TableRow key={staff._id}>
               <TableCell className="font-medium">{index + 1}</TableCell>
               <TableCell>{staff.name}</TableCell>
@@ -165,6 +179,21 @@ function StaffsTable() {
           ))}
         </TableBody>
       </Table>
+      <div className="flex justify-center mt-4 space-x-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`px-4 py-2 rounded ${
+                currentPage === page
+                  ? "bg-gray-700 text-white"
+                  : "bg-gray-900 text-white"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
     </div>
   );
 }
