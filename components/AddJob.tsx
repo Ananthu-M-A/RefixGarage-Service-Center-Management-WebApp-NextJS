@@ -116,7 +116,7 @@ function AddJob({ job }: JobEntryProps) {
         }
       };
       createJob();
-      sendWhatsApp(data.mobile, "Job created successfully!");
+      sendWhatsApp();
     }
   };
 
