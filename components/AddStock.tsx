@@ -26,10 +26,10 @@ const formSchema = z.object({
     .min(2, { message: "Item category must be at least 2 characters." }),
   cost: z.coerce
     .number()
-    .min(0, { message: "Unit cost must be a positive number." }),
+    .min(10, { message: "Unit cost must be at least ₹10." }),
   count: z.coerce
     .number()
-    .min(0, { message: "Item count must be a positive number." }),
+    .min(1, { message: "Item count must be at least 1." }),
   description: z.string(),
 });
 
@@ -46,8 +46,8 @@ function AddStock({ item }: InventoryEntryProps) {
     defaultValues: item ?? {
       name: "",
       category: "",
-      cost: 0,
-      count: 0,
+      cost: 10,
+      count: 1,
       description: "",
     },
   });
@@ -141,11 +141,7 @@ function AddStock({ item }: InventoryEntryProps) {
                 <FormItem>
                   <FormLabel>Unit Cost</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="250"
-                      {...field}
-                    />
+                    <Input type="number" placeholder="250" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -27,7 +27,7 @@ const formSchema = z.object({
   type: z.string().min(1, { message: "Expense type is required." }),
   amount: z.coerce
     .number()
-    .min(0, { message: "Reminder must be a positive number." }),
+    .min(1, { message: "Amount must be a positive number." }),
   _id: z.string().optional(),
 });
 
@@ -42,7 +42,7 @@ function AddExpense({ item }: ExpenseEntryProps) {
   const form = useForm<ExpenseFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: item ?? {
-      type: "electricity",
+      type: "",
       amount: 0,
     },
   });
