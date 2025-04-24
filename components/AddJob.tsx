@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { showErrorToast, showSuccessToast } from "@/lib/toast";
+import { sendWhatsApp } from "@/lib/sendWhatsApp";
 
 const formSchema = z.object({
   name: z
@@ -115,6 +116,7 @@ function AddJob({ job }: JobEntryProps) {
         }
       };
       createJob();
+      sendWhatsApp(data.mobile, "Job created successfully!");
     }
   };
 
