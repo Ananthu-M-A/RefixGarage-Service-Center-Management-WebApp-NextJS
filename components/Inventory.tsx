@@ -76,7 +76,7 @@ function Inventory() {
 
   return (
     <>
-      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
+      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
         <h2 className="text-2xl font-bold mb-4">Inventory</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <div className="flex items-center justify-between mb-4">
@@ -89,9 +89,7 @@ function Inventory() {
         </div>
         <Table>
           <TableCaption>
-            {items.length > 0
-              ? "A list of your inventory items."
-              : "No items available at the moment."}
+            {items.length === 0 && "No items available at the moment."}
           </TableCaption>
           <TableHeader>
             <TableRow>

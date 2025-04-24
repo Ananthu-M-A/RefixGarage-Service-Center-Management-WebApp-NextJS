@@ -96,7 +96,7 @@ function StaffsTable() {
   };
 
   return (
-    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
+    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
       <h2 className="text-2xl font-bold mb-4">Staffs</h2>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <div className="flex items-center justify-between mb-4">
@@ -138,9 +138,7 @@ function StaffsTable() {
       </div>
       <Table>
         <TableCaption>
-          {filteredStaffs.length > 0
-            ? "A list of staffs."
-            : "No staffs listed at the moment."}
+          {filteredStaffs.length === 0 && "No staffs listed at the moment."}
         </TableCaption>
         <TableHeader>
           <TableRow>
