@@ -29,16 +29,14 @@ function ReceptionHome() {
   return (
     <>
       <Header user={"receptionist"} />
-      <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-        {activeSection === "reception" && <JobStatusDiagram />}
-        {activeSection === "add-job" && <AddJob />}
-        {activeSection === "jobs" && <Jobs />}
-        {activeSection === "inventory" && <Inventory />}
-        {activeSection === "add-stock" && <AddStock />}
-        {activeSection === "add-expense" && <AddExpense />}
-        {activeSection === "expenses" && <Expenses />}
-        <QuickBall user={"receptionist"} onSectionChange={setActiveSection} />
-      </main>
+      {activeSection === "reception" && <JobStatusDiagram />}
+      {activeSection === "add-job" && <AddJob />}
+      {activeSection === "jobs" && <Jobs />}
+      {activeSection === "inventory" && <Inventory />}
+      {activeSection === "add-stock" && <AddStock />}
+      {activeSection === "add-expense" && <AddExpense />}
+      {activeSection === "expenses" && <Expenses />}
+      <QuickBall user={"receptionist"} onSectionChange={setActiveSection} />
     </>
   );
 }

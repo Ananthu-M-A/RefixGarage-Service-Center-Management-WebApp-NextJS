@@ -134,22 +134,125 @@ function AddJob({ job }: JobEntryProps) {
   }, []);
 
   return (
-    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
-      <h2 className="text-2xl font-bold mb-4">
-        {job ? "Edit Job Details" : "New Job Entry"}
-      </h2>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
+      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
+        <h2 className="text-2xl font-bold mb-4">
+          {job ? "Edit Job Details" : "New Job Entry"}
+        </h2>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Customer Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Eg:- Ananthu M A"
+                        {...field}
+                        disabled={!!job}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="mobile"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mobile Number</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Eg:- 6238899623"
+                        {...field}
+                        disabled={!!job}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="device"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Device Model</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Eg:- iPhone 13 Pro"
+                        {...field}
+                        disabled={!!job}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="cost"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Estimated Cost</FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="Eg:- 5000" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="engineer"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Engineer</FormLabel>
+                    <FormControl>
+                      <Select onValueChange={field.onChange}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select Engineer" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-800 text-white">
+                          {engineers.map((engineer, index) => (
+                            <SelectItem key={index} value={engineer.name}>
+                              {engineer.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="reminder"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Remind me</FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="Eg:- 2" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
-              name="name"
+              name="issue"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Customer Name</FormLabel>
+                  <FormLabel>Issue Description</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Eg:- Ananthu M A"
+                    <Textarea
+                      placeholder="Eg:- Display not working, battery issue, etc."
                       {...field}
                       disabled={!!job}
                     />
@@ -160,15 +263,14 @@ function AddJob({ job }: JobEntryProps) {
             />
             <FormField
               control={form.control}
-              name="mobile"
+              name="remarks"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mobile Number</FormLabel>
+                  <FormLabel>Remarks</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Eg:- 6238899623"
+                    <Textarea
+                      placeholder="Eg:- Customer requested for a quick fix."
                       {...field}
-                      disabled={!!job}
                     />
                   </FormControl>
                   <FormMessage />
@@ -177,51 +279,38 @@ function AddJob({ job }: JobEntryProps) {
             />
             <FormField
               control={form.control}
-              name="device"
+              name="status"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Device Model</FormLabel>
+                  <FormLabel>Status</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Eg:- iPhone 13 Pro"
-                      {...field}
-                      disabled={!!job}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="cost"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Estimated Cost</FormLabel>
-                  <FormControl>
-                    <Input type="number" placeholder="Eg:- 5000" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="engineer"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Engineer</FormLabel>
-                  <FormControl>
-                    <Select onValueChange={field.onChange}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={"pending"}
+                      disabled={!job}
+                    >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select Engineer" />
+                        <SelectValue placeholder="Change Status" />
                       </SelectTrigger>
                       <SelectContent className="bg-gray-800 text-white">
-                        {engineers.map((engineer, index) => (
-                          <SelectItem key={index} value={engineer.name}>
-                            {engineer.name}
-                          </SelectItem>
-                        ))}
+                        <SelectItem
+                          className="hover:bg-white hover:text-black"
+                          value={"pending"}
+                        >
+                          Pending
+                        </SelectItem>
+                        <SelectItem
+                          className="hover:bg-white hover:text-black"
+                          value={"ok"}
+                        >
+                          OK
+                        </SelectItem>
+                        <SelectItem
+                          className="hover:bg-white hover:text-black"
+                          value={"notok"}
+                        >
+                          Not OK
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -229,103 +318,16 @@ function AddJob({ job }: JobEntryProps) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="reminder"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Remind me</FormLabel>
-                  <FormControl>
-                    <Input type="number" placeholder="Eg:- 2" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormField
-            control={form.control}
-            name="issue"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Issue Description</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Eg:- Display not working, battery issue, etc."
-                    {...field}
-                    disabled={!!job}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="remarks"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Remarks</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Eg:- Customer requested for a quick fix."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="status"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Status</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={"pending"}
-                    disabled={!job}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Change Status" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 text-white">
-                      <SelectItem
-                        className="hover:bg-white hover:text-black"
-                        value={"pending"}
-                      >
-                        Pending
-                      </SelectItem>
-                      <SelectItem
-                        className="hover:bg-white hover:text-black"
-                        value={"ok"}
-                      >
-                        OK
-                      </SelectItem>
-                      <SelectItem
-                        className="hover:bg-white hover:text-black"
-                        value={"notok"}
-                      >
-                        Not OK
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            {job ? "Update Job" : "Submit Job"}
-          </Button>
-        </form>
-      </Form>
-    </div>
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              {job ? "Update Job" : "Submit Job"}
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </main>
   );
 }
 

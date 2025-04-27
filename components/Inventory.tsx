@@ -11,6 +11,7 @@ import {
 import { ItemDetail } from "./ItemDetail";
 import { showErrorToast } from "@/lib/toast";
 import { Input } from "./ui/input";
+import Loading from "@/app/loading";
 
 type Item = {
   _id: string;
@@ -74,8 +75,12 @@ function Inventory() {
     setCurrentPage(page);
   };
 
+  if (!currentItems.length) {
+    return <Loading />;
+  }
+
   return (
-    <>
+    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
       <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
         <h2 className="text-2xl font-bold mb-4">Inventory</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -142,7 +147,7 @@ function Inventory() {
           ))}
         </div>
       </div>
-    </>
+    </main>
   );
 }
 

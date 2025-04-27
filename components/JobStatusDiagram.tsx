@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import PieChart from "./PieChart";
+import Loading from "@/app/loading";
 
 export default function JobStatusDiagram() {
   const [chartData, setChartData] = useState({
@@ -23,26 +24,32 @@ export default function JobStatusDiagram() {
     fetchData();
   }, []);
 
+  if (!chartData.labels.length) {
+    return <Loading />;
+  }
+
   return (
-    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
-      <h2 className="text-2xl font-bold mb-4">Job Status At a Glance</h2>
-      <PieChart data={chartData} />
-      <h3 className="text-xl font-semibold my-2">Job Status Data</h3>
-      <div className="flex gap-6 mt-4">
-        <ul className="list-disc pl-5">
-          {chartData.labels.map((label, index) => (
-            <li key={index} className="font-semibold text-gray-300">
-              {label}: {chartData.values[index]}
+    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
+      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
+        <h2 className="text-2xl font-bold mb-4">Job Status At a Glance</h2>
+        <PieChart data={chartData} />
+        <h3 className="text-xl font-semibold my-2">Job Status Data</h3>
+        <div className="flex gap-6 mt-4">
+          <ul className="list-disc pl-5">
+            {chartData.labels.map((label, index) => (
+              <li key={index} className="font-semibold text-gray-300">
+                {label}: {chartData.values[index]}
+              </li>
+            ))}
+          </ul>
+          <ul className="list-disc pl-5">
+            <li className="font-semibold text-gray-300">
+              Total Jobs: {chartData.values.reduce((a, b) => a + b, 0)}
             </li>
-          ))}
-        </ul>
-        <ul className="list-disc pl-5">
-          <li className="font-semibold text-gray-300">
-            Total Jobs: {chartData.values.reduce((a, b) => a + b, 0)}
-          </li>
-          <li className="font-semibold text-gray-300">Engineers: 1</li>
-        </ul>
+            <li className="font-semibold text-gray-300">Engineers: 1</li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

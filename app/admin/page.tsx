@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import JobReportDiagram from "@/components/JobReportDiagram";
 import QuickBall from "@/components/QuickBall";
 import Registerstaff from "@/components/RegisterStaff";
-import StaffsTable from "@/components/StaffsTable";
+import Staffs from "@/components/Staffs";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
@@ -25,12 +25,10 @@ function AdminDashboard() {
   return (
     <>
       <Header user={"admin"} />
-      <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-        {activeSection === "dashboard" && <JobReportDiagram />}
-        {activeSection === "new-staff" && <Registerstaff />}
-        {activeSection === "staff-list" && <StaffsTable />}
-        <QuickBall user={"admin"} onSectionChange={setActiveSection} />
-      </main>
+      {activeSection === "dashboard" && <JobReportDiagram />}
+      {activeSection === "new-staff" && <Registerstaff />}
+      {activeSection === "staff-list" && <Staffs />}
+      <QuickBall user={"admin"} onSectionChange={setActiveSection} />
     </>
   );
 }

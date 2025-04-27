@@ -66,75 +66,77 @@ function AddExpense({ item }: ExpenseEntryProps) {
   };
 
   return (
-    <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Add Expense</h2>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Expense Type</FormLabel>
-                  <FormControl>
-                    <Select onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select expense type.." />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-800 text-white">
-                        <SelectItem
-                          className="hover:bg-white hover:text-black"
-                          value={"electricity"}
-                        >
-                          Electricity Bill
-                        </SelectItem>
-                        <SelectItem
-                          className="hover:bg-white hover:text-black"
-                          value={"rent"}
-                        >
-                          Rent
-                        </SelectItem>
-                        <SelectItem
-                          className="hover:bg-white hover:text-black"
-                          value={"other"}
-                        >
-                          Other Expenses
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="amount"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Expense Amount</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter expense amount.."
-                      type="number"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <Button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Add Expense
-          </Button>
-        </form>
-      </Form>
-    </div>
+    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
+      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4">Add Expense</h2>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Expense Type</FormLabel>
+                    <FormControl>
+                      <Select onValueChange={field.onChange}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select expense type.." />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-800 text-white">
+                          <SelectItem
+                            className="hover:bg-white hover:text-black"
+                            value={"electricity"}
+                          >
+                            Electricity Bill
+                          </SelectItem>
+                          <SelectItem
+                            className="hover:bg-white hover:text-black"
+                            value={"rent"}
+                          >
+                            Rent
+                          </SelectItem>
+                          <SelectItem
+                            className="hover:bg-white hover:text-black"
+                            value={"other"}
+                          >
+                            Other Expenses
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="amount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Expense Amount</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter expense amount.."
+                        type="number"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Add Expense
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </main>
   );
 }
 
