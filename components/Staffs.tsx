@@ -161,7 +161,7 @@ function Staffs() {
         </div>
         <Table>
           <TableCaption>
-            {filteredStaffs.length === 0 && "No staffs listed at the moment."}
+            {filteredStaffs.length === 0 && "No staffs found."}
           </TableCaption>
           <TableHeader>
             <TableRow>

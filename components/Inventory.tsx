@@ -94,7 +94,7 @@ function Inventory() {
         </div>
         <Table>
           <TableCaption>
-            {filteredItems.length === 0 && "No items available at the moment."}
+            {filteredItems.length === 0 && "No items found."}
           </TableCaption>
           <TableHeader>
             <TableRow>
