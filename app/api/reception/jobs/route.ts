@@ -1,4 +1,5 @@
 import { dbConnect } from "@/lib/mongoose";
+import sendWhatsApp from "@/lib/sendWhatsApp";
 import Customer from "@/models/Customer";
 import Job from "@/models/Job";
 import { z } from "zod";
@@ -96,6 +97,17 @@ export async function POST(request: Request) {
                 { status: 500, headers: jsonHeaders }
             );
         }
+
+        await sendWhatsApp({
+            name: existingCustomer.name,
+            jobId: newJob._id.toString(),
+            createdAt: newJob.get('createdAt').toLocaleDateString(),
+            device: device,
+            issue: issue,
+            remarks: remarks,
+            cost: cost,
+            mobile: existingCustomer.mobile ?? "",
+        }, "welcome");
 
         return new Response(JSON.stringify(newJob), {
             status: 201,

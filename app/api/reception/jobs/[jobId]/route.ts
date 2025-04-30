@@ -1,4 +1,6 @@
 import { dbConnect } from "@/lib/mongoose";
+import sendWhatsApp from "@/lib/sendWhatsApp";
+import Customer from "@/models/Customer";
 import Job from "@/models/Job";
 import { z } from "zod";
 
@@ -9,6 +11,10 @@ const jobSchema = z.object({
     reminder: z.number().min(0).optional(),
     engineer: z.string().min(2).optional(),
     status: z.string().min(2).optional(),
+    customerId: z.string().optional(),
+    name: z.string().min(2).optional(),
+    mobile: z.string().regex(/^\d{10}$/).optional(),
+    device: z.string().min(2).optional(),
 });
 
 export async function PUT(request: Request) {
@@ -34,6 +40,25 @@ export async function PUT(request: Request) {
                 { status: 500, headers: jsonHeaders }
             );
         }
+
+        const customer = await Customer.findById(updatedJob.customerId);
+        if (!customer) {
+            return new Response(
+                JSON.stringify({ error: "Customer not found" }),
+                { status: 404, headers: jsonHeaders }
+            );
+        }
+
+        await sendWhatsApp({
+            name: customer.name,
+            jobId: updatedJob._id.toString(),
+            createdAt: updatedJob.get('updatedAt').toLocaleDateString(),
+            device: updatedJob.device,
+            issue: updatedJob.issue || "",
+            cost: updatedJob.cost,
+            remarks: updatedJob.remarks || "",
+            mobile: customer.mobile ?? "",
+        }, "delivery");
 
         return new Response(JSON.stringify(updatedJob), {
             status: 200,
