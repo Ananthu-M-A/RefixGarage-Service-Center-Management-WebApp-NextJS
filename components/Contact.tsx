@@ -1,11 +1,11 @@
 import React from "react";
-import { LatLngExpression } from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility";
+// import { LatLngExpression } from "leaflet";
+// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+// import "leaflet/dist/leaflet.css";
+// import "leaflet-defaulticon-compatibility";
 
 function Contact() {
-  const position: LatLngExpression = [11.178128998741794, 75.8653670141468];
+  // const position: LatLngExpression = [11.178128998741794, 75.8653670141468];
 
   return (
     <section
@@ -30,7 +30,7 @@ function Contact() {
         </p>
       </div>
       <div className="w-full max-w-3xl h-96 rounded-lg overflow-hidden shadow-lg">
-        <MapContainer
+        {/* <MapContainer
           center={position}
           zoom={15}
           className="h-full w-full"
@@ -49,7 +49,7 @@ function Contact() {
               Ramanattukara, Kozhikode, Kerala 673633
             </Popup>
           </Marker>
-        </MapContainer>
+        </MapContainer> */}
       </div>
     </section>
   );
