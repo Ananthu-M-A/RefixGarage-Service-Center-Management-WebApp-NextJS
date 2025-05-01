@@ -10,8 +10,8 @@ const jobSchema = z.object({
     name: z.string().min(2),
     mobile: z.string().regex(/^\d{10}$/),
     device: z.string().min(2),
-    issue: z.string().min(5),
-    remarks: z.string().min(5),
+    issue: z.string().min(2),
+    remarks: z.string().min(2),
     cost: z.number().min(0),
     reminder: z.number().min(0),
     engineer: z.string().min(2)
