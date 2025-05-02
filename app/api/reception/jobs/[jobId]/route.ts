@@ -6,16 +6,14 @@ import { z } from "zod";
 
 const jsonHeaders = { "Content-Type": "application/json" };
 const jobSchema = z.object({
-    remarks: z.string().min(5).optional(),
+    remarks: z.string().min(2).optional(),
     cost: z.number().min(0).optional(),
     reminder: z.number().min(0).optional(),
     engineer: z.string().min(2).optional(),
     status: z.string().min(2).optional(),
     customerId: z.string().optional(),
-    name: z.string().min(2).optional(),
-    mobile: z.string().regex(/^\d{10}$/).optional(),
-    device: z.string().min(2).optional(),
 });
+
 
 export async function PUT(request: Request) {
     try {

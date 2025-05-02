@@ -52,7 +52,7 @@ export async function POST(request: Request) {
         let existingCustomer = await Customer.findOne({ mobile });
         if (!existingCustomer) {
             const customer = new Customer({
-                name,
+                name: name.toUpperCase(),
                 mobile,
                 jobs: [],
             });
@@ -68,12 +68,12 @@ export async function POST(request: Request) {
 
         const job = new Job({
             customerId: existingCustomer._id,
-            device,
+            device: device.toUpperCase(),
             issue,
             remarks,
             cost,
             reminder,
-            engineer,
+            engineer: engineer.toUpperCase(),
             status: "pending"
         });
 

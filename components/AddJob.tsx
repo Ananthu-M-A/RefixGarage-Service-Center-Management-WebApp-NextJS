@@ -198,7 +198,18 @@ function AddJob({ job }: JobEntryProps) {
                   <FormItem>
                     <FormLabel>Estimated Cost</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Eg:- 5000" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="Eg:- 5000"
+                        {...field}
+                        disabled={job?.status === "ok" || job?.status === "notok"}
+                        onFocus={(e) => {
+                          if (e.target.value === "0") {
+                            e.target.value = "";
+                            field.onChange("");
+                          }
+                        }}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -211,7 +222,11 @@ function AddJob({ job }: JobEntryProps) {
                   <FormItem>
                     <FormLabel>Engineer</FormLabel>
                     <FormControl>
-                      <Select onValueChange={field.onChange}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        disabled={job?.status === "ok" || job?.status === "notok"}
+                      >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select Engineer" />
                         </SelectTrigger>
@@ -235,7 +250,18 @@ function AddJob({ job }: JobEntryProps) {
                   <FormItem>
                     <FormLabel>Remind me</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Eg:- 2" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="Eg:- 2"
+                        {...field}
+                        disabled={job?.status === "ok" || job?.status === "notok"}
+                        onFocus={(e) => {
+                          if (e.target.value === "0") {
+                            e.target.value = "";
+                            field.onChange("");
+                          }
+                        }}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -269,6 +295,7 @@ function AddJob({ job }: JobEntryProps) {
                     <Textarea
                       placeholder="Eg:- Customer requested for a quick fix."
                       {...field}
+                      disabled={job?.status === "ok" || job?.status === "notok"}
                     />
                   </FormControl>
                   <FormMessage />
@@ -284,8 +311,8 @@ function AddJob({ job }: JobEntryProps) {
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={"pending"}
-                      disabled={!job}
+                      defaultValue={!job ? "pending" : field.value}
+                      disabled={!job || field.value === "ok" || field.value === "notok"}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Change Status" />
@@ -319,6 +346,7 @@ function AddJob({ job }: JobEntryProps) {
             <Button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              disabled={job?.status === "ok" || job?.status === "notok"}
             >
               {job ? "Update Job" : "Submit Job"}
             </Button>
