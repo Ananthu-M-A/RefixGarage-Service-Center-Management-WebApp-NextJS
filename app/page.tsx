@@ -10,9 +10,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState<string | null>(
-    "check-status"
-  );
+  const [activeSection, setActiveSection] = useState<string | null>("services");
 
   return (
     <div className="bg-black text-white">
