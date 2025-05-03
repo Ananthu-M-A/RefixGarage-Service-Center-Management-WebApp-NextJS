@@ -81,7 +81,7 @@ function AddExpense({ item }: ExpenseEntryProps) {
                     <FormControl>
                       <Select onValueChange={field.onChange}>
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select expense type.." />
+                          <SelectValue placeholder="Select expense type" />
                         </SelectTrigger>
                         <SelectContent className="bg-gray-800 text-white">
                           <SelectItem
@@ -117,9 +117,15 @@ function AddExpense({ item }: ExpenseEntryProps) {
                     <FormLabel>Expense Amount</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Enter expense amount.."
+                        placeholder="Eg:- 2500"
                         type="number"
                         {...field}
+                        onFocus={(e) => {
+                          if (e.target.value === "0") {
+                            e.target.value = "";
+                            field.onChange("");
+                          }
+                        }}
                       />
                     </FormControl>
                     <FormMessage />

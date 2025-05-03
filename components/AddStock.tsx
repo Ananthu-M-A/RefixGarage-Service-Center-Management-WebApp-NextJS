@@ -46,8 +46,8 @@ function AddStock({ item }: InventoryEntryProps) {
     defaultValues: item ?? {
       name: "",
       category: "",
-      cost: 10,
-      count: 1,
+      cost: 0,
+      count: 0,
       description: "",
     },
   });
@@ -109,7 +109,7 @@ function AddStock({ item }: InventoryEntryProps) {
                     <FormLabel>Item Name</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Digital Mic"
+                        placeholder="Eg:- Digital Mic"
                         {...field}
                         disabled={!!item}
                       />
@@ -126,8 +126,14 @@ function AddStock({ item }: InventoryEntryProps) {
                     <FormLabel>Category</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Spare Parts"
+                        placeholder="Eg:- Spare Parts"
                         {...field}
+                        onFocus={(e) => {
+                          if (e.target.value === "0") {
+                            e.target.value = "";
+                            field.onChange("");
+                          }
+                        }}
                         disabled={!!item}
                       />
                     </FormControl>
@@ -142,7 +148,17 @@ function AddStock({ item }: InventoryEntryProps) {
                   <FormItem>
                     <FormLabel>Unit Cost</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="250" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="Eg:- 250"
+                        {...field}
+                        onFocus={(e) => {
+                          if (e.target.value === "0") {
+                            e.target.value = "";
+                            field.onChange("");
+                          }
+                        }}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -157,8 +173,14 @@ function AddStock({ item }: InventoryEntryProps) {
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Enter item count"
+                        placeholder="Eg:- 10"
                         {...field}
+                        onFocus={(e) => {
+                          if (e.target.value === "0") {
+                            e.target.value = "";
+                            field.onChange("");
+                          }
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -173,7 +195,7 @@ function AddStock({ item }: InventoryEntryProps) {
                 <FormItem>
                   <FormLabel>Item Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Enter description" {...field} />
+                    <Textarea placeholder="Enter description..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
