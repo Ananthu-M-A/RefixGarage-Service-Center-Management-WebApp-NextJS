@@ -1,0 +1,22 @@
+export const SMARTPHONE_BRANDS = [
+    'Apple',
+    'Samsung',
+    'Google',
+    'OnePlus',
+    'Xiaomi',
+    'Oppo',
+    'Vivo',
+    'Motorola',
+    'Sony',
+    'Realme',
+    'IQOO',
+    'Nothing',
+    'Itel',
+    'Tecno',
+    'Infinix',
+    'Nokia',
+    'Huawei',
+] as const;
+
+export type SmartphoneBrand = typeof SMARTPHONE_BRANDS[number];
+

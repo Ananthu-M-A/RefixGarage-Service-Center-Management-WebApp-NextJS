@@ -18,30 +18,38 @@ const serviceImages = [
 
 function Services() {
   const [currentImage, setCurrentImage] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [nextImage, setNextImage] = useState(1);
+  const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
-    if (hoveredIndex !== null) return;
-
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % serviceImages.length);
+      setIsFading(true);
+      setTimeout(() => {
+        setCurrentImage(nextImage);
+        setNextImage((prev) => (prev + 1) % serviceImages.length);
+        setIsFading(false);
+      }, 1000);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [hoveredIndex]);
+  }, [nextImage]);
 
   return (
     <section
       id="services"
       className="w-full min-h-screen bg-black text-white flex flex-col justify-center items-center relative"
     >
-      <div className="absolute inset-0">
+      <div
+        className={`absolute inset-0 transition-opacity duration-1000 ${
+          isFading ? "opacity-0" : "opacity-70"
+        }`}
+      >
         <Image
-          src={serviceImages[hoveredIndex ?? currentImage].src}
-          alt={serviceImages[hoveredIndex ?? currentImage].name}
-          layout="fill"
-          objectFit="cover"
-          className="opacity-70"
+          src={serviceImages[currentImage].src}
+          alt={serviceImages[currentImage].name}
+          fill
+          style={{ objectFit: "cover" }}
+          priority={true}
         />
       </div>
 
@@ -58,8 +66,10 @@ function Services() {
             <li
               key={index}
               className="cursor-pointer bg-gray-700 opacity-70 text-center hover:text-white text-xl p-2 rounded-full hover:font-bold transition"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              onMouseEnter={() => setNextImage(index)}
+              onMouseLeave={() =>
+                setNextImage((currentImage + 1) % serviceImages.length)
+              }
             >
               {service.name}
             </li>
