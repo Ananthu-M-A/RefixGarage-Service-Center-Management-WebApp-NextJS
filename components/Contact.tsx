@@ -11,10 +11,10 @@ function Contact() {
         <p className="text-base md:text-lg text-gray-300 leading-relaxed">
           Have questions or need assistance? Reach out to us at{" "}
           <a
-            href="mailto:refixgarage@gmail.com"
+            href={`mailto:${process.env.NEXT_PUBLIC_EMAIL}`}
             className="text-blue-400 hover:underline"
           >
-            refixgarage@gmail.com
+            {process.env.NEXT_PUBLIC_EMAIL}
           </a>{" "}
           or visit our service center.
         </p>

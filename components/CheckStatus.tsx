@@ -115,10 +115,10 @@ function CheckStatus() {
         <p className="text-center text-sm text-gray-400 mb-4">
           If you have any questions, please contact us at{" "}
           <a
-            href="tel:+9196235588623"
+            href={`tel:${process.env.NEXT_PUBLIC_CONTACT_NUMBER}`}
             className="text-blue-500 hover:underline"
           >
-            +91 62355 88623
+            {process.env.NEXT_PUBLIC_CONTACT_NUMBER}
           </a>
         </p>
       </div>
