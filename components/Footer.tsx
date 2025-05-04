@@ -14,9 +14,9 @@ function Footer() {
         </p>
         <p className="text-sm">Follow us on social media!</p>
         <div className="flex justify-center items-center space-x-5 mt-2">
-          <Link 
+          <Link
             aria-label="Whatsapp"
-            href="https://wa.me/+916238855623"
+            href={process.env.NEXT_PUBLIC_WHATSAPP_LINK as string}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -24,7 +24,7 @@ function Footer() {
           </Link>
           <Link
             aria-label="Instagram"
-            href="https://www.instagram.com/refix_garage/"
+            href={process.env.NEXT_PUBLIC_INSTA_LINK as string}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -32,7 +32,7 @@ function Footer() {
           </Link>
           <Link
             aria-label="Email"
-            href="mailto:refixgarage@gmail.com"
+            href={`mailto:${process.env.NEXT_PUBLIC_EMAIL as string}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -40,7 +40,7 @@ function Footer() {
           </Link>
           <Link
             aria-label="Phone"
-            href="tel:+916238855623"
+            href={`tel:${process.env.NEXT_PUBLIC_CONTACT_NUMBER as string}`}
             target="_blank"
             rel="noopener noreferrer"
           >

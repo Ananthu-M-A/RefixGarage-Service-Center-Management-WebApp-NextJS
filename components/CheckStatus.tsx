@@ -57,12 +57,12 @@ function CheckStatus() {
   return (
     <section
       id="check-status"
-      className="w-full px-4 min-h-screen flex justify-center items-center bg-transparent text-white"
+      className="w-full px-4 min-h-screen flex flex-wrap gap-10 justify-center items-center bg-transparent text-white"
     >
       <div className="bg-gray-800 w-full max-w-md border border-gray-700 rounded-lg shadow-lg p-6">
         <div className="mb-6">
           <h2 className="text-center text-2xl font-bold text-white">
-            Know Service Status
+            Check Service Status
           </h2>
         </div>
         <Form {...form}>
@@ -80,6 +80,7 @@ function CheckStatus() {
                 </FormItem>
               )}
             />
+            <p className="text-center text-sm text-gray-400 mb-4">OR</p>
             <FormField
               control={form.control}
               name="rfid"
@@ -101,6 +102,25 @@ function CheckStatus() {
             </Button>
           </form>
         </Form>
+      </div>
+      <div className="bg-gray-800 w-full max-w-md border border-gray-700 rounded-lg shadow-lg p-6">
+        <h3 className="text-3xl font-bold text-center mb-4">How To Check</h3>
+        <p className="text-center mb-4 text-lg">
+          Kindly enter either the mobile number you provided during the
+          registration process or the Job ID you received via WhatsApp at the
+          time of registration. This information is required to check the
+          current service status of your smartphone.
+        </p>
+        <p className="text-center font-bold text-lg mb-2">Team Refix Garage</p>
+        <p className="text-center text-sm text-gray-400 mb-4">
+          If you have any questions, please contact us at{" "}
+          <a
+            href="tel:+9196235588623"
+            className="text-blue-500 hover:underline"
+          >
+            +91 62355 88623
+          </a>
+        </p>
       </div>
     </section>
   );

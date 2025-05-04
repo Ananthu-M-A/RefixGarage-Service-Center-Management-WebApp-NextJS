@@ -45,22 +45,30 @@ function Header({ user }: { user: string }) {
                   <div
                     className="flex items-center space-x-2 cursor-pointer"
                     onClick={() =>
-                      navigator.clipboard.writeText("refixgarage@gmail.com")
+                      navigator.clipboard.writeText(
+                        process.env.NEXT_PUBLIC_EMAIL as string
+                      )
                     }
                     title="Click to copy email"
                   >
                     <FiMail className="text-xl" />
-                    <span className="text-sm">refixgarage@gmail.com</span>
+                    <span className="text-sm">
+                      {process.env.NEXT_PUBLIC_EMAIL as string}
+                    </span>
                   </div>
                   <div
                     className="flex items-center space-x-2 cursor-pointer"
                     onClick={() =>
-                      navigator.clipboard.writeText("+91 623 889 9623")
+                      navigator.clipboard.writeText(
+                        process.env.NEXT_PUBLIC_CONTACT_NUMBER as string
+                      )
                     }
                     title="Click to copy phone number"
                   >
                     <MdCall className="text-xl" />
-                    <span className="text-sm">+91 623 889 9623</span>
+                    <span className="text-sm">
+                      {process.env.NEXT_PUBLIC_CONTACT_NUMBER as string}
+                    </span>
                   </div>
                 </>
               ) : (
