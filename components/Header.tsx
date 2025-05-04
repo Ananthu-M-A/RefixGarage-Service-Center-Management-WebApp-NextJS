@@ -13,11 +13,12 @@ function Header({ user }: { user: string }) {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
         <div className="flex items-center space-x-4">
           <Image
-            src="/logo.png"
+            src="/images/logo.png"
             alt="Logo"
             width={60}
             height={60}
             className="shadow-md rounded-full"
+            priority={true}
           />
           <h1 className="text-3xl md:text-5xl font-bold text-center md:text-left">
             REFIX GARAGE

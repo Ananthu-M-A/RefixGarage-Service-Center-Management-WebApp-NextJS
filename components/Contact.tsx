@@ -1,12 +1,6 @@
 import React from "react";
-// import { LatLngExpression } from "leaflet";
-// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-// import "leaflet/dist/leaflet.css";
-// import "leaflet-defaulticon-compatibility";
 
 function Contact() {
-  // const position: LatLngExpression = [11.178128998741794, 75.8653670141468];
-
   return (
     <section
       id="contact"
@@ -29,27 +23,19 @@ function Contact() {
           Kerala 673633
         </p>
       </div>
-      <div className="w-full max-w-3xl h-96 rounded-lg overflow-hidden shadow-lg">
-        {/* <MapContainer
-          center={position}
-          zoom={15}
-          className="h-full w-full"
-          scrollWheelZoom={false}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <Marker position={position}>
-            <Popup>
-              <strong>Refix Garage</strong>
-              <br />
-              1st Floor, Bus Stand Building
-              <br />
-              Ramanattukara, Kozhikode, Kerala 673633
-            </Popup>
-          </Marker>
-        </MapContainer> */}
+      <div className="w-full max-w-4xl flex flex-col items-center">
+        <h3 className="text-2xl font-bold mb-4">Our Location</h3>
+        <div className="w-full max-w-4xl aspect-w-16 aspect-h-9 relative">
+          <iframe
+            src={process.env.NEXT_PUBLIC_GOOGLE_MAPS_LINK as string}
+            className="w-full h-full rounded-lg shadow-lg"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Refix Garage Location"
+          ></iframe>
+        </div>
       </div>
     </section>
   );
