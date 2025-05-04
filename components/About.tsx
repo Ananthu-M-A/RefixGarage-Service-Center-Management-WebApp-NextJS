@@ -13,7 +13,7 @@ function About() {
           alt="Background Image"
           width={750}
           height={750}
-          objectFit="cover"
+          style={{ objectFit: "cover" }}
           className="rounded-lg"
         />
       </div>

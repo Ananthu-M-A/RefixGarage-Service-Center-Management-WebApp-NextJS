@@ -1,52 +1,38 @@
+import { SERVICE_IMAGES } from "@/constants/services";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
-const serviceImages = [
-  { name: "Screen Replacement", src: "/images/screen-replacement.jpg" },
-  { name: "Battery Replacement", src: "/images/battery-replacement.jpg" },
-  { name: "Motherboard Repair", src: "/images/motherboard-repair.jpg" },
-  { name: "Water Damage Repair", src: "/images/water-damage-repair.jpg" },
-  {
-    name: "All Software Repair",
-    src: "/images/all-software-hardware-repair.jpg",
-  },
-  {
-    name: "All Hardware Repair",
-    src: "/images/all-software-hardware-repair.jpg",
-  },
-];
-
 function Services() {
   const [currentImage, setCurrentImage] = useState(0);
-  const [nextImage, setNextImage] = useState(1);
-  const [isFading, setIsFading] = useState(false);
+  const [hoveredImage, setHoveredImage] = useState<number | null>(null);
 
   useEffect(() => {
+    if (hoveredImage !== null) return;
+
     const interval = setInterval(() => {
-      setIsFading(true);
-      setTimeout(() => {
-        setCurrentImage(nextImage);
-        setNextImage((prev) => (prev + 1) % serviceImages.length);
-        setIsFading(false);
-      }, 1000);
+      setCurrentImage((prev) => (prev + 1) % SERVICE_IMAGES.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [nextImage]);
+  }, [hoveredImage]);
 
   return (
     <section
       id="services"
       className="w-full min-h-screen bg-black text-white flex flex-col justify-center items-center relative"
     >
-      <div
-        className={`absolute inset-0 transition-opacity duration-1000 ${
-          isFading ? "opacity-0" : "opacity-70"
-        }`}
-      >
+      <div className="absolute inset-0 transition-opacity duration-1000 ease-in-out">
         <Image
-          src={serviceImages[currentImage].src}
-          alt={serviceImages[currentImage].name}
+          src={
+            hoveredImage !== null
+              ? SERVICE_IMAGES[hoveredImage].src
+              : SERVICE_IMAGES[currentImage].src
+          }
+          alt={
+            hoveredImage !== null
+              ? SERVICE_IMAGES[hoveredImage].name
+              : SERVICE_IMAGES[currentImage].name
+          }
           fill
           style={{ objectFit: "cover" }}
           priority={true}
@@ -62,14 +48,12 @@ function Services() {
           replacement, battery replacement, and more.
         </p>
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-200">
-          {serviceImages.map((service, index) => (
+          {SERVICE_IMAGES.map((service, index) => (
             <li
               key={index}
               className="cursor-pointer bg-gray-700 opacity-70 text-center hover:text-white text-xl p-2 rounded-full hover:font-bold transition"
-              onMouseEnter={() => setNextImage(index)}
-              onMouseLeave={() =>
-                setNextImage((currentImage + 1) % serviceImages.length)
-              }
+              onMouseEnter={() => setHoveredImage(index)}
+              onMouseLeave={() => setHoveredImage(null)}
             >
               {service.name}
             </li>
