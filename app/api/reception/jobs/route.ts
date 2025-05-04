@@ -1,5 +1,5 @@
 import { dbConnect } from "@/lib/mongoose";
-import sendWhatsApp from "@/lib/sendWhatsApp";
+// import sendWhatsApp from "@/lib/sendWhatsApp";
 import Customer from "@/models/Customer";
 import Job from "@/models/Job";
 import { z } from "zod";
@@ -9,7 +9,8 @@ const jsonHeaders = { "Content-Type": "application/json" };
 const jobSchema = z.object({
     name: z.string().min(2),
     mobile: z.string().regex(/^\d{10}$/),
-    device: z.string().min(2),
+    brand: z.string().min(2),
+    modelName: z.string().min(2),
     issue: z.string().min(2),
     remarks: z.string().min(2),
     cost: z.number().min(0),
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
         const body = await request.json();
         const parsedBody = jobSchema.parse(body);
 
-        const { name, mobile, device, issue, remarks, cost, reminder, engineer } = parsedBody;
+        const { name, mobile, brand, modelName, issue, remarks, cost, reminder, engineer } = parsedBody;
 
         await dbConnect();
 
@@ -68,7 +69,8 @@ export async function POST(request: Request) {
 
         const job = new Job({
             customerId: existingCustomer._id,
-            device: device.toUpperCase(),
+            brand,
+            modelName: modelName.toUpperCase(),
             issue,
             remarks,
             cost,
@@ -98,16 +100,16 @@ export async function POST(request: Request) {
             );
         }
 
-        await sendWhatsApp({
-            name: existingCustomer.name,
-            jobId: newJob._id.toString(),
-            createdAt: newJob.get('createdAt').toLocaleDateString(),
-            device: device,
-            issue: issue,
-            remarks: remarks,
-            cost: cost,
-            mobile: existingCustomer.mobile ?? "",
-        }, "welcome");
+        // await sendWhatsApp({
+        //     name: existingCustomer.name,
+        //     jobId: newJob._id.toString(),
+        //     createdAt: newJob.get('createdAt').toLocaleDateString(),
+        //     device: `${brand} ${modelName}`,
+        //     issue: issue,
+        //     remarks: remarks,
+        //     cost: cost,
+        //     mobile: existingCustomer.mobile ?? "",
+        // }, "welcome");
 
         return new Response(JSON.stringify(newJob), {
             status: 201,

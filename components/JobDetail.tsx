@@ -18,7 +18,8 @@ type Job = {
   slno: number;
   name: string;
   mobile: string;
-  device: string;
+  brand: string;
+  modelName: string;
   issue: string;
   cost: number;
   reminder: number;

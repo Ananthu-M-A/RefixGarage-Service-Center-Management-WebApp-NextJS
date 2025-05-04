@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { showErrorToast, showSuccessToast } from "@/lib/toast";
+import { SMARTPHONE_BRANDS } from "@/constants/brands";
 
 const formSchema = z.object({
   name: z
@@ -31,7 +32,8 @@ const formSchema = z.object({
   mobile: z
     .string()
     .regex(/^\d{10}$/, { message: "Mobile number must be 10 digits." }),
-  device: z
+  brand: z.string().min(2, { message: "Brand must be at least 2 characters." }),
+  modelName: z
     .string()
     .min(2, { message: "Device model must be at least 2 characters." }),
   issue: z
@@ -68,7 +70,8 @@ function AddJob({ job }: JobEntryProps) {
     defaultValues: job ?? {
       name: "",
       mobile: "",
-      device: "",
+      brand: "",
+      modelName: "",
       issue: "",
       remarks: "",
       cost: 0,
@@ -176,13 +179,41 @@ function AddJob({ job }: JobEntryProps) {
               />
               <FormField
                 control={form.control}
-                name="device"
+                name="brand"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Device Model</FormLabel>
+                    <FormLabel>Brand</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                        disabled={!!job}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select Brand" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-800 text-white">
+                          {SMARTPHONE_BRANDS.map((brand, index) => (
+                            <SelectItem key={index} value={brand}>
+                              {brand}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="modelName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Model</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Eg:- iPhone 13 Pro"
+                        placeholder="Eg:- 13 Pro Max"
                         {...field}
                         disabled={!!job}
                       />
@@ -202,7 +233,9 @@ function AddJob({ job }: JobEntryProps) {
                         type="number"
                         placeholder="Eg:- 5000"
                         {...field}
-                        disabled={job?.status === "ok" || job?.status === "notok"}
+                        disabled={
+                          job?.status === "ok" || job?.status === "notok"
+                        }
                         onFocus={(e) => {
                           if (e.target.value === "0") {
                             e.target.value = "";
@@ -225,7 +258,9 @@ function AddJob({ job }: JobEntryProps) {
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
-                        disabled={job?.status === "ok" || job?.status === "notok"}
+                        disabled={
+                          job?.status === "ok" || job?.status === "notok"
+                        }
                       >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select Engineer" />
@@ -254,7 +289,9 @@ function AddJob({ job }: JobEntryProps) {
                         type="number"
                         placeholder="Eg:- 2"
                         {...field}
-                        disabled={job?.status === "ok" || job?.status === "notok"}
+                        disabled={
+                          job?.status === "ok" || job?.status === "notok"
+                        }
                         onFocus={(e) => {
                           if (e.target.value === "0") {
                             e.target.value = "";
@@ -290,7 +327,7 @@ function AddJob({ job }: JobEntryProps) {
               name="remarks"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Remarks</FormLabel>
+                  <FormLabel>Remarks / Solution</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Eg:- Customer requested for a quick fix."
@@ -312,7 +349,9 @@ function AddJob({ job }: JobEntryProps) {
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={!job ? "pending" : field.value}
-                      disabled={!job || field.value === "ok" || field.value === "notok"}
+                      disabled={
+                        !job || job.status === "ok" || job.status === "notok"
+                      }
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Change Status" />

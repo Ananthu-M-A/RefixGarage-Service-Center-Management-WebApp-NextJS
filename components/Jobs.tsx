@@ -36,7 +36,8 @@ type Job = {
   _id: string;
   reminder: number;
   remarks: string;
-  device: string;
+  brand: string;
+  modelName: string;
   issue: string;
   status: string;
   cost: number;
@@ -78,9 +79,9 @@ function Jobs() {
   const handleSort = (order: string) => {
     const sortedJobs = [...filteredJobs].sort((a, b) => {
       if (order === "asc") {
-        return a.device.localeCompare(b.device);
+        return a.brand.localeCompare(b.brand);
       } else {
-        return b.device.localeCompare(a.device);
+        return b.brand.localeCompare(a.brand);
       }
     });
     setFilteredJobs(sortedJobs);
@@ -90,7 +91,8 @@ function Jobs() {
     const searchTerm = event.target.value.toLowerCase();
     const filtered = jobs.filter(
       (job) =>
-        job.device.toLowerCase().includes(searchTerm) ||
+        job.brand.toLowerCase().includes(searchTerm) ||
+        job.modelName.toLowerCase().includes(searchTerm) ||
         job.issue.toLowerCase().includes(searchTerm) ||
         job.customerId.name.toLowerCase().includes(searchTerm)
     );
@@ -186,7 +188,7 @@ function Jobs() {
                 <TableCell className="font-medium">
                   {indexOfFirstJob + index + 1}
                 </TableCell>
-                <TableCell>{job.device}</TableCell>
+                <TableCell>{`${job.brand} ${job.modelName}`}</TableCell>
                 <TableCell>{job.issue}</TableCell>
                 <TableCell>{job.status.toLocaleUpperCase()}</TableCell>
                 <TableCell className="text-right">
@@ -199,7 +201,8 @@ function Jobs() {
                       _id: job._id,
                       name: job.customerId.name,
                       mobile: job.customerId.mobile,
-                      device: job.device,
+                      brand: job.brand,
+                      modelName: job.modelName,
                       issue: job.issue,
                       reminder: job.reminder,
                       remarks: job.remarks,
