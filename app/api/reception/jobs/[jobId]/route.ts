@@ -1,5 +1,5 @@
 import { dbConnect } from "@/lib/mongoose";
-// import sendWhatsApp from "@/lib/sendWhatsApp";
+import sendWhatsApp from "@/lib/sendWhatsApp";
 import Customer from "@/models/Customer";
 import Job from "@/models/Job";
 import { z } from "zod";
@@ -47,18 +47,18 @@ export async function PUT(request: Request) {
             );
         }
 
-        // if (status === "ok" || status === "notok") {
-        //     await sendWhatsApp({
-        //         name: customer.name,
-        //         jobId: updatedJob._id.toString(),
-        //         createdAt: updatedJob.get('updatedAt').toLocaleDateString(),
-        //         device: `${updatedJob.brand} ${updatedJob.modelName}`,
-        //         issue: updatedJob.issue || "",
-        //         cost: updatedJob.cost,
-        //         remarks: updatedJob.remarks || "",
-        //         mobile: customer.mobile ?? "",
-        //     }, "delivery");
-        // }
+        if (status === "ok" || status === "notok") {
+            await sendWhatsApp({
+                name: customer.name,
+                jobId: updatedJob._id.toString(),
+                createdAt: updatedJob.get('updatedAt').toLocaleDateString(),
+                device: `${updatedJob.brand} ${updatedJob.modelName}`,
+                issue: updatedJob.issue || "",
+                cost: updatedJob.cost,
+                remarks: updatedJob.remarks || "",
+                mobile: customer.mobile ?? "",
+            }, "delivery");
+        }
 
         return new Response(JSON.stringify(updatedJob), {
             status: 200,
