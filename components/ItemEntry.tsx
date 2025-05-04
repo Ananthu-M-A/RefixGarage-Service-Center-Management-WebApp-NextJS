@@ -101,7 +101,7 @@ function ItemEntry({ item }: ItemEntryProps) {
                 <FormItem>
                   <FormLabel>Item Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digital Microphone" {...field} />
+                    <Input placeholder="Digital Microphone" {...field} disabled={!!item} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -114,7 +114,7 @@ function ItemEntry({ item }: ItemEntryProps) {
                 <FormItem>
                   <FormLabel>Category</FormLabel>
                   <FormControl>
-                    <Input placeholder="Spare Parts" {...field} />
+                    <Input placeholder="Spare Parts" {...field} disabled={!!item} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -12,7 +12,7 @@ export const EXPENSE_TYPES = [
     'Dining Out',
     'Healthcare',
     'Insurance',
-    'Miscellaneous',
+    'Others',
 ] as const;
 
 export type ExpenseType = typeof EXPENSE_TYPES[number];

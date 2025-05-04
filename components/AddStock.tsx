@@ -16,6 +16,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "./ui/textarea";
 import { showErrorToast, showSuccessToast } from "@/lib/toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { STOCK_CATEGORIES } from "@/constants/categories";
 
 const formSchema = z.object({
   name: z
@@ -103,6 +111,37 @@ function AddStock({ item }: InventoryEntryProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-800 text-white">
+                          {STOCK_CATEGORIES.map((category, index) => (
+                            <SelectItem
+                              key={index}
+                              value={category}
+                              className="hover:bg-white hover:text-black"
+                            >
+                              {category}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
@@ -111,29 +150,6 @@ function AddStock({ item }: InventoryEntryProps) {
                       <Input
                         placeholder="Eg:- Digital Mic"
                         {...field}
-                        disabled={!!item}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Eg:- Spare Parts"
-                        {...field}
-                        onFocus={(e) => {
-                          if (e.target.value === "0") {
-                            e.target.value = "";
-                            field.onChange("");
-                          }
-                        }}
                         disabled={!!item}
                       />
                     </FormControl>

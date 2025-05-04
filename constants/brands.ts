@@ -16,7 +16,9 @@ export const SMARTPHONE_BRANDS = [
     'Infinix',
     'Nokia',
     'Huawei',
+    'Honor',
+    'Lenovo',
+    'Others',
 ] as const;
 
 export type SmartphoneBrand = typeof SMARTPHONE_BRANDS[number];
-
