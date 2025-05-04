@@ -12,34 +12,32 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { showErrorToast, showSuccessToast } from "@/lib/toast";
 
 const formSchema = z.object({
   mobile: z
     .string()
-    .min(2, { message: "Enter your mobile number." })
-    .optional(),
-  rfid: z.string().min(2, { message: "Enter your RFID." }).optional(),
+    .length(10, { message: "Mobile number must be 10 digits." }),
+  jobId: z
+    .string()
+    .length(24, { message: "Job ID must be exactly 24 characters." }),
 });
 
-type CheckStatusFormData = z.infer<typeof formSchema> & {
-  mobile?: string;
-  rfid?: string;
-};
+type CheckStatusFormData = z.infer<typeof formSchema>;
 
 function CheckStatus() {
-  const [status, setStatus] = React.useState<string | undefined>();
   const form = useForm<CheckStatusFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       mobile: "",
-      rfid: "",
+      jobId: "",
     },
   });
 
-  const onSubmit = (data: CheckStatusFormData) => {
-    const checkStatus = async () => {
+  const onSubmit = async (data: CheckStatusFormData) => {
+    try {
       const response = await fetch(
-        `/api/customer?mobile=${data.mobile}&rfid=${data.rfid}`,
+        `/api/customer?mobile=${data.mobile}&jobId=${data.jobId}`,
         {
           method: "GET",
           headers: {
@@ -47,11 +45,36 @@ function CheckStatus() {
           },
         }
       );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          showErrorToast("No job found with the provided details.");
+          return;
+        }
+      }
+      if (response.status === 500) {
+        showErrorToast("Internal server error. Please try again later.");
+        return;
+      }
       const result = await response.json();
-      setStatus(result);
-      console.log(status);
-    };
-    checkStatus();
+      if (result.status === "ok" || result.status === "notok") {
+        showSuccessToast(
+          `${result.customer}, Your device is ready for pickup.`
+        );
+      } else if (result.status === "pending") {
+        showSuccessToast(
+          `${result.customer}, Your device is currently being repaired.`
+        );
+      } else {
+        showErrorToast("Unknown status. Please contact support.");
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        showErrorToast(err.message);
+      } else {
+        showErrorToast("An unexpected error occurred.");
+      }
+    }
   };
 
   return (
@@ -80,10 +103,9 @@ function CheckStatus() {
                 </FormItem>
               )}
             />
-            <p className="text-center text-sm text-gray-400 mb-4">OR</p>
             <FormField
               control={form.control}
-              name="rfid"
+              name="jobId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Job Id</FormLabel>
@@ -106,8 +128,8 @@ function CheckStatus() {
       <div className="bg-gray-800 w-full max-w-md border border-gray-700 rounded-lg shadow-lg p-6">
         <h3 className="text-3xl font-bold text-center mb-4">How To Check</h3>
         <p className="text-center mb-4 text-lg">
-          Kindly enter either the mobile number you provided during the
-          registration process or the Job ID you received via WhatsApp at the
+          Kindly enter both the mobile number you provided during the
+          registration process and the Job ID you received via WhatsApp at the
           time of registration. This information is required to check the
           current service status of your smartphone.
         </p>
