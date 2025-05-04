@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { showErrorToast, showSuccessToast } from "@/lib/toast";
+import { EXPENSE_TYPES } from "@/constants/expenses";
 
 const formSchema = z.object({
   type: z.string().min(1, { message: "Expense type is required." }),
@@ -58,8 +59,10 @@ function AddExpense({ item }: ExpenseEntryProps) {
       });
       if (response.ok) {
         showSuccessToast("Added expense successfully!");
+        window.location.reload();
       } else {
-        showErrorToast("Failed to add expense.");
+        const error = await response.json();
+        showErrorToast(error.message);
       }
     };
     AddExpense();
@@ -79,29 +82,23 @@ function AddExpense({ item }: ExpenseEntryProps) {
                   <FormItem>
                     <FormLabel>Expense Type</FormLabel>
                     <FormControl>
-                      <Select onValueChange={field.onChange}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select expense type" />
                         </SelectTrigger>
                         <SelectContent className="bg-gray-800 text-white">
-                          <SelectItem
-                            className="hover:bg-white hover:text-black"
-                            value={"electricity"}
-                          >
-                            Electricity Bill
-                          </SelectItem>
-                          <SelectItem
-                            className="hover:bg-white hover:text-black"
-                            value={"rent"}
-                          >
-                            Rent
-                          </SelectItem>
-                          <SelectItem
-                            className="hover:bg-white hover:text-black"
-                            value={"other"}
-                          >
-                            Other Expenses
-                          </SelectItem>
+                          {EXPENSE_TYPES.map((type, index) => (
+                            <SelectItem
+                              key={index}
+                              value={type}
+                              className="hover:bg-white hover:text-black"
+                            >
+                              {type}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </FormControl>
