@@ -7,12 +7,12 @@ const jsonHeaders = { "Content-Type": "application/json" };
 export async function GET(request: Request) {
     try {
         const url = new URL(request.url);
-        const jobId = url.searchParams.get("jobId");
+        const name = url.searchParams.get("name");
         await dbConnect();
         const mobile = url.searchParams.get("mobile");
-        if (!jobId || !mobile) {
+        if (!name || !mobile) {
             return new Response(
-                JSON.stringify({ error: "Job ID and mobile number are required." }),
+                JSON.stringify({ error: "Name and mobile number are required." }),
                 { status: 400, headers: jsonHeaders }
             );
         }
@@ -23,7 +23,7 @@ export async function GET(request: Request) {
                 { status: 404, headers: jsonHeaders }
             );
         }
-        const job = await Job.findOne({ _id: jobId, customerId: customer._id });
+        const job = await Job.findOne({ _id: customer.jobs[customer.jobs.length - 1] });
         if (!job) {
             return new Response(
                 JSON.stringify({ error: "No job found" }),

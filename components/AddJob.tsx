@@ -224,32 +224,6 @@ function AddJob({ job }: JobEntryProps) {
               />
               <FormField
                 control={form.control}
-                name="cost"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Estimated Cost</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Eg:- 5000"
-                        {...field}
-                        disabled={
-                          job?.status === "ok" || job?.status === "notok"
-                        }
-                        onFocus={(e) => {
-                          if (e.target.value === "0") {
-                            e.target.value = "";
-                            field.onChange("");
-                          }
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="engineer"
                 render={({ field }) => (
                   <FormItem>
@@ -257,7 +231,7 @@ function AddJob({ job }: JobEntryProps) {
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
+                        value={!job ? field.value : job.engineer}
                         disabled={
                           job?.status === "ok" || job?.status === "notok"
                         }
@@ -305,83 +279,115 @@ function AddJob({ job }: JobEntryProps) {
                 )}
               />
             </div>
-            <FormField
-              control={form.control}
-              name="issue"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Issue Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Eg:- Display not working, battery issue, etc."
-                      {...field}
-                      disabled={!!job}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="remarks"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Remarks / Solution</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Eg:- Customer requested for a quick fix."
-                      {...field}
-                      disabled={job?.status === "ok" || job?.status === "notok"}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Status</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={!job ? "pending" : field.value}
-                      disabled={
-                        !job || job.status === "ok" || job.status === "notok"
-                      }
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Change Status" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-800 text-white">
-                        <SelectItem
-                          className="hover:bg-white hover:text-black"
-                          value={"pending"}
-                        >
-                          Pending
-                        </SelectItem>
-                        <SelectItem
-                          className="hover:bg-white hover:text-black"
-                          value={"ok"}
-                        >
-                          OK
-                        </SelectItem>
-                        <SelectItem
-                          className="hover:bg-white hover:text-black"
-                          value={"notok"}
-                        >
-                          Not OK
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="issue"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Issue Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Eg:- Display not working, battery issue, etc."
+                        {...field}
+                        disabled={!!job}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="remarks"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Remarks / Solution</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Eg:- Customer requested for a quick fix."
+                        {...field}
+                        disabled={
+                          job?.status === "ok" || job?.status === "notok"
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="cost"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Estimated Cost</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Eg:- 5000"
+                        {...field}
+                        disabled={
+                          job?.status === "ok" || job?.status === "notok"
+                        }
+                        onFocus={(e) => {
+                          if (e.target.value === "0") {
+                            e.target.value = "";
+                            field.onChange("");
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={!job ? "pending" : field.value}
+                        disabled={
+                          !job || job.status === "ok" || job.status === "notok"
+                        }
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Change Status" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-800 text-white">
+                          <SelectItem
+                            className="hover:bg-white hover:text-black"
+                            value={"pending"}
+                          >
+                            Pending
+                          </SelectItem>
+                          <SelectItem
+                            className="hover:bg-white hover:text-black"
+                            value={"ok"}
+                          >
+                            OK
+                          </SelectItem>
+                          <SelectItem
+                            className="hover:bg-white hover:text-black"
+                            value={"notok"}
+                          >
+                            Not OK
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <Button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

@@ -15,12 +15,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { showErrorToast, showSuccessToast } from "@/lib/toast";
 
 const formSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: "Name must be at least 2 characters long." }),
   mobile: z
     .string()
     .length(10, { message: "Mobile number must be 10 digits." }),
-  jobId: z
-    .string()
-    .length(24, { message: "Job ID must be exactly 24 characters." }),
 });
 
 type CheckStatusFormData = z.infer<typeof formSchema>;
@@ -29,15 +29,15 @@ function CheckStatus() {
   const form = useForm<CheckStatusFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       mobile: "",
-      jobId: "",
     },
   });
 
   const onSubmit = async (data: CheckStatusFormData) => {
     try {
       const response = await fetch(
-        `/api/customer?mobile=${data.mobile}&jobId=${data.jobId}`,
+        `/api/customer?name=${data.name}&mobile=${data.mobile}`,
         {
           method: "GET",
           headers: {
@@ -92,12 +92,12 @@ function CheckStatus() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="mobile"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mobile Number</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your mobile number" {...field} />
+                    <Input placeholder="Enter your name in capital letters" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,12 +105,12 @@ function CheckStatus() {
             />
             <FormField
               control={form.control}
-              name="jobId"
+              name="mobile"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Job Id</FormLabel>
+                  <FormLabel>Mobile Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your Job Id" {...field} />
+                    <Input placeholder="Enter your mobile number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -128,9 +128,9 @@ function CheckStatus() {
       <div className="bg-gray-800 w-full max-w-md border border-gray-700 rounded-lg shadow-lg p-6">
         <h3 className="text-3xl font-bold text-center mb-4">How To Check</h3>
         <p className="text-center mb-4 text-lg">
-          Kindly enter both the mobile number you provided during the
-          registration process and the Job ID you received via WhatsApp at the
-          time of registration. This information is required to check the
+          Kindly enter both the mobile number and name you provided during the
+          registration process, which were also used to send you a WhatsApp
+          message at that time. This information is required to verify the
           current service status of your smartphone.
         </p>
         <p className="text-center font-bold text-lg mb-2">Team Refix Garage</p>
