@@ -121,7 +121,7 @@ function Jobs() {
     setCurrentPage(page);
   };
 
-  if (!currentJobs.length) {
+  if (!jobs.length) {
     return <Loading />;
   }
 

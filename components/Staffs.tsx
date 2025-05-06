@@ -113,7 +113,7 @@ function Staffs() {
     setCurrentPage(page);
   };
 
-  if (!currentStaffs.length) {
+  if (!staffs.length) {
     return <Loading />;
   }
 

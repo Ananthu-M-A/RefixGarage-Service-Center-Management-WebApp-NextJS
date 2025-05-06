@@ -76,7 +76,7 @@ function Inventory() {
     setCurrentPage(page);
   };
 
-  if (!currentItems.length) {
+  if (!items.length) {
     return <Loading />;
   }
 

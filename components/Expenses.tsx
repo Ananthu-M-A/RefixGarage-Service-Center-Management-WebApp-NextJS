@@ -75,7 +75,7 @@ function Expenses() {
     setCurrentPage(page);
   };
 
-  if (!currentExpenses.length) {
+  if (!expenses.length) {
     return <Loading />;
   }
 
