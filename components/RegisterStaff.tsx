@@ -71,10 +71,12 @@ function RegisterStaff() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Register New Staff</h2>
+      <div className="w-full max-w-4xl text-white bg-gray-800 p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Register New Staff
+        </h2>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <FormField
                 control={form.control}
@@ -83,7 +85,11 @@ function RegisterStaff() {
                   <FormItem>
                     <FormLabel>Staff Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Irfan Shas" {...field} />
+                      <Input
+                        placeholder="Irfan Shas"
+                        {...field}
+                        className="bg-gray-900 text-white"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -96,7 +102,11 @@ function RegisterStaff() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="example@example.com" {...field} />
+                      <Input
+                        placeholder="example@example.com"
+                        {...field}
+                        className="bg-gray-900 text-white"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -114,7 +124,7 @@ function RegisterStaff() {
                         onValueChange={field.onChange}
                         value={field.value}
                       >
-                        <SelectTrigger className="bg-gray-800 font-semibold text-white w-full">
+                        <SelectTrigger className="bg-gray-900 font-semibold text-white w-full">
                           <SelectValue placeholder="Select Role" />
                         </SelectTrigger>
                         <SelectContent className="bg-gray-800 text-white">
@@ -135,7 +145,7 @@ function RegisterStaff() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg"
             >
               Add Staff
             </Button>

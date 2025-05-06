@@ -119,13 +119,13 @@ function Staffs() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
-        <h2 className="text-2xl font-bold mb-4">Staffs</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <div className="flex items-center justify-between mb-4">
+      <div className="w-full max-w-6xl text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
+        <h2 className="text-2xl font-bold mb-6 text-center">Staffs</h2>
+        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+        <div className="flex flex-col md:flex-row items-center justify-between mb-6 space-y-4 md:space-y-0">
           <Select defaultValue="all-staffs" onValueChange={handleFilterChange}>
-            <SelectTrigger className="w-[120px] bg-gray-800 font-semibold text-white">
-              <SelectValue placeholder="Filtered by" />
+            <SelectTrigger className="w-full md:w-[150px] bg-gray-800 font-semibold text-white">
+              <SelectValue placeholder="Filter by" />
             </SelectTrigger>
             <SelectContent className="bg-gray-800 text-white">
               <SelectGroup>
@@ -141,9 +141,9 @@ function Staffs() {
             placeholder="Search staffs..."
             name="search"
             onChange={handleSearchChange}
-            className="w-1/2"
+            className="w-full md:w-1/2 bg-gray-900 text-white"
           />
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-4">
             <span className="text-gray-400">Sort by:</span>
             <AiOutlineSortAscending
               className="text-white bg-gray-900 cursor-pointer"
@@ -159,14 +159,14 @@ function Staffs() {
             />
           </div>
         </div>
-        <Table>
+        <Table className="w-full">
           <TableCaption>
             {filteredStaffs.length === 0 && "No staffs found."}
           </TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[120px] text-gray-400">
-                Staff No
+              <TableHead className="w-[80px] text-gray-400 text-center">
+                No
               </TableHead>
               <TableHead className="text-gray-400">Name</TableHead>
               <TableHead className="text-gray-400">Role</TableHead>
@@ -179,12 +179,14 @@ function Staffs() {
           <TableBody>
             {currentStaffs.map((staff, index) => (
               <TableRow key={staff._id}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
+                <TableCell className="text-center font-medium">
+                  {index + 1 + (currentPage - 1) * staffsPerPage}
+                </TableCell>
                 <TableCell>{staff.name}</TableCell>
                 <TableCell>{staff.role}</TableCell>
                 <TableCell>{staff.status}</TableCell>
                 <TableCell className="text-center">
-                  <Button variant="ghost" className="text-white px-2">
+                  <Button className="w-min bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer">
                     Activate
                   </Button>
                 </TableCell>
@@ -192,9 +194,9 @@ function Staffs() {
             ))}
           </TableBody>
         </Table>
-        <div className="flex justify-center mt-4 space-x-2">
+        <div className="flex justify-center mt-6 space-x-2">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
+            <Button
               key={page}
               onClick={() => handlePageChange(page)}
               className={`px-4 py-2 rounded ${
@@ -204,7 +206,7 @@ function Staffs() {
               }`}
             >
               {page}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

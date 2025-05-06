@@ -62,6 +62,27 @@ export default function JobReportDiagram() {
     fetchData();
   }, []);
 
+  const handleDownloadReport = async () => {
+    const response = await fetch("/api/admin/download", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "monthly_report.pdf";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } else {
+      console.error("Failed to download report");
+    }
+  };
+
   if (
     !statusChart.labels.length ||
     !reportChart.labels.length ||
@@ -72,20 +93,27 @@ export default function JobReportDiagram() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold mb-4">Job Report At a glance</h2>
-          <Button className="text-lg pb-3 font-semibold mb-4">
-            Download Report
+      <div className="w-full max-w-6xl text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold mb-4 md:mb-0">
+            Job Report At a Glance
+          </h2>
+          <Button
+            onClick={() => {
+              handleDownloadReport();
+            }}
+            className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
+          >
+            Download Monthly Report
           </Button>
         </div>
-        <div className="flex justify-between">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <PieChart data={statusChart} />
           <PieChart data={reportChart} />
           <PieChart data={expenditureChart} />
         </div>
-        <h3 className="text-xl font-semibold my-2">Job Report Data</h3>
-        <div className="flex gap-6 mt-4">
+        <h3 className="text-xl font-semibold my-4">Job Report Data</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <ul className="list-disc pl-5">
             {statusChart.labels.map((label, index) => (
               <li key={index} className="font-semibold text-gray-300">
