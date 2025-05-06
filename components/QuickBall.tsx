@@ -20,9 +20,16 @@ function QuickBall({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="fixed bottom-10 left-10 m-4 p-5 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-600 transition duration-300 ease-in-out border-4 border-gray-500 hover:border-gray-300 cursor-pointer" />
+        <Button
+          className="fixed bottom-10 left-10 m-4 p-5 bg-gray-900 text-white rounded-full shadow-lg hover:cursor-pointer
+          hover:bg-gray-600 transition duration-300 ease-in-out border-4 border-gray-500 
+          hover:border-gray-300 cursor-pointer md:bottom-12 md:left-12"
+        />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-gray-800 text-white rounded-lg shadow-lg p-2">
+      <DropdownMenuContent
+        className="bg-gray-900 text-white rounded-lg shadow-lg p-2 w-64 md:w-72 lg:w-80 
+        max-h-96 overflow-y-auto"
+      >
         {user === "receptionist" && (
           <DropdownMenuRadioGroup onValueChange={onSectionChange}>
             <DropdownMenuRadioItem

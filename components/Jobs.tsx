@@ -27,6 +27,7 @@ import { JobDetail } from "./JobDetail";
 import { Input } from "./ui/input";
 import { showErrorToast } from "@/lib/toast";
 import Loading from "@/app/loading";
+import { Button } from "./ui/button";
 
 type Job = {
   customerId: {
@@ -125,16 +126,16 @@ function Jobs() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
-        <h2 className="text-2xl font-bold mb-4">Jobs</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <div className="flex items-center justify-between mb-4">
+    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-4 md:p-6">
+      <div className="w-full max-w-6xl bg-gray-800 p-6 md:p-8 rounded-lg shadow-md mb-10">
+        <h2 className="text-2xl font-bold mb-6 text-center">Jobs</h2>
+        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+        <div className="flex flex-col md:flex-row items-center justify-between mb-6 space-y-4 md:space-y-0">
           <Select defaultValue="all" onValueChange={handleFilterChange}>
-            <SelectTrigger className="w-[120px] bg-gray-800 font-semibold text-white">
-              <SelectValue placeholder="Filtered by" />
+            <SelectTrigger className="w-full md:w-[150px] bg-gray-900 text-white hover:cursor-pointer">
+              <SelectValue placeholder="Filter by" />
             </SelectTrigger>
-            <SelectContent className="bg-gray-800 text-white">
+            <SelectContent className="bg-gray-900 text-white">
               <SelectGroup>
                 <SelectLabel>Jobs</SelectLabel>
                 <SelectItem value="all">All</SelectItem>
@@ -144,24 +145,22 @@ function Jobs() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <div>
-            <Input
-              placeholder="Search jobs..."
-              name="search"
-              onChange={handleSearchChange}
-              className="w-full"
-            />
-          </div>
-          <div className="flex items-center space-x-2">
+          <Input
+            placeholder="Search jobs..."
+            name="search"
+            onChange={handleSearchChange}
+            className="w-full md:w-[300px] bg-gray-900 text-white"
+          />
+          <div className="flex items-center space-x-4">
             <span className="text-gray-400">Sort by:</span>
             <AiOutlineSortAscending
-              className="text-white bg-gray-900"
-              size={20}
+              className="text-white bg-gray-900 p-1 rounded cursor-pointer"
+              size={24}
               onClick={() => handleSort("asc")}
             />
             <AiOutlineSortDescending
-              className="text-white bg-gray-900"
-              size={20}
+              className="text-white bg-gray-900 p-1 rounded cursor-pointer"
+              size={24}
               onClick={() => handleSort("desc")}
             />
           </div>
@@ -172,13 +171,11 @@ function Jobs() {
           </TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[120px] text-gray-400">Job No</TableHead>
+              <TableHead className="w-[80px] text-gray-400">Job No</TableHead>
               <TableHead className="text-gray-400">Device Model</TableHead>
               <TableHead className="text-gray-400">Issue</TableHead>
               <TableHead className="text-gray-400">Status</TableHead>
-              <TableHead className="text-right text-gray-400">
-                Advance Paid
-              </TableHead>
+              <TableHead className="text-right text-gray-400">Cost</TableHead>
               <TableHead className="text-right text-gray-400">Edit</TableHead>
             </TableRow>
           </TableHeader>
@@ -216,19 +213,19 @@ function Jobs() {
             ))}
           </TableBody>
         </Table>
-        <div className="flex justify-center mt-4 space-x-2">
+        <div className="flex justify-center mt-6 space-x-2">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
+            <Button
               key={page}
               onClick={() => handlePageChange(page)}
-              className={`px-4 py-2 rounded ${
+              className={`px-4 py-2 rounded hover:cursor-pointer ${
                 currentPage === page
                   ? "bg-gray-700 text-white"
                   : "bg-gray-900 text-white"
               }`}
             >
               {page}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

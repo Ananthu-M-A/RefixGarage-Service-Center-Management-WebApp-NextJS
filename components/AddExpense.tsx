@@ -69,9 +69,9 @@ function AddExpense({ item }: ExpenseEntryProps) {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Add Expense</h2>
+    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-4 md:p-6">
+      <div className="w-full max-w-4xl bg-gray-800 p-6 md:p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">New Expense Entry</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -86,10 +86,10 @@ function AddExpense({ item }: ExpenseEntryProps) {
                         onValueChange={field.onChange}
                         value={field.value}
                       >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full bg-gray-900 text-white hover:cursor-pointer">
                           <SelectValue placeholder="Select expense type" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-800 text-white">
+                        <SelectContent className="bg-gray-900 text-white">
                           {EXPENSE_TYPES.map((type, index) => (
                             <SelectItem
                               key={index}
@@ -116,6 +116,7 @@ function AddExpense({ item }: ExpenseEntryProps) {
                       <Input
                         placeholder="Eg:- 2500"
                         type="number"
+                        className="bg-gray-900 text-white"
                         {...field}
                         onFocus={(e) => {
                           if (e.target.value === "0") {
@@ -132,7 +133,7 @@ function AddExpense({ item }: ExpenseEntryProps) {
             </div>
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
             >
               Add Expense
             </Button>

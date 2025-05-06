@@ -11,7 +11,7 @@ function SubHeader({
         <li>
           <button
             onClick={() => onSectionChange("services")}
-            className="text-white hover:underline"
+            className="text-white hover:underline hover:cursor-pointer"
           >
             Services
           </button>
@@ -19,7 +19,7 @@ function SubHeader({
         <li>
           <button
             onClick={() => onSectionChange("check-status")}
-            className="text-white hover:underline"
+            className="text-white hover:underline hover:cursor-pointer"
           >
             Know Status
           </button>
@@ -27,7 +27,7 @@ function SubHeader({
         <li>
           <button
             onClick={() => onSectionChange("about")}
-            className="text-white hover:underline"
+            className="text-white hover:underline hover:cursor-pointer"
           >
             About Us
           </button>
@@ -35,7 +35,7 @@ function SubHeader({
         <li>
           <button
             onClick={() => onSectionChange("contact")}
-            className="text-white hover:underline"
+            className="text-white hover:underline hover:cursor-pointer"
           >
             Contact
           </button>

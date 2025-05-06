@@ -124,10 +124,10 @@ function Staffs() {
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
         <div className="flex flex-col md:flex-row items-center justify-between mb-6 space-y-4 md:space-y-0">
           <Select defaultValue="all-staffs" onValueChange={handleFilterChange}>
-            <SelectTrigger className="w-full md:w-[150px] bg-gray-800 font-semibold text-white">
+            <SelectTrigger className="w-full md:w-[150px] bg-gray-900 font-semibold text-white hover:cursor-pointer">
               <SelectValue placeholder="Filter by" />
             </SelectTrigger>
-            <SelectContent className="bg-gray-800 text-white">
+            <SelectContent className="bg-gray-900 text-white">
               <SelectGroup>
                 <SelectLabel>Staffs</SelectLabel>
                 <SelectItem value="all-staffs">All</SelectItem>
@@ -199,7 +199,7 @@ function Staffs() {
             <Button
               key={page}
               onClick={() => handlePageChange(page)}
-              className={`px-4 py-2 rounded ${
+              className={`px-4 py-2 rounded hover:cursor-pointer ${
                 currentPage === page
                   ? "bg-gray-700 text-white"
                   : "bg-gray-900 text-white"

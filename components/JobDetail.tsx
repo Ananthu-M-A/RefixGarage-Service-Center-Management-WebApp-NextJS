@@ -38,7 +38,7 @@ export function JobDetail({ job }: JobDetailProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="text-white p-0">
+        <Button className="w-min bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer">
           <CiEdit size={20} />
         </Button>
       </DialogTrigger>

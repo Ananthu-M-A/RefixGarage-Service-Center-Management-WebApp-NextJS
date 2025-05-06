@@ -124,10 +124,10 @@ function RegisterStaff() {
                         onValueChange={field.onChange}
                         value={field.value}
                       >
-                        <SelectTrigger className="bg-gray-900 font-semibold text-white w-full">
+                        <SelectTrigger className="bg-gray-900 font-semibold text-white w-full hover:cursor-pointer">
                           <SelectValue placeholder="Select Role" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-800 text-white">
+                        <SelectContent className="bg-gray-900 text-white">
                           <SelectGroup>
                             <SelectLabel>Jobs</SelectLabel>
                             <SelectItem value="engineer">Engineer</SelectItem>
@@ -145,7 +145,7 @@ function RegisterStaff() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg hover:cursor-pointer"
             >
               Add Staff
             </Button>

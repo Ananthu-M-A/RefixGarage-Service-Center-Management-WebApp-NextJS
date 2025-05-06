@@ -52,8 +52,8 @@ function ForgotPasswordForm() {
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-black to-gray-900 flex items-center justify-center px-4">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm border border-gray-700 text-white">
-        <h1 className="text-2xl font-bold text-white mb-6">Forgot Password</h1>
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md border border-gray-700 text-white">
+        <h1 className="text-2xl font-bold text-center mb-6">Forgot Password</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -68,6 +68,7 @@ function ForgotPasswordForm() {
                       placeholder="Enter your email"
                       autoComplete="email"
                       {...field}
+                      className="w-full bg-gray-900 text-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -76,12 +77,18 @@ function ForgotPasswordForm() {
             />
             <Button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
+              className="w-full py-2 text-lg font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:cursor-pointer"
             >
               Send Reset Link
             </Button>
           </form>
         </Form>
+        <p className="text-white mt-4 text-center text-sm">
+          Remembered your password?{" "}
+          <a href="/login" className="text-blue-400 hover:underline">
+            Login here
+          </a>
+        </p>
       </div>
     </section>
   );

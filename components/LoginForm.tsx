@@ -71,7 +71,7 @@ function LoginForm() {
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-black to-gray-900 flex items-center justify-center px-4">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm border border-gray-700 text-white">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md border border-gray-700 text-white">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -87,6 +87,7 @@ function LoginForm() {
                       placeholder="Enter your email"
                       autoComplete="email"
                       {...field}
+                      className="w-full bg-gray-900 text-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -105,6 +106,7 @@ function LoginForm() {
                       placeholder="Enter your password"
                       autoComplete="current-password"
                       {...field}
+                      className="w-full bg-gray-900 text-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -113,7 +115,7 @@ function LoginForm() {
             />
             <Button
               type="submit"
-              className="w-full py-2 text-lg font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full py-2 text-lg font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:cursor-pointer"
             >
               Login
             </Button>

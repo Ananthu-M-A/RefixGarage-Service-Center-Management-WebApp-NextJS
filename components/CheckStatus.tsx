@@ -97,7 +97,11 @@ function CheckStatus() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your name in capital letters" {...field} />
+                    <Input
+                      placeholder="Enter your name in capital letters"
+                      {...field}
+                      className="bg-gray-900 text-white"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,7 +114,11 @@ function CheckStatus() {
                 <FormItem>
                   <FormLabel>Mobile Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your mobile number" {...field} />
+                    <Input
+                      placeholder="Enter your mobile number"
+                      {...field}
+                      className="bg-gray-900 text-white"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,7 +126,7 @@ function CheckStatus() {
             />
             <Button
               type="submit"
-              className="w-full bg-blue-600 text-white hover:bg-blue-700 py-2 rounded-md"
+              className="w-full bg-blue-600 text-white hover:bg-blue-700 px-4 rounded-md hover:cursor-pointer"
             >
               Know Service Status
             </Button>

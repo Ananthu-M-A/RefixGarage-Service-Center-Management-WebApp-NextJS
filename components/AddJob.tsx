@@ -136,12 +136,12 @@ function AddJob({ job }: JobEntryProps) {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md mb-20">
-        <h2 className="text-2xl font-bold mb-4">
+      <div className="w-full max-w-4xl bg-gray-800 p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">
           {job ? "Edit Job Details" : "New Job Entry"}
         </h2>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
@@ -154,6 +154,7 @@ function AddJob({ job }: JobEntryProps) {
                         placeholder="Eg:- Ananthu M A"
                         {...field}
                         disabled={!!job}
+                        className="bg-gray-900 text-white"
                       />
                     </FormControl>
                     <FormMessage />
@@ -171,6 +172,7 @@ function AddJob({ job }: JobEntryProps) {
                         placeholder="Eg:- 6238899623"
                         {...field}
                         disabled={!!job}
+                        className="bg-gray-900 text-white"
                       />
                     </FormControl>
                     <FormMessage />
@@ -189,10 +191,10 @@ function AddJob({ job }: JobEntryProps) {
                         value={field.value}
                         disabled={!!job}
                       >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full bg-gray-900 text-white hover:cursor-pointer">
                           <SelectValue placeholder="Select Brand" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-800 text-white">
+                        <SelectContent className="bg-gray-900 text-white">
                           {SMARTPHONE_BRANDS.map((brand, index) => (
                             <SelectItem key={index} value={brand}>
                               {brand}
@@ -216,6 +218,7 @@ function AddJob({ job }: JobEntryProps) {
                         placeholder="Eg:- 13 Pro Max"
                         {...field}
                         disabled={!!job}
+                        className="bg-gray-900 text-white"
                       />
                     </FormControl>
                     <FormMessage />
@@ -236,10 +239,10 @@ function AddJob({ job }: JobEntryProps) {
                           job?.status === "ok" || job?.status === "notok"
                         }
                       >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full bg-gray-900 text-white hover:cursor-pointer">
                           <SelectValue placeholder="Select Engineer" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-800 text-white">
+                        <SelectContent className="bg-gray-900 text-white">
                           {engineers.map((engineer, index) => (
                             <SelectItem key={index} value={engineer.name}>
                               {engineer.name}
@@ -266,6 +269,7 @@ function AddJob({ job }: JobEntryProps) {
                         disabled={
                           job?.status === "ok" || job?.status === "notok"
                         }
+                        className="bg-gray-900 text-white"
                         onFocus={(e) => {
                           if (e.target.value === "0") {
                             e.target.value = "";
@@ -291,6 +295,7 @@ function AddJob({ job }: JobEntryProps) {
                         placeholder="Eg:- Display not working, battery issue, etc."
                         {...field}
                         disabled={!!job}
+                        className="bg-gray-900 text-white"
                       />
                     </FormControl>
                     <FormMessage />
@@ -310,6 +315,7 @@ function AddJob({ job }: JobEntryProps) {
                         disabled={
                           job?.status === "ok" || job?.status === "notok"
                         }
+                        className="bg-gray-900 text-white"
                       />
                     </FormControl>
                     <FormMessage />
@@ -332,6 +338,7 @@ function AddJob({ job }: JobEntryProps) {
                         disabled={
                           job?.status === "ok" || job?.status === "notok"
                         }
+                        className="bg-gray-900 text-white"
                         onFocus={(e) => {
                           if (e.target.value === "0") {
                             e.target.value = "";
@@ -358,10 +365,10 @@ function AddJob({ job }: JobEntryProps) {
                           !job || job.status === "ok" || job.status === "notok"
                         }
                       >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full bg-gray-900 text-white hover:cursor-pointer">
                           <SelectValue placeholder="Change Status" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-800 text-white">
+                        <SelectContent className="bg-gray-900 text-white">
                           <SelectItem
                             className="hover:bg-white hover:text-black"
                             value={"pending"}
@@ -390,7 +397,7 @@ function AddJob({ job }: JobEntryProps) {
             </div>
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
               disabled={job?.status === "ok" || job?.status === "notok"}
             >
               {job ? "Update Job" : "Submit Job"}

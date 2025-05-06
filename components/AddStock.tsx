@@ -101,10 +101,10 @@ function AddStock({ item }: InventoryEntryProps) {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-      <div className="w-full text-white bg-gray-800 p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">
-          {item ? "Edit Stock" : "Add Stock"}
+    <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-4 md:p-6">
+      <div className="w-full max-w-4xl bg-gray-800 p-6 md:p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          {item ? "Edit Stock" : "New Stock Entry"}
         </h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -120,10 +120,10 @@ function AddStock({ item }: InventoryEntryProps) {
                         onValueChange={field.onChange}
                         value={field.value}
                       >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full bg-gray-900 text-white hover:cursor-pointer">
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-800 text-white">
+                        <SelectContent className="bg-gray-900 text-white">
                           {STOCK_CATEGORIES.map((category, index) => (
                             <SelectItem
                               key={index}
@@ -151,6 +151,7 @@ function AddStock({ item }: InventoryEntryProps) {
                         placeholder="Eg:- Digital Mic"
                         {...field}
                         disabled={!!item}
+                        className="bg-gray-900 text-white"
                       />
                     </FormControl>
                     <FormMessage />
@@ -168,6 +169,7 @@ function AddStock({ item }: InventoryEntryProps) {
                         type="number"
                         placeholder="Eg:- 250"
                         {...field}
+                        className="bg-gray-900 text-white"
                         onFocus={(e) => {
                           if (e.target.value === "0") {
                             e.target.value = "";
@@ -191,6 +193,7 @@ function AddStock({ item }: InventoryEntryProps) {
                         type="number"
                         placeholder="Eg:- 10"
                         {...field}
+                        className="bg-gray-900 text-white"
                         onFocus={(e) => {
                           if (e.target.value === "0") {
                             e.target.value = "";
@@ -211,7 +214,11 @@ function AddStock({ item }: InventoryEntryProps) {
                 <FormItem>
                   <FormLabel>Item Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Enter description..." {...field} />
+                    <Textarea
+                      placeholder="Enter description..."
+                      {...field}
+                      className="bg-gray-900 text-white"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -219,7 +226,7 @@ function AddStock({ item }: InventoryEntryProps) {
             />
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
             >
               {item ? "Update Stock" : "Add Item"}
             </Button>

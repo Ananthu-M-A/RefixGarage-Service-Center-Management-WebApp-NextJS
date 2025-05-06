@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { CiEdit } from "react-icons/ci";
-import ItemEntry from "./ItemEntry";
+import AddStock from "./AddStock";
 
 type Item = {
   _id: string;
@@ -33,7 +33,7 @@ export function ItemDetail({ item }: ItemDetailProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="text-white p-0">
+        <Button className="w-min bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer">
           <CiEdit size={20} />
         </Button>
       </DialogTrigger>
@@ -44,7 +44,7 @@ export function ItemDetail({ item }: ItemDetailProps) {
             Modify item details below and save changes.
           </DialogDescription>
         </DialogHeader>
-        <ItemEntry item={item} />
+        <AddStock item={item} />
       </DialogContent>
     </Dialog>
   );
