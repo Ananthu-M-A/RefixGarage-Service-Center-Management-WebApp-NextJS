@@ -1,5 +1,6 @@
 import { dbConnect } from "@/lib/mongoose";
 import Expense from "@/models/Expense";
+import Finance from "@/models/Finance";
 import { z } from "zod";
 
 const jsonHeaders = { "Content-Type": "application/json" };
@@ -41,7 +42,21 @@ export async function POST(request: Request) {
 
         const addedExpense = await newExpense.save();
         if (addedExpense) {
-            return new Response(JSON.stringify(addedExpense), {
+            const financeUpdate = new Finance({
+                description: addedExpense.type,
+                type: "expenditure",
+                amount: addedExpense.amount,
+            });
+            const updatedFinance = await financeUpdate.save();
+            if (!updatedFinance) {
+                return new Response(
+                    JSON.stringify({ error: "Failed to update finance" }),
+                    { status: 500, headers: jsonHeaders }
+                );
+            }
+            console.log("Expense added successfully:", addedExpense);
+            console.log("Finance updated successfully:", updatedFinance);
+            return new Response(JSON.stringify({ addedExpense, updatedFinance }), {
                 status: 201,
                 headers: jsonHeaders,
             });

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import PieChart from "./PieChart";
-import { Button } from "./ui/button";
 import Loading from "@/app/loading";
+import FinancialReportPDF from "./FinancialReportPDF";
 
 export default function JobReportDiagram() {
   const [statusChart, setStatusChart] = useState({
@@ -62,27 +62,6 @@ export default function JobReportDiagram() {
     fetchData();
   }, []);
 
-  const handleDownloadReport = async () => {
-    const response = await fetch("/api/admin/download", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.ok) {
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "monthly_report.pdf";
-      a.click();
-      window.URL.revokeObjectURL(url);
-    } else {
-      console.error("Failed to download report");
-    }
-  };
-
   if (
     !statusChart.labels.length ||
     !reportChart.labels.length ||
@@ -98,14 +77,7 @@ export default function JobReportDiagram() {
           <h2 className="text-2xl font-bold mb-4 md:mb-0">
             Job Report At a Glance
           </h2>
-          <Button
-            onClick={() => {
-              handleDownloadReport();
-            }}
-            className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
-          >
-            Download Monthly Report
-          </Button>
+          <FinancialReportPDF  />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <PieChart data={statusChart} />

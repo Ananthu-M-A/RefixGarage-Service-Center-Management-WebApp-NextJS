@@ -1,4 +1,5 @@
 import { dbConnect } from "@/lib/mongoose";
+import Finance from "@/models/Finance";
 import Inventory from "@/models/Inventory";
 import { z } from "zod";
 
@@ -48,6 +49,20 @@ export async function POST(request: Request) {
 
             const addedItem = await item.save();
             if (addedItem) {
+                const financeUpdate = new Finance({
+                    description: addedItem.name,
+                    amount: addedItem.cost * addedItem.count,
+                    type: "expenditure",
+                });
+                const updatedFinance = await financeUpdate.save();
+                if (!updatedFinance) {
+                    return new Response(
+                        JSON.stringify({ error: "Failed to update finance" }),
+                        { status: 500, headers: jsonHeaders }
+                    );
+                }
+                console.log("Item added successfully:", addedItem);
+                console.log("Finance updated successfully:", updatedFinance);
                 return new Response(JSON.stringify(addedItem), {
                     status: 201,
                     headers: jsonHeaders,

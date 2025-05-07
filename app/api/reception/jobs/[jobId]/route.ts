@@ -1,6 +1,7 @@
 import { dbConnect } from "@/lib/mongoose";
 import sendWhatsApp from "@/lib/sendWhatsApp";
 import Customer from "@/models/Customer";
+import Finance from "@/models/Finance";
 import Job from "@/models/Job";
 import { z } from "zod";
 
@@ -48,6 +49,20 @@ export async function PUT(request: Request) {
         }
 
         if (status === "ok" || status === "notok") {
+            if (updatedJob.status === "ok") {
+                const financeUpdate = new Finance({
+                    description: "Smartphone Repair",
+                    amount: updatedJob.cost,
+                    type: "revenue",
+                });
+                const updatedFinance = await financeUpdate.save();
+                if (!updatedFinance) {
+                    return new Response(
+                        JSON.stringify({ error: "Failed to update finance" }),
+                        { status: 500, headers: jsonHeaders }
+                    );
+                }
+            }
             await sendWhatsApp({
                 name: customer.name,
                 jobId: updatedJob._id.toString(),
