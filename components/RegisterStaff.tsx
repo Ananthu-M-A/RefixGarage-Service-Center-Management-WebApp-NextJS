@@ -133,7 +133,7 @@ function RegisterStaff() {
                         </SelectTrigger>
                         <SelectContent className="bg-gray-900 text-white">
                           <SelectGroup>
-                            <SelectLabel>Jobs</SelectLabel>
+                            <SelectLabel>Staffs</SelectLabel>
                             <SelectItem value="engineer">Engineer</SelectItem>
                             <SelectItem value="receptionist">
                               Receptionist

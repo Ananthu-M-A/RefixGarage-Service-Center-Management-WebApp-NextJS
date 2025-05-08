@@ -25,6 +25,10 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("No user found with the given email.");
                 }
 
+                if (user.status !== "active") {
+                    throw new Error("You are not allowed. Please contact admin.");
+                }
+
                 const isValid = await bcrypt.compare(credentials.password, user.password);
 
                 if (!isValid) {

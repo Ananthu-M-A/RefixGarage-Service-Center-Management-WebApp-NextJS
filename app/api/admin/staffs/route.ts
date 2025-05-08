@@ -6,7 +6,7 @@ const jsonHeaders = { "Content-Type": "application/json" };
 export async function GET() {
     try {
         await dbConnect();
-        const staffs = await User.find({});
+        const staffs = await User.find({ role: { $ne: "admin" } });
         return new Response(JSON.stringify(staffs), {
             status: 200,
             headers: jsonHeaders,

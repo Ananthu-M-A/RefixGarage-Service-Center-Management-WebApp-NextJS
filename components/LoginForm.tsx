@@ -17,7 +17,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Loading from "@/app/loading";
-import { showSuccessToast } from "@/lib/toast";
+import { showErrorToast, showSuccessToast } from "@/lib/toast";
 import { useState } from "react";
 
 const formSchema = z.object({
@@ -60,7 +60,7 @@ function LoginForm() {
       showSuccessToast("Login successful!");
       router.push(callbackUrl);
     } else {
-      form.setError("email", { message: "Invalid email or password" });
+      showErrorToast(result?.error?.toString() || "Login failed");
       form.resetField("password");
     }
   };

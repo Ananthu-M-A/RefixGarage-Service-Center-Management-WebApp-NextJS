@@ -154,7 +154,6 @@ function Staffs() {
               <SelectGroup>
                 <SelectLabel>Staffs</SelectLabel>
                 <SelectItem value="all-staffs">All</SelectItem>
-                <SelectItem value="admin">Admin</SelectItem>
                 <SelectItem value="receptionist">Receptionist</SelectItem>
                 <SelectItem value="engineer">Engineer</SelectItem>
               </SelectGroup>
@@ -205,9 +204,9 @@ function Staffs() {
                 <TableCell className="text-center font-medium">
                   {index + 1 + (currentPage - 1) * staffsPerPage}
                 </TableCell>
-                <TableCell>{staff.name}</TableCell>
-                <TableCell>{staff.role}</TableCell>
-                <TableCell>{staff.status}</TableCell>
+                <TableCell>{staff.name.toLocaleUpperCase()}</TableCell>
+                <TableCell>{staff.role.toLocaleUpperCase()}</TableCell>
+                <TableCell>{staff.status.toLocaleUpperCase()}</TableCell>
                 <TableCell className="text-center">
                   <Button
                     onClick={() => handleActivityStatus(staff._id)}
