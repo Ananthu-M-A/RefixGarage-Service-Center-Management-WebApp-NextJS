@@ -38,6 +38,7 @@ type Staff = {
 function Staffs() {
   const [staffs, setStaffs] = useState<Staff[]>([]);
   const [filteredStaffs, setFilteredStaffs] = useState<Staff[]>([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const staffsPerPage = 10;
@@ -64,6 +65,28 @@ function Staffs() {
     } catch (error) {
       console.error("Error fetching staffs:", error);
       setError("Failed to load staff data. Please try again later.");
+    }
+  };
+
+  const handleActivityStatus = async (staffId: string) => {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/admin/staffs/${staffId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setLoading(false);
+      if (!response.ok) {
+        showErrorToast("Failed to update staff status.");
+        throw new Error("Failed to update staff status");
+      }
+      fetchStaffs();
+    } catch (error) {
+      console.error("Error updating staff status:", error);
+      setError("Failed to update staff status. Please try again later.");
     }
   };
 
@@ -186,8 +209,16 @@ function Staffs() {
                 <TableCell>{staff.role}</TableCell>
                 <TableCell>{staff.status}</TableCell>
                 <TableCell className="text-center">
-                  <Button className="w-min bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer">
-                    Activate
+                  <Button
+                    onClick={() => handleActivityStatus(staff._id)}
+                    className="w-min bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
+                    disabled={loading}
+                  >
+                    {!loading
+                      ? staff.status === "active"
+                        ? "Deactivate"
+                        : "Activate"
+                      : "Processing..."}
                   </Button>
                 </TableCell>
               </TableRow>
