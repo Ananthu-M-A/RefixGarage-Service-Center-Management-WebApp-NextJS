@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -40,6 +40,7 @@ type ExpenseEntryProps = {
 };
 
 function AddExpense({ item }: ExpenseEntryProps) {
+  const [loading, setLoading] = useState(false);
   const form = useForm<ExpenseFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: item ?? {
@@ -49,6 +50,9 @@ function AddExpense({ item }: ExpenseEntryProps) {
   });
 
   const onSubmit = (data: ExpenseFormData) => {
+    if (loading) return;
+    setLoading(true);
+
     const AddExpense = async () => {
       const response = await fetch("/api/reception/expenses", {
         method: "POST",
@@ -57,6 +61,7 @@ function AddExpense({ item }: ExpenseEntryProps) {
         },
         body: JSON.stringify(data),
       });
+      setLoading(false);
       if (response.ok) {
         showSuccessToast("Added expense successfully!");
         window.location.reload();
@@ -71,7 +76,9 @@ function AddExpense({ item }: ExpenseEntryProps) {
   return (
     <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-4 md:p-6">
       <div className="w-full max-w-4xl bg-gray-800 p-6 md:p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">New Expense Entry</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          New Expense Entry
+        </h2>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -134,8 +141,9 @@ function AddExpense({ item }: ExpenseEntryProps) {
             <Button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
+              disabled={loading}
             >
-              Add Expense
+              {loading ? "Processing..." : "Add Expense"}
             </Button>
           </form>
         </Form>

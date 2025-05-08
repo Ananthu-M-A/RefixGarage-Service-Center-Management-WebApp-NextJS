@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -49,6 +49,7 @@ type InventoryEntryProps = {
 };
 
 function AddStock({ item }: InventoryEntryProps) {
+  const [loading, setLoading] = useState(false);
   const form = useForm<InventoryFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: item ?? {
@@ -61,6 +62,8 @@ function AddStock({ item }: InventoryEntryProps) {
   });
 
   const onSubmit = (data: InventoryFormData) => {
+    if (loading) return;
+    setLoading(true);
     if (item) {
       const updateInventory = async () => {
         const response = await fetch(`/api/reception/inventory/${item._id}`, {
@@ -70,6 +73,7 @@ function AddStock({ item }: InventoryEntryProps) {
           },
           body: JSON.stringify(data),
         });
+        setLoading(false);
         if (response.ok) {
           showSuccessToast("Inventory updated successfully!");
           window.location.reload();
@@ -88,6 +92,7 @@ function AddStock({ item }: InventoryEntryProps) {
           },
           body: JSON.stringify(data),
         });
+        setLoading(false);
         if (response.ok) {
           showSuccessToast("Added item successfully!");
           window.location.reload();
@@ -227,8 +232,9 @@ function AddStock({ item }: InventoryEntryProps) {
             <Button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
+              disabled={loading}
             >
-              {item ? "Update Stock" : "Add Item"}
+              {loading ? "Processing..." : item ? "Update Stock" : "Add Item"}
             </Button>
           </form>
         </Form>

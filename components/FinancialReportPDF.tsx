@@ -16,6 +16,7 @@ interface FinancialData {
 }
 
 const FinancialReportPDF = () => {
+  const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState<FinancialData>({
     revenue: 0,
     expenditure: 0,
@@ -34,6 +35,9 @@ const FinancialReportPDF = () => {
   }, []);
 
   const generatePDF = () => {
+    if (loading) return;
+    setLoading(true);
+
     const doc = new jsPDF();
 
     doc.setProperties({
@@ -112,14 +116,16 @@ const FinancialReportPDF = () => {
     }
 
     doc.save(`Financial_Report_${reportData.date.replace(" ", "_")}.pdf`);
+    setLoading(false);
   };
 
   return (
     <Button
       onClick={generatePDF}
       className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer"
+      disabled={loading}
     >
-      Generate Monthly Financial Report
+      {loading ? "Processing..." : "Generate Monthly Financial Report"}
     </Button>
   );
 };

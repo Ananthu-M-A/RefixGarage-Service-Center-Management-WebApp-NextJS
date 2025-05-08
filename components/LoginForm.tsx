@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Loading from "@/app/loading";
 import { showSuccessToast } from "@/lib/toast";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -29,6 +30,7 @@ const formSchema = z.object({
 type LoginFormData = z.infer<typeof formSchema>;
 
 function LoginForm() {
+  const [loading, setLoading] = useState(false);
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -41,6 +43,9 @@ function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
+    if (loading) return;
+    setLoading(true);
+
     const callbackUrl =
       session?.user?.role === "admin" ? "/admin" : "/receptionist";
 
@@ -50,7 +55,7 @@ function LoginForm() {
       password: data.password,
       callbackUrl,
     });
-
+    setLoading(false);
     if (result?.ok) {
       showSuccessToast("Login successful!");
       router.push(callbackUrl);
@@ -116,8 +121,9 @@ function LoginForm() {
             <Button
               type="submit"
               className="w-full py-2 text-lg font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:cursor-pointer"
+              disabled={loading}
             >
-              Login
+              {loading ? "Wait..." : "Login"}
             </Button>
           </form>
         </Form>

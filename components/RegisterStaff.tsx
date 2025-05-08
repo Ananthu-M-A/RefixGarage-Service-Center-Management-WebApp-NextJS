@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -40,6 +40,7 @@ type StaffFormData = z.infer<typeof formSchema> & {
 };
 
 function RegisterStaff() {
+  const [loading, setLoading] = useState(false);
   const form = useForm<StaffFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,6 +51,8 @@ function RegisterStaff() {
   });
 
   const onSubmit = (data: StaffFormData) => {
+    if (loading) return;
+    setLoading(true);
     const addStaff = async () => {
       const response = await fetch("/api/admin/new-staff", {
         method: "POST",
@@ -58,6 +61,7 @@ function RegisterStaff() {
         },
         body: JSON.stringify(data),
       });
+      setLoading(false);
       if (response.ok) {
         showSuccessToast("Staff added successfully!");
         window.location.reload();
@@ -146,8 +150,9 @@ function RegisterStaff() {
             <Button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg hover:cursor-pointer"
+              disabled={loading}
             >
-              Add Staff
+              {loading ? "Processing..." : "Add Staff"}
             </Button>
           </form>
         </Form>

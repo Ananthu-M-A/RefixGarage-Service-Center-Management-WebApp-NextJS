@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { showErrorToast, showSuccessToast } from "@/lib/toast";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -23,6 +24,7 @@ const formSchema = z.object({
 type ForgotPasswordFormData = z.infer<typeof formSchema>;
 
 function ForgotPasswordForm() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(formSchema),
@@ -32,6 +34,8 @@ function ForgotPasswordForm() {
   });
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
+    if (loading) return;
+    setLoading(true);
     const response = await fetch("/api/forgot-password", {
       method: "POST",
       headers: {
@@ -39,7 +43,7 @@ function ForgotPasswordForm() {
       },
       body: JSON.stringify(data),
     });
-
+    setLoading(false);
     if (!response.ok) {
       const errorData = await response.json();
       showErrorToast(errorData.message);
@@ -78,8 +82,9 @@ function ForgotPasswordForm() {
             <Button
               type="submit"
               className="w-full py-2 text-lg font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:cursor-pointer"
+              disabled={loading}
             >
-              Send Reset Link
+              {loading ? `Wait...` : `Send Reset Link`}
             </Button>
           </form>
         </Form>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -26,6 +26,8 @@ const formSchema = z.object({
 type CheckStatusFormData = z.infer<typeof formSchema>;
 
 function CheckStatus() {
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<CheckStatusFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,6 +37,8 @@ function CheckStatus() {
   });
 
   const onSubmit = async (data: CheckStatusFormData) => {
+    if (loading) return;
+    setLoading(true);
     try {
       const response = await fetch(
         `/api/customer?name=${data.name}&mobile=${data.mobile}`,
@@ -45,7 +49,7 @@ function CheckStatus() {
           },
         }
       );
-
+      setLoading(false);
       if (!response.ok) {
         if (response.status === 404) {
           showErrorToast("No job found with the provided details.");
@@ -126,8 +130,9 @@ function CheckStatus() {
               <Button
                 type="submit"
                 className="w-full bg-blue-600 text-white hover:bg-blue-700 px-4 rounded-md hover:cursor-pointer"
+                disabled={loading}
               >
-                Know Service Status
+                {loading ? "Please wait..." : "Know Service Status"}
               </Button>
             </form>
           </Form>
