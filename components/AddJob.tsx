@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -64,7 +64,9 @@ type JobEntryProps = {
 };
 
 function AddJob({ job }: JobEntryProps) {
-  const [engineers, setEngineers] = React.useState<{ name: string }[]>([]);
+  const [engineers, setEngineers] = useState<{ name: string }[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<JobFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: job ?? {
@@ -82,6 +84,9 @@ function AddJob({ job }: JobEntryProps) {
   });
 
   const onSubmit = (data: JobFormData) => {
+    if (loading) return;
+    setLoading(true);
+
     if (job) {
       const updateJob = async () => {
         const response = await fetch(`/api/reception/jobs/${job._id}`, {
@@ -91,6 +96,7 @@ function AddJob({ job }: JobEntryProps) {
           },
           body: JSON.stringify(data),
         });
+        setLoading(false);
         if (response.ok) {
           showSuccessToast("Job updated successfully!");
           window.location.reload();
@@ -109,6 +115,7 @@ function AddJob({ job }: JobEntryProps) {
           },
           body: JSON.stringify(data),
         });
+        setLoading(false);
         if (response.ok) {
           showSuccessToast("Job created successfully!");
           window.location.reload();
@@ -398,9 +405,11 @@ function AddJob({ job }: JobEntryProps) {
             <Button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
-              disabled={job?.status === "ok" || job?.status === "notok"}
+              disabled={
+                loading || job?.status === "ok" || job?.status === "notok"
+              }
             >
-              {job ? "Update Job" : "Submit Job"}
+              {loading ? "Processing..." : job ? "Update Job" : "Submit Job"}
             </Button>
           </form>
         </Form>
