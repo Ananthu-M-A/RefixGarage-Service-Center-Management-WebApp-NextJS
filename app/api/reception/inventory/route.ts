@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         const existingItem = await Inventory.findOne({ name });
         if (!existingItem) {
             const item = new Inventory({
-                name,
+                name: name.toUpperCase(),
                 category,
                 cost,
                 count
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
             const addedItem = await item.save();
             if (addedItem) {
                 const financeUpdate = new Finance({
-                    description: addedItem.name,
+                    description: `Purchase - ${addedItem.name}`,
                     amount: addedItem.cost * addedItem.count,
                     type: "expenditure",
                 });

@@ -87,16 +87,14 @@ const FinancialReportPDF = () => {
 
     const transactionData = reportData.transactions.map((t) => [
       t.description,
-      t.type === "revenue"
-        ? `Rs ${t.amount.toFixed(2)}`
-        : `-Rs ${t.amount.toFixed(2)}`,
-      t.type.charAt(0).toUpperCase() + t.type.slice(1),
+      t.type === "revenue" ? t.amount : "-",
+      t.type === "expenditure" ? t.amount : "-",
       t.createdAt.split("T")[0],
     ]);
 
     autoTable(doc, {
       startY: finalY + 5,
-      head: [["Description", "Amount", "Type", "Date"]],
+      head: [["Description", "Revenue", "Expenditure", "Date"]],
       body: transactionData,
       theme: "striped",
       headStyles: { fillColor: [66, 66, 66], textColor: [255, 255, 255] },

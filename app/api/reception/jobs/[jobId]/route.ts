@@ -51,7 +51,7 @@ export async function PUT(request: Request) {
         if (status === "ok" || status === "notok") {
             if (updatedJob.status === "ok") {
                 const financeUpdate = new Finance({
-                    description: "Smartphone Repair",
+                    description: `Job - ${updatedJob.brand} ${updatedJob.modelName}`,
                     amount: updatedJob.cost,
                     type: "revenue",
                 });
