@@ -102,7 +102,7 @@ export async function POST(request: Request) {
 
         await sendWhatsApp({
             name: existingCustomer.name,
-            jobId: newJob._id.toString(),
+            jobId: newJob.get('id').toString(),
             createdAt: newJob.get('createdAt').toLocaleDateString(),
             device: `${brand} ${modelName}`,
             issue: issue,

@@ -65,7 +65,7 @@ export async function PUT(request: Request) {
             }
             await sendWhatsApp({
                 name: customer.name,
-                jobId: updatedJob._id.toString(),
+                jobId: updatedJob.get('id').toString(),
                 createdAt: updatedJob.get('updatedAt').toLocaleDateString(),
                 device: `${updatedJob.brand} ${updatedJob.modelName}`,
                 issue: updatedJob.issue || "",
