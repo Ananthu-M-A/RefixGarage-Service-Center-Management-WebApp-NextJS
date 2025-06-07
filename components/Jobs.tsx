@@ -43,11 +43,15 @@ type Job = {
   status: string;
   cost: number;
   engineer: string;
+  updatedAt?: string;
 };
 
 function Jobs() {
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [filterDate, setFilterDate] = useState<string>("");
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
+  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 10;
@@ -77,37 +81,65 @@ function Jobs() {
     }
   };
 
+  useEffect(() => {
+    let filtered = jobs;
+
+    if (filterStatus !== "all") {
+      filtered = filtered.filter((job) => job.status === filterStatus);
+    }
+
+    if (filterDate) {
+      filtered = filtered.filter((job) => {
+        if (!job.updatedAt) return false;
+        const jobDate = new Date(job.updatedAt).toISOString().split("T")[0];
+        return jobDate === filterDate;
+      });
+    }
+
+    if (searchTerm) {
+      filtered = filtered.filter(
+        (job) =>
+          (
+            job.brand.toLowerCase() +
+            " " +
+            job.modelName.toLowerCase()
+          ).includes(searchTerm) ||
+          job.issue.toLowerCase().includes(searchTerm) ||
+          job.customerId.name.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    setFilteredJobs(filtered);
+    setCurrentPage(1);
+  }, [jobs, filterStatus, filterDate, searchTerm]);
+
   const handleSort = (order: string) => {
     const sortedJobs = [...filteredJobs].sort((a, b) => {
       if (order === "asc") {
-        return a.brand.localeCompare(b.brand);
+        return (a.brand + " " + a.modelName).localeCompare(
+          b.brand + " " + b.modelName
+        );
       } else {
-        return b.brand.localeCompare(a.brand);
+        return (b.brand + " " + b.modelName).localeCompare(
+          a.brand + " " + a.modelName
+        );
       }
     });
     setFilteredJobs(sortedJobs);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value.toLowerCase();
-    const filtered = jobs.filter(
-      (job) =>
-        job.brand.toLowerCase().includes(searchTerm) ||
-        job.modelName.toLowerCase().includes(searchTerm) ||
-        job.issue.toLowerCase().includes(searchTerm) ||
-        job.customerId.name.toLowerCase().includes(searchTerm)
-    );
-    setFilteredJobs(filtered);
+    setSearchTerm(event.target.value.toLowerCase());
+    setCurrentPage(1);
+  };
+
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterDate(event.target.value);
     setCurrentPage(1);
   };
 
   const handleFilterChange = (value: string) => {
-    if (value === "all") {
-      setFilteredJobs(jobs);
-    } else {
-      const filtered = jobs.filter((job) => job.status === value);
-      setFilteredJobs(filtered);
-    }
+    setFilterStatus(value);
     setCurrentPage(1);
   };
 
@@ -151,15 +183,22 @@ function Jobs() {
             onChange={handleSearchChange}
             className="w-full md:w-[300px] bg-gray-900 text-white"
           />
-          <div className="flex items-center space-x-4">
+          <Input
+            type="date"
+            name="updatedAt"
+            placeholder="Select date"
+            onChange={handleDateChange}
+            className="w-full md:w-[150px] bg-gray-900 text-white"
+          />
+          <div className="flex items-center space-x-4 md:space-x-6 bg-gray-900 px-2 py-1 border rounded-md">
             <span className="text-gray-400">Sort by:</span>
             <AiOutlineSortAscending
-              className="text-white bg-gray-900 p-1 rounded cursor-pointer"
+              className="text-white bg-gray-800 p-1 rounded cursor-pointer"
               size={24}
               onClick={() => handleSort("asc")}
             />
             <AiOutlineSortDescending
-              className="text-white bg-gray-900 p-1 rounded cursor-pointer"
+              className="text-white bg-gray-800 p-1 rounded cursor-pointer"
               size={24}
               onClick={() => handleSort("desc")}
             />
