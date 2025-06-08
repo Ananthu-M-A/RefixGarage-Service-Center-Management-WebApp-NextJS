@@ -54,6 +54,9 @@ const formSchema = z.object({
   status: z
     .string()
     .min(2, { message: "Status must be at least 2 characters." }),
+  isDelivered: z
+    .string()
+    .min(2, { message: "Delivery status must be at least 2 characters." }),
 });
 
 type JobFormData = z.infer<typeof formSchema> & {
@@ -80,6 +83,7 @@ function AddJob({ job }: JobEntryProps) {
       reminder: 0,
       engineer: "",
       status: "Pending",
+      isDelivered: "No",
     },
   });
 
@@ -342,9 +346,7 @@ function AddJob({ job }: JobEntryProps) {
                         type="number"
                         placeholder="Eg:- 5000"
                         {...field}
-                        disabled={
-                          job?.status === "ok" || job?.status === "notok"
-                        }
+                        disabled={job?.isDelivered === "Yes"}
                         className="bg-gray-900 text-white"
                         onFocus={(e) => {
                           if (e.target.value === "0") {
@@ -358,56 +360,95 @@ function AddJob({ job }: JobEntryProps) {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={!job ? "pending" : field.value}
-                        disabled={
-                          !job || job.status === "ok" || job.status === "notok"
-                        }
-                      >
-                        <SelectTrigger className="w-full bg-gray-900 text-white hover:cursor-pointer">
-                          <SelectValue placeholder="Change Status" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-gray-900 text-white">
-                          <SelectItem
-                            className="hover:bg-white hover:text-black"
-                            value={"pending"}
-                          >
-                            Pending
-                          </SelectItem>
-                          <SelectItem
-                            className="hover:bg-white hover:text-black"
-                            value={"ok"}
-                          >
-                            OK
-                          </SelectItem>
-                          <SelectItem
-                            className="hover:bg-white hover:text-black"
-                            value={"notok"}
-                          >
-                            Not OK
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {job && job.status === "pending" && (
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={!job ? "pending" : field.value}
+                          disabled={
+                            !job ||
+                            job.status === "ok" ||
+                            job.status === "notok"
+                          }
+                        >
+                          <SelectTrigger className="w-full bg-gray-900 text-white hover:cursor-pointer">
+                            <SelectValue placeholder="Change Status" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-900 text-white">
+                            <SelectItem
+                              className="hover:bg-white hover:text-black"
+                              value={"pending"}
+                            >
+                              Pending
+                            </SelectItem>
+                            <SelectItem
+                              className="hover:bg-white hover:text-black"
+                              value={"ok"}
+                            >
+                              OK
+                            </SelectItem>
+                            <SelectItem
+                              className="hover:bg-white hover:text-black"
+                              value={"notok"}
+                            >
+                              Not OK
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+              {job && job.status !== "pending" && (
+                <FormField
+                  control={form.control}
+                  name="isDelivered"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Delivered</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={!job ? "No" : field.value}
+                          disabled={job?.isDelivered === "Yes"}
+                        >
+                          <SelectTrigger className="w-full bg-gray-900 text-white hover:cursor-pointer">
+                            <SelectValue placeholder="Change Delivery Status" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-gray-900 text-white">
+                            <SelectItem
+                              className="hover:bg-white hover:text-black"
+                              value={"Yes"}
+                            >
+                              Yes
+                            </SelectItem>
+                            <SelectItem
+                              className="hover:bg-white hover:text-black"
+                              value={"No"}
+                            >
+                              No
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
             <Button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
-              disabled={
-                loading || job?.status === "ok" || job?.status === "notok"
-              }
+              disabled={loading || job?.isDelivered === "Yes"}
             >
               {loading ? "Processing..." : job ? "Update Job" : "Submit Job"}
             </Button>

@@ -41,6 +41,7 @@ type Job = {
   modelName: string;
   issue: string;
   status: string;
+  isDelivered: string;
   cost: number;
   engineer: string;
   updatedAt?: string;
@@ -214,6 +215,7 @@ function Jobs() {
               <TableHead className="text-gray-400">Device Model</TableHead>
               <TableHead className="text-gray-400">Issue</TableHead>
               <TableHead className="text-gray-400">Status</TableHead>
+              <TableHead className="text-gray-400">Delivered</TableHead>
               <TableHead className="text-right text-gray-400">Cost</TableHead>
               <TableHead className="text-right text-gray-400">Edit</TableHead>
             </TableRow>
@@ -227,6 +229,9 @@ function Jobs() {
                 <TableCell>{`${job.brand} ${job.modelName}`}</TableCell>
                 <TableCell>{job.issue}</TableCell>
                 <TableCell>{job.status.toLocaleUpperCase()}</TableCell>
+                <TableCell>
+                  {job.isDelivered === "Yes" ? "Yes" : "No"}
+                </TableCell>
                 <TableCell className="text-right">
                   ₹{job.cost.toFixed(2)}
                 </TableCell>
@@ -245,6 +250,7 @@ function Jobs() {
                       cost: job.cost,
                       engineer: job.engineer,
                       status: job.status,
+                      isDelivered: job.isDelivered,
                     }}
                   />
                 </TableCell>

@@ -15,7 +15,8 @@ const jobSchema = z.object({
     remarks: z.string().min(2),
     cost: z.number().min(0),
     reminder: z.number().min(0),
-    engineer: z.string().min(2)
+    engineer: z.string().min(2),
+    isDelivered: z.string().optional().default("No"),
 });
 
 export async function GET() {
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
         const body = await request.json();
         const parsedBody = jobSchema.parse(body);
 
-        const { name, mobile, brand, modelName, issue, remarks, cost, reminder, engineer } = parsedBody;
+        const { name, mobile, brand, modelName, issue, remarks, cost, reminder, engineer, isDelivered } = parsedBody;
 
         await dbConnect();
 
@@ -76,7 +77,8 @@ export async function POST(request: Request) {
             cost,
             reminder,
             engineer: engineer.toUpperCase(),
-            status: "pending"
+            status: "pending",
+            isDelivered
         });
 
         const newJob = await job.save();

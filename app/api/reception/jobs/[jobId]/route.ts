@@ -13,6 +13,7 @@ const jobSchema = z.object({
     engineer: z.string().min(2).optional(),
     status: z.string().min(2).optional(),
     customerId: z.string().optional(),
+    isDelivered: z.string().min(2).optional(),
 });
 
 
@@ -23,13 +24,13 @@ export async function PUT(request: Request) {
         const body = await request.json();
         const parsedBody = jobSchema.parse(body);
 
-        const { remarks, cost, reminder, engineer, status } = parsedBody;
+        const { remarks, cost, reminder, engineer, status, isDelivered } = parsedBody;
 
         await dbConnect();
 
         const updatedJob = await Job.findByIdAndUpdate(
             jobId,
-            { remarks, cost, reminder, engineer, status },
+            { remarks, cost, reminder, engineer, status, isDelivered },
             { new: true }
         );
 
@@ -48,7 +49,7 @@ export async function PUT(request: Request) {
             );
         }
 
-        if (status === "ok" || status === "notok") {
+        if (isDelivered === "Yes") {
             if (updatedJob.status === "ok") {
                 const financeUpdate = new Finance({
                     description: `Job - ${updatedJob.brand} ${updatedJob.modelName}`,

@@ -13,6 +13,7 @@ export interface IJob extends Document {
   solution?: string;
   engineer: string;
   status: string;
+  isDelivered?: string;
 }
 
 const JobSchema: Schema<IJob> = new Schema(
@@ -28,7 +29,8 @@ const JobSchema: Schema<IJob> = new Schema(
     dateOfJobCompletion: { type: Date, required: false },
     solution: { type: String, required: false },
     engineer: { type: String, required: true },
-    status: { type: String, required: true }
+    status: { type: String, required: true },
+    isDelivered: { type: String, default: "No", enum: ["Yes", "No"] },
   },
   { timestamps: true }
 );

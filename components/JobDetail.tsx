@@ -26,6 +26,7 @@ type Job = {
   remarks: string;
   engineer: string;
   status: string;
+  isDelivered: string;
 };
 
 type JobDetailProps = {
