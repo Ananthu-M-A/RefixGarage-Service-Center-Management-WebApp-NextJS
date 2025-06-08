@@ -52,6 +52,7 @@ function Jobs() {
   const [filterDate, setFilterDate] = useState<string>("");
   const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [filterDelivery, setFilterDelivery] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,6 +90,14 @@ function Jobs() {
       filtered = filtered.filter((job) => job.status === filterStatus);
     }
 
+    if (filterDelivery !== "all") {
+      filtered = filtered.filter((job) => {
+        if (filterDelivery === "delivered") return job.isDelivered === "Yes";
+        if (filterDelivery === "notdelivered") return job.isDelivered === "No";
+        return true;
+      });
+    }
+
     if (filterDate) {
       filtered = filtered.filter((job) => {
         if (!job.updatedAt) return false;
@@ -112,7 +121,7 @@ function Jobs() {
 
     setFilteredJobs(filtered);
     setCurrentPage(1);
-  }, [jobs, filterStatus, filterDate, searchTerm]);
+  }, [jobs, filterStatus, filterDate, searchTerm, filterDelivery]);
 
   const handleSort = (order: string) => {
     const sortedJobs = [...filteredJobs].sort((a, b) => {
@@ -144,6 +153,11 @@ function Jobs() {
     setCurrentPage(1);
   };
 
+  const handleDeliveryChange = (value: string) => {
+    setFilterDelivery(value);
+    setCurrentPage(1);
+  };
+
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
@@ -170,11 +184,24 @@ function Jobs() {
             </SelectTrigger>
             <SelectContent className="bg-gray-900 text-white">
               <SelectGroup>
-                <SelectLabel>Jobs</SelectLabel>
+                <SelectLabel>Job Status</SelectLabel>
                 <SelectItem value="all">All</SelectItem>
                 <SelectItem value="ok">OK</SelectItem>
                 <SelectItem value="notok">Not OK</SelectItem>
                 <SelectItem value="pending">Pending</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select defaultValue="all" onValueChange={handleDeliveryChange}>
+            <SelectTrigger className="w-full md:w-[150px] bg-gray-900 text-white hover:cursor-pointer">
+              <SelectValue placeholder="Filter by" />
+            </SelectTrigger>
+            <SelectContent className="bg-gray-900 text-white">
+              <SelectGroup>
+                <SelectLabel>Delivery Status</SelectLabel>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="delivered">Delivered</SelectItem>
+                <SelectItem value="notdelivered">Not Delivered</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
