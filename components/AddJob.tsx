@@ -24,6 +24,7 @@ import {
 } from "./ui/select";
 import { showErrorToast, showSuccessToast } from "@/lib/toast";
 import { SMARTPHONE_BRANDS } from "@/constants/brands";
+import JobInvoicePDF from "./JobInvoicePDF";
 
 const formSchema = z.object({
   name: z
@@ -59,7 +60,7 @@ const formSchema = z.object({
     .min(2, { message: "Delivery status must be at least 2 characters." }),
 });
 
-type JobFormData = z.infer<typeof formSchema> & {
+export type JobFormData = z.infer<typeof formSchema> & {
   _id?: string;
 };
 type JobEntryProps = {
@@ -445,13 +446,17 @@ function AddJob({ job }: JobEntryProps) {
                 />
               )}
             </div>
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
-              disabled={loading || job?.isDelivered === "Yes"}
-            >
-              {loading ? "Processing..." : job ? "Update Job" : "Submit Job"}
-            </Button>
+            {job?.isDelivered === "Yes" ? (
+              <JobInvoicePDF job={job} />
+            ) : (
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
+                disabled={loading}
+              >
+                {loading ? "Processing..." : job ? "Update Job" : "Submit Job"}
+              </Button>
+            )}
           </form>
         </Form>
       </div>

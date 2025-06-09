@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IJob extends Document {
+  jobId: string;
   customerId: Schema.Types.ObjectId;
   brand: string;
   modelName: string;
@@ -18,6 +19,7 @@ export interface IJob extends Document {
 
 const JobSchema: Schema<IJob> = new Schema(
   {
+    jobId: { type: String, required: true, unique: true },
     customerId: { type: Schema.Types.ObjectId, required: true, ref: 'Customer' },
     brand: { type: String, required: true },
     modelName: { type: String, required: true },
