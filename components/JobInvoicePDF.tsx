@@ -45,6 +45,7 @@ const JobInvoicePDF = ({ job }: { job: JobFormData }) => {
     });
 
     doc.setFont("helvetica", "bold");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const detailsY = (doc as any).lastAutoTable.finalY + 10;
     doc.text("Device & Issue Details", 20, detailsY);
 
@@ -57,6 +58,7 @@ const JobInvoicePDF = ({ job }: { job: JobFormData }) => {
       headStyles: { fillColor: [66, 66, 66], textColor: [255, 255, 255] },
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const remarksY = (doc as any).lastAutoTable.finalY + 10;
     doc.setFont("helvetica", "normal");
     if (job.remarks) {

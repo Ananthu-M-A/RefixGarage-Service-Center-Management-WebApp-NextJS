@@ -1,7 +1,7 @@
 export const SMARTPHONE_BRANDS = [
     'Apple',
     'Samsung',
-    'Google',
+    'Pixel',
     'OnePlus',
     'Xiaomi',
     'Oppo',
