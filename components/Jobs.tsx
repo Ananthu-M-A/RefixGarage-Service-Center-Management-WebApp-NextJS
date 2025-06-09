@@ -115,7 +115,8 @@ function Jobs() {
             job.modelName.toLowerCase()
           ).includes(searchTerm) ||
           job.issue.toLowerCase().includes(searchTerm) ||
-          job.customerId.name.toLowerCase().includes(searchTerm)
+          job.customerId.name.toLowerCase().includes(searchTerm) ||
+          job.customerId.mobile.includes(searchTerm)
       );
     }
 
