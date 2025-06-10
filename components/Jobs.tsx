@@ -23,11 +23,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { JobDetail } from "./JobDetail";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Input } from "./ui/input";
 import { showErrorToast } from "@/lib/toast";
 import Loading from "@/app/loading";
 import { Button } from "./ui/button";
+import { CircleCheck, CircleX } from "lucide-react";
 
 type Job = {
   customerId: {
@@ -45,6 +51,7 @@ type Job = {
   cost: number;
   engineer: string;
   updatedAt?: string;
+  createdAt?: string;
 };
 
 function Jobs() {
@@ -239,48 +246,75 @@ function Jobs() {
           </TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[80px] text-gray-400">Job No</TableHead>
-              <TableHead className="text-gray-400">Device Model</TableHead>
-              <TableHead className="text-gray-400">Issue</TableHead>
-              <TableHead className="text-gray-400">Status</TableHead>
-              <TableHead className="text-gray-400">Delivered</TableHead>
-              <TableHead className="text-right text-gray-400">Cost</TableHead>
-              <TableHead className="text-right text-gray-400">Edit</TableHead>
+              <TableHead className="text-gray-400 text-center">Sl No</TableHead>
+              <TableHead className="text-gray-400 text-center">
+                Entry Date
+              </TableHead>
+              <TableHead className="text-gray-400 text-center">
+                Device Model
+              </TableHead>
+              <TableHead className="text-gray-400 text-center">Issue</TableHead>
+              <TableHead className="text-gray-400 text-center">
+                Status
+              </TableHead>
+              <TableHead className="text-gray-400  text-center">Cost</TableHead>
+              <TableHead className="text-gray-400 text-center">
+                Delivery Status
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {currentJobs.map((job, index) => (
-              <TableRow key={index}>
-                <TableCell className="font-medium">
+              <TableRow
+                key={index}
+                className="hover:cursor-pointer"
+                onClick={() => {}}
+              >
+                <TableCell className="font-medium text-center">
                   {indexOfFirstJob + index + 1}
                 </TableCell>
-                <TableCell>{`${job.brand} ${job.modelName}`}</TableCell>
-                <TableCell>{job.issue}</TableCell>
-                <TableCell>{job.status.toLocaleUpperCase()}</TableCell>
-                <TableCell>
-                  {job.isDelivered === "Yes" ? "Yes" : "No"}
+                <TableCell className="text-center">
+                  {new Date(job.createdAt || "").toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-center">{`${job.brand} ${job.modelName}`}</TableCell>
+                <TableCell className="text-center">{job.issue}</TableCell>
+                <TableCell className="text-center">
+                  {job.status.toLocaleUpperCase()}
+                </TableCell>
+                <TableCell className="text-center">
                   ₹{job.cost.toFixed(2)}
                 </TableCell>
-                <TableCell className="text-right">
-                  <JobDetail
-                    job={{
-                      slno: indexOfFirstJob + index + 1,
-                      _id: job._id,
-                      name: job.customerId.name,
-                      mobile: job.customerId.mobile,
-                      brand: job.brand,
-                      modelName: job.modelName,
-                      issue: job.issue,
-                      reminder: job.reminder,
-                      remarks: job.remarks,
-                      cost: job.cost,
-                      engineer: job.engineer,
-                      status: job.status,
-                      isDelivered: job.isDelivered,
-                    }}
-                  />
+                <TableCell className="flex items-center justify-center">
+                  {job.isDelivered === "Yes" ? (
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span>
+                            <CircleCheck size={20} className="text-green-500" />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Delivered on{" "}
+                          {job.updatedAt
+                            ? new Date(job.updatedAt).toLocaleDateString(
+                                "en-IN",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                }
+                              )
+                            : "Unknown"}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  ) : (
+                    <CircleX size={20} className="text-red-500" />
+                  )}
                 </TableCell>
               </TableRow>
             ))}
