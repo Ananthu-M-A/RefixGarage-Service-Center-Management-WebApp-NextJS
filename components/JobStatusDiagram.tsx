@@ -10,6 +10,19 @@ export default function JobStatusDiagram() {
     values: [],
     colors: [],
   });
+  const [jobData, setJobData] = useState({
+    okJobs: 0,
+    notOkJobs: 0,
+    pendingJobs: 0,
+    totalJobs: 0,
+    deliveredJobs: 0,
+    successfullJobs: 0,
+    failedJobs: 0,
+    receptionists: 0,
+    engineers: 0,
+    revenue: 0,
+    expense: 0,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +33,7 @@ export default function JobStatusDiagram() {
         values: data.values || [data.okJobs, data.notOkJobs, data.pendingJobs],
         colors: data.colors || ["#FF6384", "#36A2EB", "#72f612"],
       });
+      setJobData(data);
     };
     fetchData();
   }, []);
@@ -49,12 +63,26 @@ export default function JobStatusDiagram() {
                     {label}: {chartData.values[index]}
                   </li>
                 ))}
+                <li className="font-semibold text-gray-300">
+                  Total : {jobData.totalJobs}
+                </li>
+                <li className="font-semibold text-gray-300">
+                  Delivered: {jobData.deliveredJobs}
+                </li>
+                <li className="font-semibold text-gray-300">
+                  Successful: {jobData.successfullJobs}
+                </li>
+                <li className="font-semibold text-gray-300">
+                  Failed: {jobData.failedJobs}
+                </li>
               </ul>
               <ul className="list-disc pl-5">
                 <li className="font-semibold text-gray-300">
-                  Total Jobs: {chartData.values.reduce((a, b) => a + b, 0)}
+                  Engineers: {jobData.engineers}
                 </li>
-                <li className="font-semibold text-gray-300">Engineers: 1</li>
+                <li className="font-semibold text-gray-300">
+                  Receptionists: {jobData.receptionists}
+                </li>
               </ul>
             </div>
           </div>
