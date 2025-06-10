@@ -34,6 +34,9 @@ import { showErrorToast } from "@/lib/toast";
 import Loading from "@/app/loading";
 import { Button } from "./ui/button";
 import { CircleCheck, CircleX } from "lucide-react";
+import { JobDetail } from "./JobDetail";
+import { MdPendingActions } from "react-icons/md";
+import { TiThumbsDown, TiThumbsUp } from "react-icons/ti";
 
 type Job = {
   customerId: {
@@ -261,15 +264,14 @@ function Jobs() {
               <TableHead className="text-gray-400 text-center">
                 Delivery Status
               </TableHead>
+              <TableHead className="text-gray-400 text-center">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {currentJobs.map((job, index) => (
-              <TableRow
-                key={index}
-                className="hover:cursor-pointer"
-                onClick={() => {}}
-              >
+              <TableRow key={index}>
                 <TableCell className="font-medium text-center">
                   {indexOfFirstJob + index + 1}
                 </TableCell>
@@ -282,19 +284,25 @@ function Jobs() {
                 </TableCell>
                 <TableCell className="text-center">{`${job.brand} ${job.modelName}`}</TableCell>
                 <TableCell className="text-center">{job.issue}</TableCell>
-                <TableCell className="text-center">
-                  {job.status.toLocaleUpperCase()}
+                <TableCell className="flex items-center justify-center py-4">
+                  {job.status === "ok" ? (
+                    <TiThumbsUp size={25} className="text-green-500" />
+                  ) : job.status === "notok" ? (
+                    <TiThumbsDown size={25} className="text-red-500" />
+                  ) : (
+                    <MdPendingActions size={25} className="text-yellow-500" />
+                  )}
                 </TableCell>
                 <TableCell className="text-center">
                   ₹{job.cost.toFixed(2)}
                 </TableCell>
-                <TableCell className="flex items-center justify-center">
+                <TableCell className="flex items-center justify-center py-4">
                   {job.isDelivered === "Yes" ? (
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <span>
-                            <CircleCheck size={20} className="text-green-500" />
+                            <CircleCheck size={25} className="text-green-500" />
                           </span>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -313,8 +321,27 @@ function Jobs() {
                       </Tooltip>
                     </TooltipProvider>
                   ) : (
-                    <CircleX size={20} className="text-red-500" />
+                    <CircleX size={25} className="text-red-500" />
                   )}
+                </TableCell>
+                <TableCell className="text-center">
+                  <JobDetail
+                    job={{
+                      slno: indexOfFirstJob + index + 1,
+                      _id: job._id,
+                      name: job.customerId.name,
+                      mobile: job.customerId.mobile,
+                      brand: job.brand,
+                      modelName: job.modelName,
+                      issue: job.issue,
+                      reminder: job.reminder,
+                      remarks: job.remarks,
+                      cost: job.cost,
+                      engineer: job.engineer,
+                      status: job.status,
+                      isDelivered: job.isDelivered,
+                    }}
+                  />
                 </TableCell>
               </TableRow>
             ))}
