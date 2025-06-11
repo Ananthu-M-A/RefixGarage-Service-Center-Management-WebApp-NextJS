@@ -73,12 +73,7 @@ export async function POST(request: Request) {
         const month = String(now.getMonth() + 1).padStart(2, "0");
         const date = String(now.getDate()).padStart(2, "0");
 
-        const jobsCount = await Job.countDocuments({
-            createdAt: {
-                $gte: new Date(`${year}-${month}-${date}T00:00:00.000Z`),
-                $lte: new Date(`${year}-${month}-${date}T23:59:59.999Z`)
-            }
-        });
+        const jobsCount = await Job.countDocuments();
         const jobNumber = String(jobsCount + 1).padStart(4, "0");
 
         const customJobId = `JOB${year}${month}${date}${jobNumber}`;
