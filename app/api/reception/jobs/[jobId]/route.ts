@@ -17,6 +17,35 @@ const jobSchema = z.object({
 });
 
 
+export async function GET(request: Request) {
+    try {
+        const url = new URL(request.url);
+        const jobId = url.pathname.split("/").pop();
+
+        await dbConnect();
+
+        const job = await Job.findById(jobId).populate("customerId");
+        if (!job) {
+            return new Response(
+                JSON.stringify({ error: "Job not found" }),
+                { status: 404, headers: jsonHeaders }
+            );
+        }
+
+        return new Response(JSON.stringify(job), {
+            status: 200,
+            headers: jsonHeaders,
+        });
+    } catch (error) {
+        console.error("Error:", error);
+        return new Response(
+            JSON.stringify({ error: "Internal server error" }),
+            { status: 500, headers: jsonHeaders }
+        );
+    }
+}
+
+
 export async function PUT(request: Request) {
     try {
         const url = new URL(request.url);

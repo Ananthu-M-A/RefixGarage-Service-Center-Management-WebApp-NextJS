@@ -96,6 +96,9 @@ function AddJob({ job }: JobEntryProps) {
 
     if (job) {
       const updateJob = async () => {
+        if (job.isDelivered === "Yes") {
+          return;
+        }
         const response = await fetch(`/api/reception/jobs/${job._id}`, {
           method: "PUT",
           headers: {
@@ -470,7 +473,7 @@ function AddJob({ job }: JobEntryProps) {
               )}
             </div>
             {job?.isDelivered === "Yes" ? (
-              <JobInvoicePDF job={job} />
+              <JobInvoicePDF id={job._id as string} />
             ) : (
               <Button
                 type="submit"
