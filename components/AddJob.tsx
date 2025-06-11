@@ -58,6 +58,7 @@ const formSchema = z.object({
   isDelivered: z
     .string()
     .min(2, { message: "Delivery status must be at least 2 characters." }),
+  createdAt: z.string().optional(),
 });
 
 export type JobFormData = z.infer<typeof formSchema> & {
@@ -85,6 +86,7 @@ function AddJob({ job }: JobEntryProps) {
       engineer: "",
       status: "Pending",
       isDelivered: "No",
+      createdAt: new Date().toISOString().split("T")[0],
     },
   });
 
@@ -361,6 +363,27 @@ function AddJob({ job }: JobEntryProps) {
                   </FormItem>
                 )}
               />
+              {!job && (
+                <FormField
+                  control={form.control}
+                  name="createdAt"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Date of Entry</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          placeholder="Select date"
+                          {...field}
+                          className="bg-gray-900 text-white"
+                          max={new Date().toISOString().split("T")[0]}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               {job && job.status === "pending" && (
                 <FormField
                   control={form.control}
