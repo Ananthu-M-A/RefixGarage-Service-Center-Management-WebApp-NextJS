@@ -93,7 +93,7 @@ async function printBill(id: string, isDeliverd: boolean): Promise<void> {
 
         doc.setFontSize(10);
         doc.text(
-            `Generated on ${new Date().toLocaleDateString()}`,
+            `Generated on ${new Date().toLocaleString()} by REFIX GARAGE`,
             20,
             doc.internal.pageSize.height - 10
         );

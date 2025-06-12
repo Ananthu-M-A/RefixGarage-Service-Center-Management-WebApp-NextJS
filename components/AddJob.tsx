@@ -80,7 +80,7 @@ function AddJob({ job }: JobEntryProps) {
       brand: "",
       modelName: "",
       issue: "",
-      remarks: "",
+      remarks: "None",
       cost: 0,
       reminder: 0,
       engineer: "",
@@ -498,7 +498,15 @@ function AddJob({ job }: JobEntryProps) {
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
               disabled={loading}
             >
-              {loading ? "Processing..." : job ? "Update Job" : "Submit Job"}
+              {loading
+                ? "Processing..."
+                : !job
+                ? "Submit Job"
+                : job.status === "pending"
+                ? "Update Job"
+                : job.isDelivered === "Yes"
+                ? "Generate Invoice"
+                : "Update Job"}
             </Button>
           </form>
         </Form>
