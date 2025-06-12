@@ -24,7 +24,7 @@ import {
 } from "./ui/select";
 import { showErrorToast, showSuccessToast } from "@/lib/toast";
 import { SMARTPHONE_BRANDS } from "@/constants/brands";
-import JobInvoicePDF from "./JobInvoicePDF";
+import printBill from "@/lib/printBill";
 
 const formSchema = z.object({
   name: z
@@ -96,42 +96,63 @@ function AddJob({ job }: JobEntryProps) {
 
     if (job) {
       const updateJob = async () => {
-        if (job.isDelivered === "Yes") {
-          return;
-        }
-        const response = await fetch(`/api/reception/jobs/${job._id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-        setLoading(false);
-        if (response.ok) {
-          showSuccessToast("Job updated successfully!");
-          window.location.reload();
-        } else {
-          const error = await response.json();
-          showErrorToast(error.message);
+        try {
+          const response = await fetch(`/api/reception/jobs/${job._id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+          if (response.ok) {
+            const updatedJob = await response.json();
+            if (
+              updatedJob.status === "ok" &&
+              updatedJob.isDelivered === "Yes"
+            ) {
+              await printBill(
+                updatedJob._id as string,
+                updatedJob.isDelivered === "Yes"
+              );
+            }
+            showSuccessToast("Job updated successfully!");
+            window.location.reload();
+          } else {
+            const error = await response.json();
+            showErrorToast(error.message);
+          }
+        } catch (error) {
+          console.error("Error updating job:", error);
+          showErrorToast("Something went wrong. Please try again.");
+        } finally {
+          setLoading(false);
         }
       };
       updateJob();
     } else {
       const createJob = async () => {
-        const response = await fetch("/api/reception/jobs", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-        setLoading(false);
-        if (response.ok) {
-          showSuccessToast("Job created successfully!");
-          window.location.reload();
-        } else {
-          const error = await response.json();
-          showErrorToast(error.message);
+        try {
+          const response = await fetch("/api/reception/jobs", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+          if (response.ok) {
+            const job = await response.json();
+            await printBill(job._id as string, data.isDelivered === "Yes");
+            showSuccessToast("Job created successfully!");
+            window.location.reload();
+          } else {
+            const error = await response.json();
+            showErrorToast(error.message);
+          }
+        } catch (error) {
+          console.error("Error creating job:", error);
+          showErrorToast("Something went wrong. Please try again.");
+        } finally {
+          setLoading(false);
         }
       };
       createJob();
@@ -472,17 +493,13 @@ function AddJob({ job }: JobEntryProps) {
                 />
               )}
             </div>
-            {job?.isDelivered === "Yes" ? (
-              <JobInvoicePDF id={job._id as string} />
-            ) : (
-              <Button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
-                disabled={loading}
-              >
-                {loading ? "Processing..." : job ? "Update Job" : "Submit Job"}
-              </Button>
-            )}
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
+              disabled={loading}
+            >
+              {loading ? "Processing..." : job ? "Update Job" : "Submit Job"}
+            </Button>
           </form>
         </Form>
       </div>
