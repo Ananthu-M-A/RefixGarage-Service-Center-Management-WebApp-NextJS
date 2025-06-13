@@ -174,7 +174,7 @@ function AddJob({ job }: JobEntryProps) {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-6">
-      <div className="w-full max-w-4xl bg-gray-800 p-8 rounded-lg shadow-md">
+      <div className="w-full max-w-4xl bg-gray-800 p-8 rounded-lg shadow-md mb-20">
         <h2 className="text-2xl font-bold mb-6 text-center">
           {job ? "Edit Job Details" : "New Job Entry"}
         </h2>

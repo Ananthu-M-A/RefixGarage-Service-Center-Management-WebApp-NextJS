@@ -185,7 +185,7 @@ function Jobs() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white flex flex-col items-center p-4 md:p-6">
-      <div className="w-full max-w-6xl bg-gray-800 p-6 md:p-8 rounded-lg shadow-md mb-10">
+      <div className="w-full max-w-6xl bg-gray-800 p-6 md:p-8 rounded-lg shadow-md mb-20">
         <h2 className="text-2xl font-bold mb-6 text-center">Jobs</h2>
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
         <div className="flex flex-col md:flex-row items-center justify-between mb-6 space-y-4 md:space-y-0">

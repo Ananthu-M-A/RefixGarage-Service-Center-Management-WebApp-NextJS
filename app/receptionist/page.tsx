@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Jobs from "@/components/Jobs";
-import QuickBall from "@/components/QuickBall";
 import Inventory from "@/components/Inventory";
 import Header from "@/components/Header";
 import AddStock from "@/components/AddStock";
@@ -13,6 +12,7 @@ import Expenses from "@/components/Expenses";
 import { useSession } from "next-auth/react";
 import Loading from "../loading";
 import { redirect } from "next/navigation";
+import BottomBar from "@/components/BottomBar";
 
 function ReceptionHome() {
   const [activeSection, setActiveSection] = useState("reception");
@@ -36,7 +36,7 @@ function ReceptionHome() {
       {activeSection === "add-stock" && <AddStock />}
       {activeSection === "add-expense" && <AddExpense />}
       {activeSection === "expenses" && <Expenses />}
-      <QuickBall user={"receptionist"} onSectionChange={setActiveSection} />
+      <BottomBar user={"receptionist"} onSectionChange={setActiveSection} />
     </>
   );
 }
