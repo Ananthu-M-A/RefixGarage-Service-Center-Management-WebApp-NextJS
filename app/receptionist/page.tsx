@@ -13,6 +13,8 @@ import { useSession } from "next-auth/react";
 import Loading from "../loading";
 import { redirect } from "next/navigation";
 import BottomBar from "@/components/BottomBar";
+import AddDealer from "@/components/AddDealer";
+import Deals from "@/components/Deals";
 
 function ReceptionHome() {
   const [activeSection, setActiveSection] = useState("reception");
@@ -36,6 +38,8 @@ function ReceptionHome() {
       {activeSection === "add-stock" && <AddStock />}
       {activeSection === "add-expense" && <AddExpense />}
       {activeSection === "expenses" && <Expenses />}
+      {activeSection === "add-dealer" && <AddDealer />}
+      {activeSection === "deals" && <Deals />}
       <BottomBar user={"receptionist"} onSectionChange={setActiveSection} />
     </>
   );

@@ -14,15 +14,18 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { MdBusinessCenter } from "react-icons/md";
 
 const receptionistSections = [
-  { value: "reception", label: "Reception", icon: <Home size={22} /> },
   { value: "add-job", label: "Add Job", icon: <PlusCircle size={22} /> },
   { value: "jobs", label: "Jobs", icon: <ClipboardList size={22} /> },
   { value: "add-stock", label: "Add Stock", icon: <PackagePlus size={22} /> },
   { value: "inventory", label: "Inventory", icon: <Boxes size={22} /> },
+  { value: "reception", label: "Reception", icon: <Home size={22} /> },
   { value: "add-expense", label: "Add Expense", icon: <FilePlus2 size={22} /> },
   { value: "expenses", label: "Expenses", icon: <ReceiptText size={22} /> },
+  { value: "add-dealer", label: "Add Dealer", icon: <UserPlus size={22} /> },
+  { value: "deals", label: "Deals", icon: <MdBusinessCenter size={22} /> },
 ];
 
 const adminSections = [
@@ -57,7 +60,7 @@ function BottomBar({
         transition-all
       `}
       style={{
-        maxWidth: "640px",
+        maxWidth: "800px",
       }}
       aria-label="Quick Navigation"
     >
