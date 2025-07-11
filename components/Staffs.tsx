@@ -27,8 +27,9 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { showErrorToast } from "@/lib/toast";
 import Loading from "@/app/loading";
+import { paginateTable } from "@/lib/paginateTable";
 
-type Staff = {
+export type Staff = {
   _id: string;
   name: string;
   role: string;
@@ -41,7 +42,6 @@ function Staffs() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const staffsPerPage = 10;
 
   useEffect(() => {
     fetchStaffs();
@@ -123,14 +123,10 @@ function Staffs() {
     setCurrentPage(1);
   };
 
-  const indexOfLastStaff = currentPage * staffsPerPage;
-  const indexOfFirstStaff = indexOfLastStaff - staffsPerPage;
-  const currentStaffs = filteredStaffs.slice(
-    indexOfFirstStaff,
-    indexOfLastStaff
+  const { indexOfFirstItem, currentItems, totalPages } = paginateTable(
+    filteredStaffs,
+    currentPage
   );
-
-  const totalPages = Math.ceil(filteredStaffs.length / staffsPerPage);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -199,10 +195,10 @@ function Staffs() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentStaffs.map((staff, index) => (
+            {currentItems.map((staff, index) => (
               <TableRow key={staff._id}>
                 <TableCell className="text-center font-medium">
-                  {index + 1 + (currentPage - 1) * staffsPerPage}
+                  {indexOfFirstItem + index + 1}
                 </TableCell>
                 <TableCell>{staff.name.toLocaleUpperCase()}</TableCell>
                 <TableCell>{staff.role.toLocaleUpperCase()}</TableCell>

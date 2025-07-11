@@ -13,8 +13,9 @@ import { showErrorToast } from "@/lib/toast";
 import { Input } from "./ui/input";
 import Loading from "@/app/loading";
 import { Button } from "./ui/button";
+import { paginateTable } from "@/lib/paginateTable";
 
-type Item = {
+export type Item = {
   _id: string;
   name: string;
   category: string;
@@ -28,7 +29,6 @@ function Inventory() {
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
 
   useEffect(() => {
     fetchInventory();
@@ -66,11 +66,10 @@ function Inventory() {
     setCurrentPage(1);
   };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const { indexOfFirstItem, currentItems, totalPages } = paginateTable(
+    filteredItems,
+    currentPage
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -96,7 +95,7 @@ function Inventory() {
         <div className="overflow-x-auto">
           <Table className="w-full">
             <TableCaption>
-              {filteredItems.length === 0 && "No items found."}
+              {currentItems.length === 0 && "No items found."}
             </TableCaption>
             <TableHeader>
               <TableRow>
@@ -123,7 +122,7 @@ function Inventory() {
                   <TableCell className="text-right">
                     <ItemDetail
                       item={{
-                        slNo: index + 1,
+                        slNo: indexOfFirstItem + index + 1,
                         _id: item._id,
                         name: item.name,
                         category: item.category,

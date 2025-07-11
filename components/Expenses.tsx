@@ -12,8 +12,9 @@ import { showErrorToast } from "@/lib/toast";
 import { Input } from "./ui/input";
 import Loading from "@/app/loading";
 import { Button } from "./ui/button";
+import { paginateTable } from "@/lib/paginateTable";
 
-type Expense = {
+export type Expense = {
   type: string;
   amount: number;
   createdAt: string;
@@ -24,7 +25,6 @@ function Expenses() {
   const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
 
   useEffect(() => {
     fetchExpenses();
@@ -62,14 +62,10 @@ function Expenses() {
     setCurrentPage(1);
   };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentExpenses = filteredExpenses.slice(
-    indexOfFirstItem,
-    indexOfLastItem
+  const { indexOfFirstItem, currentItems, totalPages } = paginateTable(
+    filteredExpenses,
+    currentPage
   );
-
-  const totalPages = Math.ceil(filteredExpenses.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -106,7 +102,7 @@ function Expenses() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {currentExpenses.map((expense, index) => (
+              {currentItems.map((expense, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">
                     {indexOfFirstItem + index + 1}

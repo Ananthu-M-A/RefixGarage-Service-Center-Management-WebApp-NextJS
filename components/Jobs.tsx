@@ -37,8 +37,9 @@ import { CircleCheck, CircleX } from "lucide-react";
 import { JobDetail } from "./JobDetail";
 import { MdPendingActions } from "react-icons/md";
 import { TiThumbsDown, TiThumbsUp } from "react-icons/ti";
+import { paginateTable } from "@/lib/paginateTable";
 
-type Job = {
+export type Job = {
   customerId: {
     name: string;
     mobile: string;
@@ -66,7 +67,6 @@ function Jobs() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const jobsPerPage = 10;
 
   useEffect(() => {
     fetchJobs();
@@ -169,11 +169,10 @@ function Jobs() {
     setCurrentPage(1);
   };
 
-  const indexOfLastJob = currentPage * jobsPerPage;
-  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-  const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
-
-  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+  const { indexOfFirstItem, currentItems, totalPages } = paginateTable(
+    filteredJobs,
+    currentPage
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -270,10 +269,10 @@ function Jobs() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentJobs.map((job, index) => (
+            {currentItems.map((job, index) => (
               <TableRow key={index}>
                 <TableCell className="font-medium text-center">
-                  {indexOfFirstJob + index + 1}
+                  {indexOfFirstItem + index + 1}
                 </TableCell>
                 <TableCell className="text-center">
                   {new Date(job.createdAt || "").toLocaleDateString("en-IN", {
@@ -327,7 +326,7 @@ function Jobs() {
                 <TableCell className="text-center">
                   <JobDetail
                     job={{
-                      slno: indexOfFirstJob + index + 1,
+                      slno: indexOfFirstItem + index + 1,
                       _id: job._id,
                       name: job.customerId.name,
                       mobile: job.customerId.mobile,
