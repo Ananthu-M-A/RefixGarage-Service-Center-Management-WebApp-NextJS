@@ -1,8 +1,9 @@
 # Refix Garage
+![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/ananthuma/RefixGarage-Service-Center-Management-WebApp-NextJS)](https://github.com/ananthuma/RefixGarage-Service-Center-Management-WebApp-NextJS/releases)
+
+
 
 > A Garage For Expert Fixes
-
-![build](https://img.shields.io/badge/build-passing-brightgreen)
 
 ## About
 
@@ -40,8 +41,6 @@ Run `npm run dev` to start the development server.
 
 ## License  
 This project is licensed under the [Apache License 2.0](LICENSE).  
-
-![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 
 
 ## Author
