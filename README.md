@@ -1,9 +1,8 @@
 # Refix Garage
-![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/Ananthu-M-A/RefixGarage-Service-Center-Management-WebApp-NextJS)](https://github.com/Ananthu-M-A/RefixGarage-Service-Center-Management-WebApp-NextJS/releases)
-
-
 
 > A Garage For Expert Fixes
+
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Ananthu-M-A/RefixGarage-Service-Center-Management-WebApp-NextJS)](https://github.com/Ananthu-M-A/RefixGarage-Service-Center-Management-WebApp-NextJS/releases) ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg) 
 
 ## About
 
