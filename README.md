@@ -2,7 +2,7 @@
 
 > A Garage For Expert Fixes
 
-![build](https://img.shields.io/badge/build-passing-brightgreen) ![license](https://img.shields.io/badge/license-Proprietary-blue)
+![build](https://img.shields.io/badge/build-passing-brightgreen)
 
 ## About
 
@@ -38,9 +38,10 @@ Refix Garage provides expert smartphone repair services, managing the entire pro
 Run `npm run dev` to start the development server.
 
 
-## License
+## License  
+This project is licensed under the [Apache License 2.0](LICENSE).  
 
-This project is licensed under a proprietary license.  The source code is not open-source and cannot be redistributed or used without explicit permission from the copyright holder. Contact the author for licensing inquiries.
+![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 
 
 ## Author
