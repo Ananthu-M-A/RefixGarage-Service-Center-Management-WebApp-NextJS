@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
 import ToasterProvider from "@/components/ToasterProvider";
+import DatabaseInitializer from "@/components/DatabaseInitializer";
 
 export const metadata: Metadata = {
   title: "Refix Garage | A Garage For Expert Fixes",
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <SessionProviderWrapper>
         <body className="bg-black">
+          <DatabaseInitializer />
           <ToasterProvider />
           {children}
         </body>
