@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
 import ToasterProvider from "@/components/ToasterProvider";
 import DatabaseInitializer from "@/components/DatabaseInitializer";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Refix Garage | A Garage For Expert Fixes",
