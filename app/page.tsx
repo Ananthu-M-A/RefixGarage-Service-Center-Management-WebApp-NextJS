@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <div className="bg-black text-white">
       <Header user={"guest"} />
-      <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white">
+      <main className="min-h-screen bg-linear-to-b from-black to-gray-900 text-white">
         <SubHeader
           activeSection={activeSection}
           onSectionChange={setActiveSection}
