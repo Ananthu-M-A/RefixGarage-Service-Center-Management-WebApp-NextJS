@@ -40,7 +40,11 @@ function ReceptionHome() {
       {activeSection === "expenses" && <Expenses />}
       {activeSection === "add-dealer" && <AddDealer />}
       {activeSection === "deals" && <Deals />}
-      <BottomBar user={"receptionist"} onSectionChange={setActiveSection} />
+      <BottomBar
+        activeSection={activeSection}
+        user={"receptionist"}
+        onSectionChange={setActiveSection}
+      />
     </>
   );
 }

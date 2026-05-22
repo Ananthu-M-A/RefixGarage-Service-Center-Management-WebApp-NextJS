@@ -70,7 +70,7 @@ export async function POST(request: Request) {
     } catch (error) {
         if (error instanceof z.ZodError) {
             return new Response(
-                JSON.stringify({ error: "Invalid input", details: error.errors }),
+                JSON.stringify({ error: "Invalid input", details: error.issues }),
                 { status: 400, headers: jsonHeaders }
             );
         }

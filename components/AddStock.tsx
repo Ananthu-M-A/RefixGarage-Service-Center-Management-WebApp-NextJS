@@ -33,24 +33,24 @@ const formSchema = z.object({
     .string()
     .min(2, { message: "Item category must be at least 2 characters." }),
   cost: z.coerce
-    .number()
+    .number<string | number>()
     .min(10, { message: "Unit cost must be at least ₹10." }),
   count: z.coerce
-    .number()
+    .number<string | number>()
     .min(1, { message: "Item count must be at least 1." }),
   description: z.string(),
+  _id: z.string().optional(),
 });
 
-type InventoryFormData = z.infer<typeof formSchema> & {
-  _id?: string;
-};
+type InventoryFormInput = z.input<typeof formSchema>;
+type InventoryFormData = z.output<typeof formSchema>;
 type InventoryEntryProps = {
   item?: InventoryFormData;
 };
 
 function AddStock({ item }: InventoryEntryProps) {
   const [loading, setLoading] = useState(false);
-  const form = useForm<InventoryFormData>({
+  const form = useForm<InventoryFormInput, unknown, InventoryFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: item ?? {
       name: "",

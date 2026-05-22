@@ -1,8 +1,8 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model, Types } from 'mongoose';
 
 export interface IJob extends Document {
   jobId: string;
-  customerId: Schema.Types.ObjectId;
+  customerId: Types.ObjectId;
   brand: string;
   modelName: string;
   cost: number;

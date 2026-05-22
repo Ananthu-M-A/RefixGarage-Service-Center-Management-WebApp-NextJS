@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -26,43 +26,46 @@ export type Item = {
 
 function Inventory() {
   const [items, setItems] = useState<Item[]>([]);
-  const [filteredItems, setFilteredItems] = useState<Item[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    const fetchInventory = async () => {
+      try {
+        const response = await fetch("/api/reception/inventory", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          showErrorToast("Failed to fetch inventory");
+          throw new Error("Failed to fetch inventory");
+        }
+        const data = await response.json();
+        setItems(data);
+      } catch (error) {
+        console.error("Error fetching inventory:", error);
+        setError("Failed to fetch inventory. Please try again later.");
+      }
+    };
+
     fetchInventory();
   }, []);
 
-  const fetchInventory = async () => {
-    try {
-      const response = await fetch("/api/reception/inventory", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        showErrorToast("Failed to fetch inventory");
-        throw new Error("Failed to fetch inventory");
-      }
-      const data = await response.json();
-      setItems(data);
-      setFilteredItems(data);
-    } catch (error) {
-      console.error("Error fetching inventory:", error);
-      setError("Failed to fetch inventory. Please try again later.");
-    }
-  };
+  const filteredItems = useMemo(
+    () =>
+      items.filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchTerm) ||
+          item.category.toLowerCase().includes(searchTerm)
+      ),
+    [items, searchTerm]
+  );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value.toLowerCase();
-    const filtered = items.filter(
-      (item) =>
-        item.name.toLowerCase().includes(searchTerm) ||
-        item.category.toLowerCase().includes(searchTerm)
-    );
-    setFilteredItems(filtered);
+    setSearchTerm(event.target.value.toLowerCase());
     setCurrentPage(1);
   };
 

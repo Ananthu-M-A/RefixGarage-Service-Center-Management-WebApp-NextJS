@@ -44,10 +44,10 @@ const formSchema = z.object({
     .string()
     .min(2, { message: "Remarks must be at least 2 characters." }),
   cost: z.coerce
-    .number()
+    .number<string | number>()
     .min(0, { message: "Estimated cost must be a positive number." }),
   reminder: z.coerce
-    .number()
+    .number<string | number>()
     .min(0, { message: "Reminder must be a positive number." }),
   engineer: z
     .string()
@@ -59,11 +59,11 @@ const formSchema = z.object({
     .string()
     .min(2, { message: "Delivery status must be at least 2 characters." }),
   createdAt: z.string().optional(),
+  _id: z.string().optional(),
 });
 
-export type JobFormData = z.infer<typeof formSchema> & {
-  _id?: string;
-};
+type JobFormInput = z.input<typeof formSchema>;
+export type JobFormData = z.output<typeof formSchema>;
 type JobEntryProps = {
   job?: JobFormData;
 };
@@ -72,7 +72,7 @@ function AddJob({ job }: JobEntryProps) {
   const [engineers, setEngineers] = useState<{ name: string }[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const form = useForm<JobFormData>({
+  const form = useForm<JobFormInput, unknown, JobFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: job ?? {
       name: "",

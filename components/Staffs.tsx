@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
@@ -38,35 +38,77 @@ export type Staff = {
 
 function Staffs() {
   const [staffs, setStaffs] = useState<Staff[]>([]);
-  const [filteredStaffs, setFilteredStaffs] = useState<Staff[]>([]);
+  const [roleFilter, setRoleFilter] = useState("all-staffs");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const loadStaffs = async () => {
+    const response = await fetch("/api/admin/staffs", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      showErrorToast("Failed to fetch staffs.");
+      throw new Error("Failed to fetch staffs");
+    }
+    return response.json() as Promise<Staff[]>;
+  };
+
   useEffect(() => {
+    let isMounted = true;
+
+    const fetchStaffs = async () => {
+      try {
+        const data = await loadStaffs();
+        if (isMounted) {
+          setStaffs(data);
+        }
+      } catch (error) {
+        console.error("Error fetching staffs:", error);
+        if (isMounted) {
+          setError("Failed to load staff data. Please try again later.");
+        }
+      }
+    };
+
     fetchStaffs();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const fetchStaffs = async () => {
-    try {
-      const response = await fetch("/api/admin/staffs", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        showErrorToast("Failed to fetch staffs.");
-        throw new Error("Failed to fetch staffs");
-      }
-      const data = await response.json();
-      setStaffs(data);
-      setFilteredStaffs(data);
-    } catch (error) {
-      console.error("Error fetching staffs:", error);
-      setError("Failed to load staff data. Please try again later.");
+  const filteredStaffs = useMemo(() => {
+    let filtered = staffs;
+
+    if (roleFilter !== "all-staffs") {
+      filtered = filtered.filter((staff) => staff.role === roleFilter);
     }
-  };
+
+    if (searchTerm) {
+      filtered = filtered.filter(
+        (staff) =>
+          staff.name.toLowerCase().includes(searchTerm) ||
+          staff.role.toLowerCase().includes(searchTerm) ||
+          staff.status.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    if (sortOrder) {
+      filtered = [...filtered].sort((a, b) =>
+        sortOrder === "asc"
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name)
+      );
+    }
+
+    return filtered;
+  }, [roleFilter, searchTerm, sortOrder, staffs]);
 
   const handleActivityStatus = async (staffId: string) => {
     if (loading) return;
@@ -83,7 +125,7 @@ function Staffs() {
         showErrorToast("Failed to update staff status.");
         throw new Error("Failed to update staff status");
       }
-      fetchStaffs();
+      setStaffs(await loadStaffs());
     } catch (error) {
       console.error("Error updating staff status:", error);
       setError("Failed to update staff status. Please try again later.");
@@ -91,35 +133,16 @@ function Staffs() {
   };
 
   const handleSort = (order: string) => {
-    const sorted = [...filteredStaffs].sort((a, b) => {
-      if (order === "asc") {
-        return a.name.localeCompare(b.name);
-      } else {
-        return b.name.localeCompare(a.name);
-      }
-    });
-    setFilteredStaffs(sorted);
+    setSortOrder(order === "asc" ? "asc" : "desc");
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value.toLowerCase();
-    const filtered = staffs.filter(
-      (staff) =>
-        staff.name.toLowerCase().includes(searchTerm) ||
-        staff.role.toLowerCase().includes(searchTerm) ||
-        staff.status.toLowerCase().includes(searchTerm)
-    );
-    setFilteredStaffs(filtered);
+    setSearchTerm(event.target.value.toLowerCase());
     setCurrentPage(1);
   };
 
   const handleFilterChange = (value: string) => {
-    if (value === "all-staffs") {
-      setFilteredStaffs(staffs);
-    } else {
-      const filtered = staffs.filter((staff) => staff.role === value);
-      setFilteredStaffs(filtered);
-    }
+    setRoleFilter(value);
     setCurrentPage(1);
   };
 

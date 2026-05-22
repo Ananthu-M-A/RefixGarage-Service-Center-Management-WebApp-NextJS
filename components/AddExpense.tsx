@@ -27,21 +27,20 @@ import { EXPENSE_TYPES } from "@/constants/expenses";
 const formSchema = z.object({
   type: z.string().min(1, { message: "Expense type is required." }),
   amount: z.coerce
-    .number()
+    .number<string | number>()
     .min(1, { message: "Amount must be a positive number." }),
   _id: z.string().optional(),
 });
 
-type ExpenseFormData = z.infer<typeof formSchema> & {
-  _id?: string;
-};
+type ExpenseFormInput = z.input<typeof formSchema>;
+type ExpenseFormData = z.output<typeof formSchema>;
 type ExpenseEntryProps = {
   item?: ExpenseFormData;
 };
 
 function AddExpense({ item }: ExpenseEntryProps) {
   const [loading, setLoading] = useState(false);
-  const form = useForm<ExpenseFormData>({
+  const form = useForm<ExpenseFormInput, unknown, ExpenseFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: item ?? {
       type: "",

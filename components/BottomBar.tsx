@@ -39,9 +39,11 @@ const adminSections = [
 ];
 
 function BottomBar({
+  activeSection,
   onSectionChange,
   user,
 }: {
+  activeSection: string;
   onSectionChange: (section: string) => void;
   user: string;
 }) {
@@ -52,11 +54,11 @@ function BottomBar({
     <nav
       className={`
         fixed bottom-0 left-0 w-full z-50
-        bg-gray-900/95 backdrop-blur
-        border-t border-gray-800
+        bg-black/90 backdrop-blur
+        border-t border-white/10
         flex justify-center items-center
         px-2 py-2
-        md:w-auto md:left-1/2 md:-translate-x-1/2 md:rounded-full md:bottom-6 md:px-6 md:py-3 md:shadow-2xl
+        md:w-auto md:left-1/2 md:-translate-x-1/2 md:rounded-full md:bottom-6 md:px-5 md:py-2 md:shadow-2xl md:ring-1 md:ring-white/10
         transition-all
       `}
       style={{
@@ -71,11 +73,15 @@ function BottomBar({
             title={section.label}
             className={`
               flex flex-col items-center justify-center
-              text-white hover:text-blue-400 focus:text-blue-400
+              ${
+                activeSection === section.value
+                  ? "bg-white text-black hover:bg-white hover:text-black"
+                  : "text-gray-300 hover:bg-white/10 hover:text-white"
+              }
               transition-all px-2 py-1
               active:scale-95
               group
-              bg-transparent border-none shadow-none
+              border-none shadow-none rounded-full
               md:px-3 md:py-2
             `}
             style={{
@@ -84,6 +90,7 @@ function BottomBar({
             }}
             onClick={() => onSectionChange(section.value)}
             variant="ghost"
+            aria-current={activeSection === section.value ? "page" : undefined}
           >
             <span className="flex items-center justify-center">
               {section.icon}

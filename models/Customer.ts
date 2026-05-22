@@ -1,9 +1,9 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model, Types } from 'mongoose';
 
 export interface ICustomer extends Document {
     name: string;
     mobile: string | null;
-    jobs: Schema.Types.ObjectId[];
+    jobs: Types.ObjectId[];
 }
 
 const CustomerSchema: Schema<ICustomer> = new Schema(

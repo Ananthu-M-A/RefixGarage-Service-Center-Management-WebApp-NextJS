@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -22,43 +22,46 @@ export type Expense = {
 
 function Expenses() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    const fetchExpenses = async () => {
+      try {
+        const response = await fetch("/api/reception/expenses", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          showErrorToast("Failed to fetch expenses.");
+          throw new Error("Failed to fetch expenses");
+        }
+        const data = await response.json();
+        setExpenses(data);
+      } catch (error) {
+        console.error("Error fetching expenses:", error);
+        setError("Failed to fetch expenses. Please try again later.");
+      }
+    };
+
     fetchExpenses();
   }, []);
 
-  const fetchExpenses = async () => {
-    try {
-      const response = await fetch("/api/reception/expenses", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        showErrorToast("Failed to fetch expenses.");
-        throw new Error("Failed to fetch expenses");
-      }
-      const data = await response.json();
-      setExpenses(data);
-      setFilteredExpenses(data);
-    } catch (error) {
-      console.error("Error fetching expenses:", error);
-      setError("Failed to fetch expenses. Please try again later.");
-    }
-  };
+  const filteredExpenses = useMemo(
+    () =>
+      expenses.filter(
+        (expense) =>
+          expense.type.toLowerCase().includes(searchTerm) ||
+          expense.amount.toString().includes(searchTerm)
+      ),
+    [expenses, searchTerm]
+  );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value.toLowerCase();
-    const filtered = expenses.filter(
-      (expense) =>
-        expense.type.toLowerCase().includes(searchTerm) ||
-        expense.amount.toString().includes(searchTerm)
-    );
-    setFilteredExpenses(filtered);
+    setSearchTerm(event.target.value.toLowerCase());
     setCurrentPage(1);
   };
 

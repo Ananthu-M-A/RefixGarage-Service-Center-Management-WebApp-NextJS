@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
@@ -61,39 +61,38 @@ export type Job = {
 function Jobs() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [filterDate, setFilterDate] = useState<string>("");
-  const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterDelivery, setFilterDelivery] = useState<string>("all");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch("/api/reception/jobs", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          showErrorToast("Failed to fetch jobs.");
+          throw new Error("Failed to fetch jobs");
+        }
+        const data = await response.json();
+        setJobs(data);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+        setError("Failed to load job data. Please try again later.");
+      }
+    };
+
     fetchJobs();
   }, []);
 
-  const fetchJobs = async () => {
-    try {
-      const response = await fetch("/api/reception/jobs", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        showErrorToast("Failed to fetch jobs.");
-        throw new Error("Failed to fetch jobs");
-      }
-      const data = await response.json();
-      setJobs(data);
-      setFilteredJobs(data);
-    } catch (error) {
-      console.error("Error fetching jobs:", error);
-      setError("Failed to load job data. Please try again later.");
-    }
-  };
-
-  useEffect(() => {
+  const filteredJobs = useMemo(() => {
     let filtered = jobs;
 
     if (filterStatus !== "all") {
@@ -130,23 +129,21 @@ function Jobs() {
       );
     }
 
-    setFilteredJobs(filtered);
-    setCurrentPage(1);
-  }, [jobs, filterStatus, filterDate, searchTerm, filterDelivery]);
+    if (sortOrder) {
+      filtered = [...filtered].sort((a, b) => {
+        const first = `${a.brand} ${a.modelName}`;
+        const second = `${b.brand} ${b.modelName}`;
+        return sortOrder === "asc"
+          ? first.localeCompare(second)
+          : second.localeCompare(first);
+      });
+    }
 
-  const handleSort = (order: string) => {
-    const sortedJobs = [...filteredJobs].sort((a, b) => {
-      if (order === "asc") {
-        return (a.brand + " " + a.modelName).localeCompare(
-          b.brand + " " + b.modelName
-        );
-      } else {
-        return (b.brand + " " + b.modelName).localeCompare(
-          a.brand + " " + a.modelName
-        );
-      }
-    });
-    setFilteredJobs(sortedJobs);
+    return filtered;
+  }, [jobs, filterStatus, filterDate, searchTerm, filterDelivery, sortOrder]);
+
+  const handleSort = (order: "asc" | "desc") => {
+    setSortOrder(order);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {

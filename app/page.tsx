@@ -16,7 +16,10 @@ export default function Home() {
     <div className="bg-black text-white">
       <Header user={"guest"} />
       <main className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white">
-        <SubHeader onSectionChange={setActiveSection} />
+        <SubHeader
+          activeSection={activeSection}
+          onSectionChange={setActiveSection}
+        />
         <div className="p-4">
           {activeSection === "services" && <Services />}
           {activeSection === "about" && <About />}

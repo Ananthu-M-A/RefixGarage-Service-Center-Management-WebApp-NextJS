@@ -28,7 +28,11 @@ function AdminDashboard() {
       {activeSection === "dashboard" && <JobReportDiagram />}
       {activeSection === "new-staff" && <Registerstaff />}
       {activeSection === "staff-list" && <Staffs />}
-      <BottomBar user={"admin"} onSectionChange={setActiveSection} />
+      <BottomBar
+        activeSection={activeSection}
+        user={"admin"}
+        onSectionChange={setActiveSection}
+      />
     </>
   );
 }
