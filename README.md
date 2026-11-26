@@ -48,4 +48,4 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 
 * GitHub: [Ananthu-M-A](https://github.com/Ananthu-M-A)
 * Portfolio: [https://ananthuma.com](https://ananthuma.com)
-* Email: ananthumapookkad@gmail.com
+* Email: me@ananthuma.com
