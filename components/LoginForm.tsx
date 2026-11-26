@@ -138,7 +138,7 @@ function LoginForm() {
         <p className="text-white mt-4 text-center text-sm">
           Need help?{" "}
           <Link
-            href="mailto:ananthumapookkad@gmail.com"
+            href="mailto:me@ananthuma.com"
             className="text-blue-500 hover:underline"
           >
             Contact support
